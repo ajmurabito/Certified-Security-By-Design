@@ -1,0 +1,17 @@
+> val exercise15_6_2b_thm =
+TAC_PROOF (
+([], ``! key text.
+(deciphP (pubK Alice) (Ea key (SOME text)) =
+SOME "This is from Alice") <=>
+(key = privK Alice) /\ (text = "This is from Alice")``),
+PROVE_TAC [deciphP_one_one]
+);
+# # # # # # # <<HOL message: inventing new type variable names: 'a>>
+Meson search level: ......................
+val exercise15_6_2b_thm =
+   |- ∀key text.
+     (deciphP (pubK Alice) (Ea key (SOME text)) =
+      SOME "This is from Alice") ⇔
+     (key = privK Alice) ∧ (text = "This is from Alice"):
+   thm
+> 

@@ -1,0 +1,182 @@
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+[extending loadPath with Holmakefile INCLUDES variable]
+> > > > Loading ssm1Theory
+> Loading SM0Theory
+> Loading acl_infRules
+> # # # # # # <<HOL message: mk_functional: 
+  pattern completion has added 40 clauses to the original specification.>>
+Equations stored under "inputOK2_def".
+Induction stored under "inputOK2_ind".
+val inputOK2_def =
+   |- ∀v98 v97 v96 v95 v94 v93 v92 v91 v90 v9 v89 v88 v87 v86 v85 v84 v83
+      v82 v81 v80 v8 v79 v78 v77 v76 v75 v74 v73 v72 v71 v70 v7 v69 v68
+      v67 v66 v6 v5 v4 v32 v31 v30 v3 v29 v28 v27 v26 v25 v24 v23 v22
+      v21 v20 v2 v19 v18 v17 v16 v15 v142 v14 v136 v135 v134 v133 v132
+      v13 v12 v10 v1 v cmd.
+     (inputOK2 (Name Carol says prop (SOME cmd)) ⇔ T) ∧
+     (inputOK2 TT ⇔ F) ∧ (inputOK2 FF ⇔ F) ∧ (inputOK2 (prop v) ⇔ F) ∧
+     (inputOK2 (notf v1) ⇔ F) ∧ (inputOK2 (v2 andf v3) ⇔ F) ∧
+     (inputOK2 (v4 orf v5) ⇔ F) ∧ (inputOK2 (v6 impf v7) ⇔ F) ∧
+     (inputOK2 (v8 eqf v9) ⇔ F) ∧ (inputOK2 (v10 says TT) ⇔ F) ∧
+     (inputOK2 (v10 says FF) ⇔ F) ∧
+     (inputOK2 (Name Alice says prop (SOME v142)) ⇔ F) ∧
+     (inputOK2 (Name Bob says prop (SOME v142)) ⇔ F) ∧
+     (inputOK2 (Name v132 says prop NONE) ⇔ F) ∧
+     (inputOK2 (v133 meet v134 says prop v66) ⇔ F) ∧
+     (inputOK2 (v135 quoting v136 says prop v66) ⇔ F) ∧
+     (inputOK2 (v10 says notf v67) ⇔ F) ∧
+     (inputOK2 (v10 says (v68 andf v69)) ⇔ F) ∧
+     (inputOK2 (v10 says (v70 orf v71)) ⇔ F) ∧
+     (inputOK2 (v10 says (v72 impf v73)) ⇔ F) ∧
+     (inputOK2 (v10 says (v74 eqf v75)) ⇔ F) ∧
+     (inputOK2 (v10 says v76 says v77) ⇔ F) ∧
+     (inputOK2 (v10 says v78 speaks_for v79) ⇔ F) ∧
+     (inputOK2 (v10 says v80 controls v81) ⇔ F) ∧
+     (inputOK2 (v10 says reps v82 v83 v84) ⇔ F) ∧
+     (inputOK2 (v10 says v85 domi v86) ⇔ F) ∧
+     (inputOK2 (v10 says v87 eqi v88) ⇔ F) ∧
+     (inputOK2 (v10 says v89 doms v90) ⇔ F) ∧
+     (inputOK2 (v10 says v91 eqs v92) ⇔ F) ∧
+     (inputOK2 (v10 says v93 eqn v94) ⇔ F) ∧
+     (inputOK2 (v10 says v95 lte v96) ⇔ F) ∧
+     (inputOK2 (v10 says v97 lt v98) ⇔ F) ∧
+     (inputOK2 (v12 speaks_for v13) ⇔ F) ∧
+     (inputOK2 (v14 controls v15) ⇔ F) ∧
+     (inputOK2 (reps v16 v17 v18) ⇔ F) ∧ (inputOK2 (v19 domi v20) ⇔ F) ∧
+     (inputOK2 (v21 eqi v22) ⇔ F) ∧ (inputOK2 (v23 doms v24) ⇔ F) ∧
+     (inputOK2 (v25 eqs v26) ⇔ F) ∧ (inputOK2 (v27 eqn v28) ⇔ F) ∧
+     (inputOK2 (v29 lte v30) ⇔ F) ∧ (inputOK2 (v31 lt v32) ⇔ F):
+   thm
+> # # # # Definition has been stored under "certs2_def"
+val certs2_def =
+   |- ∀cmd npriv privcmd.
+     certs2 cmd npriv privcmd =
+     [Name Carol controls prop (SOME (NP npriv));
+      Name Carol says prop (SOME (PR privcmd)) impf prop NONE]:
+   thm
+> # # # # # # # # # # Meson search level: ....
+val Carol_npriv_lemma =
+   |- CFGInterpret (M,Oi,Os)
+     (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+        (Name Carol says prop (SOME (NP npriv))::ins) s outs) ⇒
+   (M,Oi,Os) sat prop (SOME (NP npriv)):
+   thm
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ........................................
+val Carol_exec_npriv_justified_thm =
+   |- ∀NS Out M Oi Os.
+     TR (M,Oi,Os) (exec (NP npriv))
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (NP npriv))::ins) s outs)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd) ins
+          (NS s (exec (NP npriv))) (Out s (exec (NP npriv))::outs)) ⇔
+     inputOK2 (Name Carol says prop (SOME (NP npriv))) ∧
+     CFGInterpret (M,Oi,Os)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (NP npriv))::ins) s outs) ∧
+     (M,Oi,Os) sat prop (SOME (NP npriv)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ...
+val Carol_npriv_verified_thm =
+   |- ∀NS Out M Oi Os.
+     TR (M,Oi,Os) (exec (NP npriv))
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (NP npriv))::ins) s outs)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd) ins
+          (NS s (exec (NP npriv))) (Out s (exec (NP npriv))::outs)) ⇒
+     (M,Oi,Os) sat prop (SOME (NP npriv)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ......
+val Carol_justified_npriv_exec_thm =
+   |- ∀NS Out M Oi Os cmd npriv privcmd ins s outs.
+     inputOK2 (Name Carol says prop (SOME (NP npriv))) ∧
+     CFGInterpret (M,Oi,Os)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (NP npriv))::ins) s outs) ⇒
+     TR (M,Oi,Os) (exec (NP npriv))
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (NP npriv))::ins) s outs)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd) ins
+          (NS s (exec (NP npriv))) (Out s (exec (NP npriv))::outs)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> # # # # # # # # # # Meson search level: ....
+val Carol_privcmd_trap_lemma =
+   |- CFGInterpret (M,Oi,Os)
+     (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+        (Name Carol says prop (SOME (PR privcmd))::ins) s outs) ⇒
+   (M,Oi,Os) sat prop NONE:
+   thm
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ........................................
+val Carol_trap_privcmd_justified_thm =
+   |- ∀NS Out M Oi Os.
+     TR (M,Oi,Os) (trap (PR privcmd))
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (PR privcmd))::ins) s outs)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd) ins
+          (NS s (trap (PR privcmd)))
+          (Out s (trap (PR privcmd))::outs)) ⇔
+     inputOK2 (Name Carol says prop (SOME (PR privcmd))) ∧
+     CFGInterpret (M,Oi,Os)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (PR privcmd))::ins) s outs) ∧
+     (M,Oi,Os) sat prop NONE:
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ...
+val Carol_privcmd_trapped_thm =
+   |- ∀NS Out M Oi Os.
+     TR (M,Oi,Os) (trap (PR privcmd))
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (PR privcmd))::ins) s outs)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd) ins
+          (NS s (trap (PR privcmd)))
+          (Out s (trap (PR privcmd))::outs)) ⇒
+     (M,Oi,Os) sat prop NONE:
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ......
+val Carol_justified_privcmd_trap_thm =
+   |- ∀NS Out M Oi Os cmd npriv privcmd ins s outs.
+     inputOK2 (Name Carol says prop (SOME (PR privcmd))) ∧
+     CFGInterpret (M,Oi,Os)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (PR privcmd))::ins) s outs) ⇒
+     TR (M,Oi,Os) (trap (PR privcmd))
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd)
+          (Name Carol says prop (SOME (PR privcmd))::ins) s outs)
+       (CFG inputOK2 SM0StateInterp (certs2 cmd npriv privcmd) ins
+          (NS s (trap (PR privcmd))) (Out s (trap (PR privcmd))::outs)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> 

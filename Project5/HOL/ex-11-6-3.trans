@@ -1,0 +1,60 @@
+
+> val _ = Datatype
+`nexp = Num num | Add nexp nexp | Sub nexp nexp | Mult nexp nexp`;
+# <<HOL message: Defined type: "nexp">>
+> val nexpVal_def =
+Define
+`(nexpVal (Num num) = num) /\
+ (nexpVal (Add n1 n2) = (nexpVal n1) + (nexpVal n2)) /\
+ (nexpVal (Sub n1 n2) = (nexpVal n1) - (nexpVal n2)) /\
+ (nexpVal (Mult n1 n2) = (nexpVal n1) * (nexpVal n2))`;
+# # # # # <<HOL message: more than one resolution of overloading was possible>>
+Definition has been stored under "nexpVal_def"
+val nexpVal_def =
+   |- (∀num. nexpVal (Num num) = num) ∧
+   (∀n1 n2. nexpVal (Add n1 n2) = nexpVal n1 + nexpVal n2) ∧
+   (∀n1 n2. nexpVal (Sub n1 n2) = nexpVal n1 − nexpVal n2) ∧
+   ∀n1 n2. nexpVal (Mult n1 n2) = nexpVal n1 * nexpVal n2:
+   thm
+> 
+> val Add_0 =
+TAC_PROOF (
+([],``!(n:nexp).nexpVal(Add (Num 0) n) = nexpVal(n)``),
+Induct_on`n` THEN
+ASM_REWRITE_TAC[nexpVal_def, ADD]
+);
+# # # # # val Add_0 =
+   |- ∀n. nexpVal (Add (Num 0) n) = nexpVal n:
+   thm
+> val Add_SYM =
+TAC_PROOF (
+([],``!(n1:nexp)(n2:nexp).nexpVal(Add n1 n2) = nexpVal(Add n2 n1)``),
+PROVE_TAC [nexpVal_def, ADD_SYM]
+);
+# # # # Meson search level: ..........
+val Add_SYM =
+   |- ∀n1 n2. nexpVal (Add n1 n2) = nexpVal (Add n2 n1):
+   thm
+> val Sub_0 =
+TAC_PROOF (
+([],``!(n:nexp).(nexpVal(Sub (Num 0) n) = 0) /\
+                (nexpVal(Sub n (Num 0)) = nexpVal n)``),
+ASM_REWRITE_TAC[nexpVal_def, SUB_0]
+);
+# # # # # val Sub_0 =
+   |- ∀n.
+     (nexpVal (Sub (Num 0) n) = 0) ∧
+     (nexpVal (Sub n (Num 0)) = nexpVal n):
+   thm
+
+> val Mult_ASSOC =
+TAC_PROOF (
+([],``!(n1:nexp)(n2:nexp)(n3:nexp).nexpVal(Mult n1 (Mult n2 n3)) =
+                                           nexpVal(Mult (Mult n1 n2) n3)``),
+ASM_REWRITE_TAC [nexpVal_def, MULT_ASSOC]
+);
+# # # # # val Mult_ASSOC =
+   |- ∀n1 n2 n3.
+     nexpVal (Mult n1 (Mult n2 n3)) = nexpVal (Mult (Mult n1 n2) n3):
+   thm
+> 

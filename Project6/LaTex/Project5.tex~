@@ -1,0 +1,273 @@
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+\input{../HOL/HOLReports/HOLexType}
+\input{../HOL/HOLReports/HOLnexp}
+
+\title{Project 5 Report}
+\author{Marvine Hamner}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report details results for the following exercises from
+\textit{Certified Security by Design Using Higher Order Logic}:
+11.6.1, 11.6.2 and 11.6.3. In these exercises, we 
+perform induction-based proofs, and proofs of properties for our own
+user-defined data types.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this assignment have been satisfied. A description of each exercise is given in the corresponding sections of this report.  These exercises focus on the material presented in Chapter 11 of the textbook, \textit{Certified Security by Design Using Higher Order Logic}.  In addition, pretty-printing was used for appropriate portions of this report.
+
+\newpage
+
+\section{Exercise 11.6.1}
+\label{sec:ex-11-6-1}
+
+\subsection{Problem Statement}
+For this exercise, we prove the theorem given in the textbook by adding to the theory exTypeTheory:
+
+\HOLexTypeTheoremsLENGTHXXAPP
+
+In this case, a proof by induction on the list \textit{l1} accomplishes
+our goal. Following the inductive step, we rewrite the assumptions
+with a combination of APP_def (using the definition of our append function
+\textit{APP}) and LENGTH (using the definition of our length function
+\textit{LENGTH}). The ADD_CLAUSES theorem is used to provide what appears
+to be a theorem for commutation of the addition of successive natural numbers.
+
+The APP definition (\textit{APP_def}) is provided from the book.
+
+\subsection{Relevant Code}
+
+\verbatiminput{..HOL/ex-11-6-1.trans}
+
+\begin{verbatim}
+val LENGTH_APP =
+TAC_PROOF(([],
+  ``!(l1:'a list)(l2:'a list).
+    (LENGTH (APP l1 l2)) = (LENGTH l1 + LENGTH l2)``),
+
+  Induct_on`l1` THEN
+  ASM_REWRITE_TAC [APP_def] THEN
+  ASM_REWRITE_TAC [LENGTH] THEN
+  ASM_REWRITE_TAC [ADD_CLAUSES] THEN
+  ASM_REWRITE_TAC [LENGTH] THEN
+  ASM_REWRITE_TAC [APP_def] THEN
+  ASM_REWRITE_TAC [LENGTH] THEN
+  ASM_REWRITE_TAC [ADD_CLAUSES])
+\end{verbatim}
+
+\subsection{Execution Transcripts}
+\lstinputlisting{../HOL/ex-11-6-1-2.trans}
+\lstinputlisting{../HOL/ex-11-6-3.trans}
+
+
+\newpage
+
+\section{Exercise 11.6.2}
+\label{sec:ex-11-6-2}
+
+\subsection{Problem Statement}
+For this exercise, we extend exTypeTheory by defining a Map function and
+proving the Map_APP theorem:
+
+\HOLexTypeTheoremsMapXXAPP
+
+This theorem states that mapping a function over two appended lists is
+equivalent to mapping a function over them separately and then appending
+the result of each mapping.
+
+First I had to create the definition of Map, called \textit{Map_def}. Then,
+an inductive proof over list l1 using this definition and the definition
+of the append function \textit{APP} were sufficient to prove the theorem.
+
+\subsection{Relevant Code}
+
+\begin{verbatim}
+val Map_def =
+Define
+ `((Map f []) = []) /\
+  ((Map f (h::(l1:'a list))) = (f h)::(Map f l1))`;
+
+val Map_APP =
+TAC_PROOF(([], ``Map f (APP l1 l2) = APP (Map f l1) (Map f l2)``),
+  Induct_on`l1` THEN 
+  (ASM_REWRITE_TAC[APP_def] THEN
+   ASM_REWRITE_TAC[Map_def] THEN
+   ASM_REWRITE_TAC[APP_def]))
+\end{verbatim}
+
+\subsection{Execution Transcripts}
+Results are shown above in the Execution Transcripts section of 11.6.1.
+
+\newpage
+
+\section{Exercise 11.6.3}
+\label{sec:ex-11-6-3}
+
+\subsection{Problem Statement}
+For this exercise, we define a new datatype for natural number expressions:
+\textit{nexp}. After defining the type, We must prove some properties 
+about it, and then define the semantics of \textit{nexp} expressions.
+
+Finally, we prove the following theorems about \textit{nexp}:
+
+\HOLnexpTheoremsAddXXZero
+\HOLnexpTheoremsAddXXSYM
+\HOLnexpTheoremsSubXXZero
+\HOLnexpTheoremsMultXXASSOC
+
+The \textit{Add_SYM} theorem was particularly difficult to prove. Many
+attempts to use ASM_REWRITE_TAC or PROVE_TAC on various theorems failed
+to complete. At one point, I had 20 different tactic steps, with no
+success.
+
+Only after digging through some HOL documentation did I
+see that ASM_REWRITE_TAC can diverge, causing it to run forever. Changing
+this tactic to ONCE_ASM_REWRITE_TAC got me through this sticking point,
+and in the end, the \textit{Add_SYM} proof ended up being fairly simple.
+
+\subsection{Relevant Code}
+
+\textbf{A. Definition of the datatype:}
+
+\begin{verbatim}
+val _ = Datatype
+`nexp = Num num | Add nexp nexp | Sub nexp nexp | Mult nexp nexp`;
+\end{verbatim}
+
+\noindent{\textbf{B. Definition of nexp semantics:}}
+
+\begin{verbatim}
+val nexp_one_one = one_one_of ``:nexp``
+val _ = save_thm("nexp_one_one",nexp_one_one);
+
+val nexp_distinct_clauses = distinct_of ``:nexp``
+val _ = save_thm("nexp_distinct_clauses",nexp_distinct_clauses)
+
+val nexpVal_def =
+Define
+ `(nexpVal (Num f) = f) /\
+  (nexpVal (Add f1 f2) = ((nexpVal f1) + (nexpVal f2))) /\
+  (nexpVal (Sub f1 f2) = ((nexpVal f1) - (nexpVal f2))) /\
+  (nexpVal (Mult f1 f2) = ((nexpVal f1) * (nexpVal f2)))`
+\end{verbatim}
+
+\noindent{\textbf{C. Theorem Proofs:}}
+
+\begin{verbatim}
+val Add_0 =
+TAC_PROOF(([],``!f. nexpVal (Add (Num 0) f) = nexpVal f``),
+ Induct_on`f` THEN
+ (ASM_REWRITE_TAC [nexpVal_def] THEN
+  ASM_REWRITE_TAC [ADD_CLAUSES] THEN
+  ASM_REWRITE_TAC [ADD_0])
+);
+
+val Add_SYM =
+TAC_PROOF(([],``!f1 f2. nexpVal (Add f1 f2) = nexpVal (Add f2 f1)``),
+ Induct_on`f1` THEN
+ (ONCE_ASM_REWRITE_TAC[nexpVal_def] THEN
+  PROVE_TAC[ADD_SYM])
+);
+
+val Sub_0 =
+TAC_PROOF(([],``!f. (nexpVal (Sub (Num 0) f) = 0) /\
+                    (nexpVal (Sub f (Num 0)) = nexpVal f)``),
+  Induct_on`f` THEN
+  (ASM_REWRITE_TAC[nexpVal_def] THEN
+   ASM_REWRITE_TAC[SUB_0])
+);
+
+val Mult_ASSOC =
+TAC_PROOF(([], ``!f1 f2 f3.
+                  nexpVal (Mult f1 (Mult f2 f3)) =
+		  nexpVal (Mult (Mult f1 f2) f3)``),
+  Induct_on`f1` THEN
+  (ASM_REWRITE_TAC[nexpVal_def] THEN
+   ASM_REWRITE_TAC[MULT_ASSOC])
+);
+\end{verbatim}
+
+\subsection{Execution Transcripts}
+\lstinputlisting{../HOL/nexpScript.trans}
+
+\newpage
+\section{Appendix A: exTypeScript.sml}
+\lstinputlisting{../HOL/exTypeScript.sml}
+\newpage
+\section{Appendix B: nexpScript.sml}
+\lstinputlisting{../HOL/nexpScript.sml}
+
+\end{document}

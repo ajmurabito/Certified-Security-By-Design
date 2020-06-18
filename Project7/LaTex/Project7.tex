@@ -1,0 +1,262 @@
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+\input{../HOL/HOLReports/HOLcipher}
+\input{../HOL/HOLReports/HOLcryptoExercises}
+
+\title{Project 7 Report}
+\author{Alfred Murabito}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report details results for the following exercises from
+\textit{Certified Security by Design Using Higher Order Logic}:
+15.6.1, 15.6.2, 15.6.3. In these exercises, we 
+defined new theorems using the Symmetric/Assymmetric encyrption 
+digital signature theorems defined in cipherTheory
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+
+
+All requirements for this assignment have been satisfied. A description of each exercise is given in the corresponding sections of this report.  These exercises focus on the material presented in Chapter 15 of the textbook, \textit{Certified Security by Design Using Higher Order Logic}.  In addition, pretty-printing was used for appropriate portions of this report.
+
+\newpage
+
+\chapter{Chapter 15}
+\label{cha:chapter-15}
+
+\section{Exercise 15.6.1 }
+\label{sec:exercise-15.6.1-}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement-1}
+
+The following theorems were proved using the symmetric key encyrption theroems. 
+
+\begin{itemize}
+  \item \UseVerbatim{HOLcryptoExercisesTheoremsexerciseOneFiveXXSixXXOneaXXthm}
+  \item \UseVerbatim{HOLcryptoExercisesTheoremsexerciseOneFiveXXSixXXOnebXXthm}
+\end{itemize}
+
+
+The same theorem \textit{deciphS_one_one} was used to prove both theorems
+1a and 1b, using a goal-orientated approach and \textit{ASM_REWRITE_TAC} for 1a and 
+\textit{PROVE_TAC} for 1b.
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript-1}
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+
+> val exercise15_6_1a_thm = 
+TAC_PROOF(
+([], ``! keyk enMsg message.
+(deciphS key enMsg = SOME message) <=>
+(enMsg = Es key (SOME message))``),
+ASM_REWRITE_TAC[deciphS_one_one]
+);
+# # # # # # <<HOL message: inventing new type variable names: 'a, 'b>>
+val exercise15_6_1a_thm =
+   |- ∀keyk enMsg message.
+     (deciphS key enMsg = SOME message) ⇔
+     (enMsg = Es key (SOME message)):
+   thm
+> 
+
+
+
+> val exercise15_6_1b_thm = 
+TAC_PROOF(
+([],``! keyAlice k text.
+(deciphS keyAlice (Es k (SOME text)) =
+SOME "This is from Alice") <=>
+(k = keyAlice) /\ (text = "This is from Alice")``),
+PROVE_TAC [deciphS_one_one]);
+# # # # # # Meson search level: ......................
+val exercise15_6_1b_thm =
+   |- ∀keyAlice k text.
+     (deciphS keyAlice (Es k (SOME text)) = SOME "This is from Alice") ⇔
+     (k = keyAlice) ∧ (text = "This is from Alice"):
+   thm
+> 
+
+\end{lstlisting}
+
+\section{Exercise 15.6.2}
+\label{sec:exercise-15.6.2}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement-2}
+
+Similar to the exercise above, but we prove some theorems for assymmetric encyrption
+in exercise 15.6.2. 
+\begin{itemize}
+  \item \UseVerbatim{HOLcryptoExercisesTheoremsexerciseOneFiveXXSixXXTwoaXXthm}
+  \item \UseVerbatim{HOLcryptoExercisesTheoremsexerciseOneFiveXXSixXXTwobXXthm}
+\end{itemize}
+The theorem used in both prooofs 2a and 2b 
+was \textit{deciphP_one_one}
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript-2}
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+
+> val exercise15_6_2a_thm = 
+TAC_PROOF(
+([], ``! P message.
+(deciphP (pubK P) enMsg = SOME message) <=>
+(enMsg = Ea (privK P) (SOME message))``),
+ASM_REWRITE_TAC [deciphP_one_one]);
+# # # # # <<HOL message: inventing new type variable names: 'a, 'b>>
+val exercise15_6_2a_thm =
+   |- ∀P message.
+     (deciphP (pubK P) enMsg = SOME message) ⇔
+     (enMsg = Ea (privK P) (SOME message)):
+   thm
+> 
+
+> val exercise15_6_2b_thm =
+TAC_PROOF (
+([], ``! key text.
+(deciphP (pubK Alice) (Ea key (SOME text)) =
+SOME "This is from Alice") <=>
+(key = privK Alice) /\ (text = "This is from Alice")``),
+PROVE_TAC [deciphP_one_one]
+);
+# # # # # # # <<HOL message: inventing new type variable names: 'a>>
+Meson search level: ......................
+val exercise15_6_2b_thm =
+   |- ∀key text.
+     (deciphP (pubK Alice) (Ea key (SOME text)) =
+      SOME "This is from Alice") ⇔
+     (key = privK Alice) ∧ (text = "This is from Alice"):
+   thm
+> 
+
+
+\end{lstlisting}
+\section{Exercise 15.6.3}
+\label{sec:exercise-15.6.3}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement-3}
+
+The final problem involves a proof using the signature verification theroem 
+\textit{signVerify_one_one}.
+
+\UseVerbatim{HOLcryptoExercisesTheoremsexerciseOneFiveXXSixXXThreeXXthm}
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript-3}
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+> val exercise15_6_3_thm =
+TAC_PROOF (
+([], ``! signature.
+signVerify (pubK Alice) signature
+(SOME "This is from Alice") <=>
+(signature =
+sign (privK Alice) (hash (SOME "This is from Alice")))``),
+PROVE_TAC [signVerify_one_one]
+);
+# # # # # # # # <<HOL message: inventing new type variable names: 'a>>
+Meson search level: ..........
+val exercise15_6_3_thm =
+   |- ∀signature.
+     signVerify (pubK Alice) signature (SOME "This is from Alice") ⇔
+     (signature = sign (privK Alice) (hash (SOME "This is from Alice"))):
+   thm
+> 
+\end{lstlisting}
+\HOLindex
+
+\appendix{}
+
+\section{Source for cipherScript.sml}
+\label{sec:source-ciph}
+
+The following code is from \emph{HOL/cipherScript.sml}
+\lstinputlisting{../HOL/cipherScript.sml}
+
+\section{Source for cryptoExercisesScript.sml}
+\label{sec:source-crypt}
+
+The following code is from \emph{HOL/cryptoExercisesScript.sml}
+\lstinputlisting{../HOL/cryptoExercisesScript.sml}
+
+\end{document}

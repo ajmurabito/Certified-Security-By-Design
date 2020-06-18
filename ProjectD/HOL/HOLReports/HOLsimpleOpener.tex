@@ -1,0 +1,91 @@
+\newcommand{\HOLsimpleOpenerDate}{27 March 2020}
+\newcommand{\HOLsimpleOpenerTime}{00:26}
+\begin{SaveVerbatim}{HOLsimpleOpenerDatatypescommand}
+\HOLFreeVar{command} = \HOLConst{i0} \HOLTokenBar{} \HOLConst{i1}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerDatatypescommand}{\UseVerbatim{HOLsimpleOpenerDatatypescommand}}
+\begin{SaveVerbatim}{HOLsimpleOpenerDatatypesoutput}
+\HOLFreeVar{output} = \HOLConst{o0} \HOLTokenBar{} \HOLConst{o1}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerDatatypesoutput}{\UseVerbatim{HOLsimpleOpenerDatatypesoutput}}
+\begin{SaveVerbatim}{HOLsimpleOpenerDatatypesstate}
+\HOLFreeVar{state} = \HOLConst{S0} \HOLTokenBar{} \HOLConst{S1}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerDatatypesstate}{\UseVerbatim{HOLsimpleOpenerDatatypesstate}}
+\newcommand{\HOLsimpleOpenerDatatypes}{
+\HOLsimpleOpenerDatatypescommand\HOLsimpleOpenerDatatypesoutput\HOLsimpleOpenerDatatypesstate}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremscommandXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLConst{i0} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{i1}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremscommandXXdistinctXXclauses}{\UseVerbatim{HOLsimpleOpenerTheoremscommandXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremsoutputXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLConst{o0} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{o1}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremsoutputXXdistinctXXclauses}{\UseVerbatim{HOLsimpleOpenerTheoremsoutputXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleCounterXXrules}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{ins} \HOLBoundVar{outs}.
+      \HOLConst{TR} \HOLConst{i1} (\HOLConst{CFG} (\HOLConst{i1}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLConst{S0} \HOLBoundVar{outs}) (\HOLConst{CFG} \HOLBoundVar{ins} \HOLConst{S1} (\HOLConst{o1}\HOLSymConst{::}\HOLBoundVar{outs}))) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{ins} \HOLBoundVar{outs}.
+     \HOLConst{TR} \HOLConst{i0} (\HOLConst{CFG} (\HOLConst{i0}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLConst{S1} \HOLBoundVar{outs}) (\HOLConst{CFG} \HOLBoundVar{ins} \HOLConst{S0} (\HOLConst{o0}\HOLSymConst{::}\HOLBoundVar{outs}))
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleCounterXXrules}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleCounterXXrules}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpenernsXXdef}
+\HOLTokenTurnstile{} (\HOLConst{simpleOpenerns} \HOLConst{S0} \HOLConst{i1} \HOLSymConst{=} \HOLConst{S1}) \HOLSymConst{\HOLTokenConj{}} (\HOLConst{simpleOpenerns} \HOLConst{S1} \HOLConst{i0} \HOLSymConst{=} \HOLConst{S0})
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpenernsXXdef}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpenernsXXdef}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpenernsXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}. \HOLBoundVar{P} \HOLConst{S0} \HOLConst{i1} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{P} \HOLConst{S1} \HOLConst{i0} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{P} \HOLConst{S0} \HOLConst{i0} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{P} \HOLConst{S1} \HOLConst{i1} \HOLSymConst{\HOLTokenImp{}} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpenernsXXind}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpenernsXXind}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpeneroutXXdef}
+\HOLTokenTurnstile{} (\HOLConst{simpleOpenerout} \HOLConst{S0} \HOLConst{i1} \HOLSymConst{=} \HOLConst{o1}) \HOLSymConst{\HOLTokenConj{}} (\HOLConst{simpleOpenerout} \HOLConst{S1} \HOLConst{i0} \HOLSymConst{=} \HOLConst{o0})
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpeneroutXXdef}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpeneroutXXdef}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpeneroutXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}. \HOLBoundVar{P} \HOLConst{S0} \HOLConst{i1} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{P} \HOLConst{S1} \HOLConst{i0} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{P} \HOLConst{S0} \HOLConst{i0} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{P} \HOLConst{S1} \HOLConst{i1} \HOLSymConst{\HOLTokenImp{}} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpeneroutXXind}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpeneroutXXind}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpenerTRXXclauses}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{x} \HOLBoundVar{x1s} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{out1s} \HOLBoundVar{x2s} \HOLBoundVar{out2s} \HOLBoundVar{s\sb{\mathrm{2}}}.
+      \HOLConst{TR} \HOLBoundVar{x} (\HOLConst{CFG} \HOLBoundVar{x1s} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{out1s}) (\HOLConst{CFG} \HOLBoundVar{x2s} \HOLBoundVar{s\sb{\mathrm{2}}} \HOLBoundVar{out2s}) \HOLSymConst{\HOLTokenEquiv{}}
+      \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{NS} \HOLBoundVar{Out} \HOLBoundVar{ins}.
+        (\HOLBoundVar{x1s} \HOLSymConst{=} \HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{x2s} \HOLSymConst{=} \HOLBoundVar{ins}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{s\sb{\mathrm{2}}} \HOLSymConst{=} \HOLBoundVar{NS} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{x}) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{out2s} \HOLSymConst{=} \HOLBoundVar{Out} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{out1s})) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{x} \HOLBoundVar{x1s} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{out1s} \HOLBoundVar{x2s} \HOLBoundVar{out2s}.
+     \HOLConst{TR} \HOLBoundVar{x} (\HOLConst{CFG} \HOLBoundVar{x1s} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{out1s})
+       (\HOLConst{CFG} \HOLBoundVar{x2s} (\HOLConst{simpleOpenerns} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{x})
+          (\HOLConst{simpleOpenerout} \HOLBoundVar{s\sb{\mathrm{1}}} \HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{out2s})) \HOLSymConst{\HOLTokenEquiv{}}
+     \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{ins}. (\HOLBoundVar{x1s} \HOLSymConst{=} \HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{x2s} \HOLSymConst{=} \HOLBoundVar{ins}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{out2s} \HOLSymConst{=} \HOLBoundVar{out1s})
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpenerTRXXclauses}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpenerTRXXclauses}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpenerTRXXrules}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{s} \HOLBoundVar{x} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+     \HOLConst{TR} \HOLBoundVar{x} (\HOLConst{CFG} (\HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})
+       (\HOLConst{CFG} \HOLBoundVar{ins} (\HOLConst{simpleOpenerns} \HOLBoundVar{s} \HOLBoundVar{x})
+          (\HOLConst{simpleOpenerout} \HOLBoundVar{s} \HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{outs}))
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpenerTRXXrules}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpenerTRXXrules}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremssimpleOpenerTransXXEquivXXTR}
+\HOLTokenTurnstile{} \HOLConst{TR} \HOLFreeVar{x} (\HOLConst{CFG} (\HOLFreeVar{x}\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+     (\HOLConst{CFG} \HOLFreeVar{ins} (\HOLConst{simpleOpenerns} \HOLFreeVar{s} \HOLFreeVar{x})
+        (\HOLConst{simpleOpenerout} \HOLFreeVar{s} \HOLFreeVar{x}\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+   \HOLConst{Trans} \HOLFreeVar{x} \HOLFreeVar{s} (\HOLConst{simpleOpenerns} \HOLFreeVar{s} \HOLFreeVar{x})
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremssimpleOpenerTransXXEquivXXTR}{\UseVerbatim{HOLsimpleOpenerTheoremssimpleOpenerTransXXEquivXXTR}}
+\begin{SaveVerbatim}{HOLsimpleOpenerTheoremsstateXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLConst{S0} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{S1}
+\end{SaveVerbatim}
+\newcommand{\HOLsimpleOpenerTheoremsstateXXdistinctXXclauses}{\UseVerbatim{HOLsimpleOpenerTheoremsstateXXdistinctXXclauses}}
+\newcommand{\HOLsimpleOpenerTheorems}{
+\HOLThmTag{simpleOpener}{command_distinct_clauses}\HOLsimpleOpenerTheoremscommandXXdistinctXXclauses
+\HOLThmTag{simpleOpener}{output_distinct_clauses}\HOLsimpleOpenerTheoremsoutputXXdistinctXXclauses
+\HOLThmTag{simpleOpener}{simpleCounter_rules}\HOLsimpleOpenerTheoremssimpleCounterXXrules
+\HOLThmTag{simpleOpener}{simpleOpenerns_def}\HOLsimpleOpenerTheoremssimpleOpenernsXXdef
+\HOLThmTag{simpleOpener}{simpleOpenerns_ind}\HOLsimpleOpenerTheoremssimpleOpenernsXXind
+\HOLThmTag{simpleOpener}{simpleOpenerout_def}\HOLsimpleOpenerTheoremssimpleOpeneroutXXdef
+\HOLThmTag{simpleOpener}{simpleOpenerout_ind}\HOLsimpleOpenerTheoremssimpleOpeneroutXXind
+\HOLThmTag{simpleOpener}{simpleOpenerTR_clauses}\HOLsimpleOpenerTheoremssimpleOpenerTRXXclauses
+\HOLThmTag{simpleOpener}{simpleOpenerTR_rules}\HOLsimpleOpenerTheoremssimpleOpenerTRXXrules
+\HOLThmTag{simpleOpener}{simpleOpenerTrans_Equiv_TR}\HOLsimpleOpenerTheoremssimpleOpenerTransXXEquivXXTR
+\HOLThmTag{simpleOpener}{state_distinct_clauses}\HOLsimpleOpenerTheoremsstateXXdistinctXXclauses
+}

@@ -1,0 +1,20 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+> > > > # # # # # # # # # ** types trace now on
+> # # # # # # # # # ** Unicode trace now off
+> *** Globals.show_assums now true ***
+> val problem2_thm =
+   
+[~(s :bool), (r :bool) ==> (s :bool),
+ (p :bool) /\ (q :bool) ==> (r :bool)] |- (p :bool) ==> ~(q :bool):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> 

@@ -1,0 +1,15 @@
+
+> val exercise15_6_1a_thm = 
+TAC_PROOF(
+([], ``! keyk enMsg message.
+(deciphS key enMsg = SOME message) <=>
+(enMsg = Es key (SOME message))``),
+ASM_REWRITE_TAC[deciphS_one_one]
+);
+# # # # # # <<HOL message: inventing new type variable names: 'a, 'b>>
+val exercise15_6_1a_thm =
+   |- ∀keyk enMsg message.
+     (deciphS key enMsg = SOME message) ⇔
+     (enMsg = Es key (SOME message)):
+   thm
+> 

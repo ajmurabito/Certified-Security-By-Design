@@ -1,0 +1,10 @@
+(* Exercise 7_3_2 *)
+(* Turns terms of p ==> q ==> r to (p /\ q) ==> r *)
+
+fun impImpAnd term_i =
+let
+  val (p, q_imp_r) = dest_imp term_i
+  val (q, r) = dest_imp q_imp_r
+in
+  mk_imp (mk_conj (p, q), r)
+end;

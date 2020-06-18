@@ -1,0 +1,163 @@
+
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+
+\title{Project 5}
+\author{\textbf{Alfred Murabito}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+   \noindent{}This report details results for the following exercises
+from \textit{Certified Security by Design Using Higher Order Logic}:
+11.6.1, 11.6.2, 11.6.3 The exercises from Ch 11 focus on defining new
+types in HOL and defining the properties and semantics of them. We
+then used our new type definitions to develop new theories that can be
+imported in further HOL proofs. All of these theories are built using
+the Holmake program. Each of the exercises includes a problem
+statement, relevant code, test cases as appropriate and test results. 
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description of each exercise from Chapter 11 is included in the following chapters.  
+
+A HOLReports subfolder is in the HOL directory with all the HOL generated Latex macros used in the report, the HOL directory contains the exTypeScript.sml and
+nexpScript.sml files used by Holmake to generate the theorem object files, and the LaTex directory contains the project report LaTex document.
+
+The theories are shown pretty printed in the Ch. 11 Theory section, and the source code has been included in the Appendix.
+\newpage
+
+
+\section{Chapter 11 Exercises}
+\label{sec:chapter-11-exercises}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement}
+Exercise 11.6.1 Theorem was answered using structural indcution on the inital goal then rewriting
+using the APP function definition, the ADD_CLAUSES theorem from arithmeticTheory, and the LENGTH theorem.
+
+Exercise 11.6.2 Theorem used our APP definition along with our Map definition to prove the Map_APP theorem.
+Exercise 11.6.3 proofs use our new datatype nexp along with its semantic value definition as well as a few
+theories from arithmeticTheory.
+
+\subsection{Test Results}
+\label{sec:test-results}
+
+Exercise 11.6.1:
+\verbatiminput{../HOL/ex-11-6-1.trans}
+
+
+Exercise 11.6.2:
+\verbatiminput{../HOL/ex-11-6-2.trans}
+
+
+Exercise 11.6.3:
+\verbatiminput{../HOL/ex-11-6-3.trans}
+
+\input{../HOL/HOLReports/HOLnexp}
+\input{../HOL/HOLReports/HOLexType}
+
+\newpage
+
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Exercise 11 Theory}
+\label{sec:exercise-11-theory}
+\index{exercise11 Theory@\textbf  {exercise11 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLnexpDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\HOLexTypeTheorems
+\HOLnexpTheorems
+
+
+\HOLindex
+
+\appendix{}
+
+\section{Source Code for exTypeTheory}
+\label{sec:source-code-extyp}
+
+The following code is from \emph{HOL/exTypeScript.sml}
+\lstinputlisting{../HOL/exTypeScript.sml}
+
+\section{Source Code for nexpTheory}
+\label{sec:source-code-nexpth}
+
+The following code is from \emph{HOL/nexpScript.sml}
+\lstinputlisting{../HOL/nexpScript.sml}
+
+\end{document}

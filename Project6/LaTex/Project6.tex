@@ -1,0 +1,176 @@
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+\input{../HOL/HOLReports/HOLconopsZeroSolution}
+\input{../HOL/HOLReports/HOLsolutionsOne}
+
+\title{Project 6 Report}
+\author{Alfred Murabito}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report details results for the following exercises from
+\textit{Certified Security by Design Using Higher Order Logic}:
+13.10.1, 13.10.2, 14.4.1. In these exercises, we 
+defined new theorems using the Access Control logic definitions
+and theorems. In Ch 14, we build a sample Conops implemented with
+four theorems.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this assignment have been satisfied. A description of each exercise is given in the corresponding sections of this report.  These exercises focus on the material presented in Chapter 13 and 14 of the textbook, \textit{Certified Security by Design Using Higher Order Logic}.  In addition, pretty-printing was used for appropriate portions of this report.
+
+\newpage
+
+\chapter{Chapter 13}
+\label{cha:chapter-13}
+
+\section{Exercise 13.10.1 Problem Statement}
+\label{sec:exerc-13.10.1-probl}
+
+In this exercise we extend upon the \textit{example1Theory} with a new theory \textit{solutions1Theory}.
+It uses the definitions from example1Theory to build an inference rule represented by the 
+theorem below.  
+
+\HOLsolutionsOneTheoremsaclExerciseOne
+
+The inference rule is first proved using a forward proof by using the 
+access control logic inference rules on the assumptions. Then \textit{PROVE_TAC} is used
+alone with the \textit{SPEC_ALL Conjunction} and \textit{GSYM(SPEC_ALL And_Says_Eq)}
+theorems. Finally, we uses a combination of other tactics and \textit{PROVE_TAC}.
+
+\section{Exercise 13.10.2 Problem Statement}
+\label{sec:exerc-13.10.2-probl}
+
+
+This exercise further expands on \textit{solutions1Theory} with the inference rule described with 
+the theorem.
+
+\HOLsolutionsOneTheoremsaclExerciseTwoA
+
+We prove this theorem three consecutvie times as well using similar approaches to the problem
+statement above. The forward proof used ACL Inference rules \textit{ACL_ASSUM CONTROLS ACL_MP 
+SAYS}, to prove the theorem. The PROVE_TAC solved the theorem using the corresponding 
+theorems for the above inference rules. And finally, it was proved using \textit{PAT_ASSUM} 
+and other tactics.
+
+\section{Chapter 13 Execution Transcript}
+\label{sec:chapter-13-execution}
+
+
+\verbatiminput{../HOL/solutions1Script.trans}
+
+
+\chapter{Chapter 14}
+\label{cha:chapter-14}
+
+\section{Exercise 14.4.1 Problem Statement}
+\label{sec:exerc-14.4.1-probl}
+
+This exercise implements a launch CONOPS and an abort CONOS. This means 
+the Commander role can issue a go or nogo command, which should correspond with
+the staff making the appropriate command to the Applications.
+
+\HOLconopsZeroSolutionDatatypes
+
+Both conops are realized with the addition of the following four theroems
+
+\HOLconopsZeroSolutionTheoremsApRuleActiveXXthm
+\HOLconopsZeroSolutionTheoremsApRuleStandDownXXthm
+\HOLconopsZeroSolutionTheoremsOpRuleAbortXXthm
+\HOLconopsZeroSolutionTheoremsOpRuleLaunchXXthm
+
+\section{Chapter 14 Execution Transcript}
+\label{sec:chapter-14-execution}
+
+\verbatiminput{../HOL/conops0SolutionScript.trans}
+
+
+\HOLindex
+
+\appendix{}
+
+\section{Source for solutions1Script.sml}
+\label{sec:source-solut}
+
+
+The following code is from \emph{HOL/solutions1Script.sml}
+\lstinputlisting{../HOL/solutions1Script.sml}
+
+\section{Source for conops0SolutionScript.sml}
+\label{sec:source-conops0s}
+
+The following code is from \emph{HOL/conops0SolutionScript.sml}
+\lstinputlisting{../HOL/conops0SolutionScript.sml}
+
+\end{document}

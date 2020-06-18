@@ -1,0 +1,56 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+> 
+> <<HOL message: inventing new type variable names: 'a, 'b>>
+val it =
+   ``(P :'a -> bool) (x :'a) ==> (Q :'b -> bool) (y :'b)``:
+   term
+val it =
+   ``(P :num -> bool) (x :num) ==> (Q :bool -> bool) (y :bool)``:
+   term
+<<HOL message: inventing new type variable names: 'a, 'b>>
+val it =
+   ``!(x :'a) (y :'b). (P :'a -> bool) x ==> (Q :'b -> bool) y``:
+   term
+val it =
+   ``?(x :num). (R :num -> bool) x``:
+   term
+<<HOL message: inventing new type variable names: 'a>>
+val it =
+   ``~!(x :'a).
+     (P :'a -> bool) x \/ (Q :'a -> bool) x <=> ?(x :'a). ~P x /\ ~Q x``:
+   term
+<<HOL message: inventing new type variable names: 'a>>
+val it =
+   ``!(x :'a). (P :'a -> bool) x ==> (M :'a -> bool) x``:
+   term
+<<HOL message: inventing new type variable names: 'a>>
+val it =
+   ``?(x :'a). (Funny :'a -> bool) x``:
+   term
+
+Type inference failure: the term
+
+(x :num)
+
+on line 31, characters 13-17
+
+can not be constrained to be of type
+
+:'a
+
+unification failure message: ???
+Exception-
+   HOL_ERR
+     {message =
+      "on line 31, characters 13-17:\n\nType inference failure: the term\n\n(x :num)\n\non line 31, characters 13-17\n\ncan not be constrained to be of type\n\n:'a\n\nunification failure message: ???\n",
+      origin_function = "type-analysis", origin_structure = "Preterm"} raised
+> 
+*** Emacs/HOL command completed ***
+
+> 

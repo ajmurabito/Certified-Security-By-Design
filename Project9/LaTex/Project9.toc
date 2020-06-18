@@ -1,0 +1,18 @@
+\contentsline {section}{\numberline {1}Executive Summary}{5}{section.1}
+\contentsline {section}{\numberline {2}Exercise 17.4.1}{6}{section.2}
+\contentsline {subsection}{\numberline {2.1}Problem Statement}{6}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Relevant Code}{7}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Part A: Alice npriv lemma}{7}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Part B: Alice exec npriv justified thm}{7}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Part C: Alice nrpiv verified thm}{8}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Part D: Alice justified npriv exec thm}{9}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Execution Transcript}{10}{subsection.2.7}
+\contentsline {section}{\numberline {3}Exercise 17.4.3}{12}{section.3}
+\contentsline {subsection}{\numberline {3.1}Problem Statement}{12}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Relevant Code}{12}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Part A: Carols's Next State/Output}{12}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Part B: Execute Carols's Nonprivileged Command}{13}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Part C: Trap Carol's Privileged Command}{16}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Execution Transcript}{19}{subsection.3.6}
+\contentsline {section}{\numberline {4}Appendix A: SM0Script.sml}{24}{section.4}
+\contentsline {section}{\numberline {5}Appendix B: SM0SoluitionsScript.sml}{31}{section.5}

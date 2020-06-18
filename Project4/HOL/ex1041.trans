@@ -1,0 +1,18 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+> > > > # # # # # # # # # ** types trace now on
+> # # # # # # # # # ** Unicode trace now off
+> *** Globals.show_assums now true ***
+> # # # # <<HOL message: inventing new type variable names: 'a>>
+val problem1_thm =
+   
+[(P :'a -> bool) (s :'a),
+ !(x :'a). (P :'a -> bool) x ==> (M :'a -> bool) x]
+|- (M :'a -> bool) (s :'a):
+   thm
+> 

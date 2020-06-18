@@ -1,0 +1,358 @@
+%% ---------------------------------------------------
+%% Notice that we use the "report" class instead of "article"
+%% ---------------------------------------------------
+\documentclass{report}
+
+\title{Assurance Foundations Quiz 1}
+\author{Alfred Murabito}
+\date{\today}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% textcomp provides additional symbols
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{import}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% -------------------------------\--------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+\begin{document}
+
+%% --------------------------------------------------- the listings
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+\maketitle{}
+
+
+\tableofcontents{}
+
+\begin{acknowledgments}
+ I received no external help for this report.
+\end{acknowledgments}
+
+\chapter{Executive Summary}
+\label{cha:executive-summary}
+
+\textbf{All requirements for this project are satisfied}.
+Specifically,
+\begin{description}
+\item[Report Contents] \ \\
+  Our report has the following content:
+  \begin{enumerate}[{}]
+  \item Chapter~\ref{cha:executive-summary}: Executive Summary
+  \item Chapter~\ref{cha:report-body}: Report Body
+    \begin{enumerate}[{}]
+    \item Section~\ref{sec:problem-statement}: Problem statement
+    \end{enumerate}
+  \item Chapter~\ref{cha:special-coding-tests} Code and Tests
+    \begin{enumerate}[{}]
+    \item Section~\ref{sec:relevant-code}: Relevant code
+    \item Section~\ref{sec:tests}: Test results
+    \end{enumerate}
+  \item Chapter~\ref{cha:source-code-sample}: Source Code
+  \item Chapter~\ref{cha:addendum}: Addendum
+  \end{enumerate}
+\end{description}
+
+
+\chapter{Report Body}
+\label{cha:report-body}
+
+
+\section{Problem Statement}
+\label{sec:problem-statement}
+
+The Fleece'm'n-How law firm Generating Law has a need to keep a ratio of 
+male to female workers above 50 percent as well as a combined total experience of at least 60,000 hours. 
+Mr How has decided to analyze the total experience and gender ratio of the Junior Partners since
+he heard it is best if the firm is comprised of young workers. 
+
+\begin{enumerate}
+\item To represent the table of data in ML, I used a (string * string * string * int) list data structure.
+
+\item To calculate the total hours of all junior partners, I created a function
+that accepts the job status of interest and a list of employee entries with
+the important fields being job status, gender, and experience. It recursively iterates through
+each element in the list using constructors and pattern matching and adds an elements experience
+to the running total if the job status matches (job status, experience, and gender are extracted
+from the list entry using pattern matching).
+
+\item To get the male/female split of a given job status,I used a similar approach as before to 
+iterate through each entry in the list. If the entry meets the criteria for a male or female
+of the given job status, then the corresponding element in the tuple(male or female) will
+be incremented in the tuple returned using pattern matching.
+
+\end{enumerate}
+
+
+\chapter{Special Coding and Tests}
+\label{cha:special-coding-tests}
+
+
+\section{Relevant Code}
+\label{sec:relevant-code}
+
+\subsection{Employee Firm Data}
+\label{sec:employee-firm-data}
+
+First piece of code we need is a definition in ML of the table containing
+all of the relevant employee information.
+
+The following code is from \emph{table.sml}
+\lstinputlisting{ML/table.sml}
+
+\subsection{Calculate Total Hours Experience}
+\label{sec:calc-total-hours}
+
+\lstset{frameround=fftt}
+\begin{lstlisting}[frame=tRBL]
+
+(* Calculate the total hours in experience of  *) 
+(* a given seniority (status)                  *)
+
+fun calc_h (status:string) [] = 0
+  | calc_h (status) (head::table:(string*string*string*int)list) =
+  let
+    val (name, gender, j_status, exp) = head
+    val match:bool = (status = j_status)
+  in
+    if match then (2080*exp)+(calc_h status table) else (calc_h status table)
+  end;
+
+(* For calculating total hours for all Jr. Partners, use below *)
+calc_h ``Jr. Partner'' table;
+
+\end{lstlisting}
+\pagebreak
+\subsection{Get Male/Female Split}
+\label{sec:get-malefemale-split}
+
+\lstset{frameround=fftt}
+\begin{lstlisting}[frame=tRBL]
+
+(* Calculate the male/female split *)
+
+fun get_male_female(status:string) [] = (0, 0)
+  | get_male_female(status:string) (head::table) =
+  let
+    (* Use pattern matching to get elmenets of list entry *)
+    val (name, gender, j_status, exp) = head
+    val f_match:bool = ((status = j_status) andalso (gender = "F"))
+    val m_match:bool = ((status = j_status) andalso (gender = "M"))
+    val (p_male, p_fem) = get_male_female status table
+  in
+    ((if m_match then 1 else 0)+p_male,(if f_match then 1 else 0)+p_fem)
+  end;
+
+(* To get the male female split for Jr. Partners, use below *)
+get_male_female ``Jr. Partner'' table;
+
+\end{lstlisting}
+
+\section{Test Results}
+\label{sec:tests}
+
+
+\subsection{Test results for employee data}
+\label{sec:test-results-empl-1}
+%%-------------------------------------------------------------
+%% Notice how we set sessioncount to 0 so that the first HOL
+%% session is numbered starting from 1
+%%-------------------------------------------------------------
+
+\setcounter{sessioncount}{0}
+
+ \import{ML/}{calch.trans}
+
+
+\subsection{Test results for calch}
+\label{sec:test-results-calch}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+> fun calc_h (status:string) [] = 0
+  | calc_h (status) (head::table:(string*string*string*int)list) =
+  let
+    val (name, gender, j_status, exp) = head
+    val match:bool = (status = j_status)
+  in
+    if match then (2080*exp)+(calc_h status table) else (calc_h status table)
+  end;
+
+
+calc_h "Jr. Partner" table;
+# # # # # # # val calc_h = fn: string -> (string * string * string * int) list -> int
+> > # # val it = 434720: int
+
+
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+There were a calculated number of 434,720 total accumulated hours of experience for all Jr. Partners.
+This is substantially more than the recommended amount.
+
+\subsection{Test results for male/female split}
+\label{sec:test-results-malef}
+
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+> (* Calculate the male/female split *)
+
+fun get_male_female(status:string) [] = (0, 0)
+  | get_male_female(status:string) (head::table) =
+  let
+    (* Use pattern matching to get elmenets of list entry *)
+    val (name, gender, j_status, exp) = head
+    val f_match:bool = ((status = j_status) andalso (gender = "F"))
+    val m_match:bool = ((status = j_status) andalso (gender = "M"))
+    val (p_male, p_fem) = get_male_female status table
+  in
+    ((if m_match then 1 else 0)+p_male,(if f_match then 1 else 0)+p_fem)
+  end;
+
+get_male_female "Jr. Partner" table;
+# # # # # # # # # # # # val get_male_female = fn:
+   string -> ('a * string * string * 'b) list -> int * int
+> > # # val it = (11, 3): int * int
+
+
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+The split between the Jr. Partners is 11 males to 3 females, about 79 percent 
+male. This is more than adequate for the gender ratio requirement. 
+Hiring more Jr. Partners seems like a good long term plan due to the high
+experience and male gender ratio.
+
+%% ------------------------------------------
+%% this restarts the section numbering and
+%% changes chapter numbering to letters starting
+%% with A
+%% ------------------------------------------
+\appendix{} 
+
+
+\chapter{Source Code for Sample Exercise}
+\label{cha:source-code-sample}
+
+The following code is from \emph{quiz1.sml}
+\lstinputlisting{ML/quiz1.sml}
+
+\chapter{Addendum}
+\label{cha:addendum}
+
+\section{Relevant Code}
+\label{sec:relevant-code-1}
+
+
+The following code is from \emph{modquiz1.sml}
+\lstinputlisting{ML/modquiz1.sml}
+
+\section{Test Cases}
+\label{sec:test-cases}
+
+\subsection{Test cases for modified calch}
+\label{sec:test-cases-modified}
+
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+> fun calc_h (status:string) [] = 0
+  | calc_h (status) (head::table:(string*string*string*int)list) =
+  let
+    val (name, gender, j_status, exp) = head
+    val match:bool = (status = j_status)
+  in
+    if match then (2080*exp)+(calc_h status table) else (calc_h status table)
+  end;
+
+(* Modifed line below for Associate *)
+(* calc_h "Jr. Partner" table; *)
+calc_h "Associate" table;
+
+val calc_h = fn: string -> (string * string * string * int) list -> int
+> > val it = 326560: int > plus 0 0;
+
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+The Associates have a combined total of 326,560 hours of experience.
+
+\subsection{Test cases for modified male/female split}
+\label{sec:test-cases-modified-2}
+
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+> (* Calculate the male/female split *)
+
+fun get_male_female(status:string) [] = (0, 0)
+  | get_male_female(status:string) (head::table) =
+  let
+    (* Use pattern matching to get elmenets of list entry *)
+    val (name, gender, j_status, exp) = head
+    val f_match:bool = ((status = j_status) andalso (gender = "F"))
+    val m_match:bool = ((status = j_status) andalso (gender = "M"))
+    val (p_male, p_fem) = get_male_female status table
+  in
+    ((if m_match then 1 else 0)+p_male,(if f_match then 1 else 0)+p_fem)
+  end;
+
+(* Modifed line below for Associate *)
+(* get_male_female "Jr. Partner" table; *)
+get_male_female "Associate" table;
+# # # # # # # # # # # # val get_male_female = fn:string -> ('a * string * string * 'b) list -> int * int
+> > val it = (14, 12): int * int
+
+
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+The Jr. Partners have a much higher ratio of males to females(11 to 3) than the Associates (14 to 12). In addition, the total hours of 
+experience between the Jr. Partners is much higher than for the Associates. Hiring more Jr. Partners appears to be the sound option over
+more Associates to prevent risk of the male gender ratio dropping and stay above the recommendation. 
+
+\end{document}

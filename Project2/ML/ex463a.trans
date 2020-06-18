@@ -1,0 +1,7 @@
+> val it = 8: int
+# val it = 8: int
+> val it = 0: int
+# val it = 0: int
+> val it = 525: int
+# val it = 525: int
+> 

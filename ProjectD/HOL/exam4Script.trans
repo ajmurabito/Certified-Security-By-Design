@@ -1,0 +1,596 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+[extending loadPath with Holmakefile INCLUDES variable]
+> > > > > > > > Loading acl_infRules
+
+> > > > > > > > <<HOL message: Created theory "exam4">>
+<<HOL message: Defined type: "servers">>
+<<HOL message: Defined type: "people">>
+<<HOL message: Defined type: "keys">>
+<<HOL message: Defined type: "princs">>
+<<HOL message: Defined type: "access">>
+<<HOL message: Defined type: "serviceKey">>
+<<HOL message: Defined type: "props">>
+Theory: exam4
+
+Parents:
+    aclDrules
+
+Type constants:
+    access 0
+    keys 0
+    people 0
+    princs 0
+    props 0
+    servers 0
+    serviceKey 0
+
+Term constants:
+    AC                :access -> props
+    AS                :servers
+    FS                :servers
+    K                 :keys -> serviceKey
+    KFS               :keys
+    KTGS              :keys
+    KU                :keys
+    KUFS              :keys
+    KUTGS             :keys
+    Key               :keys -> princs
+    PK                :people -> keys -> props
+    PR                :servers -> princs
+    SERV              :servers -> serviceKey
+    TGS               :servers
+    USE               :serviceKey -> props
+    Ursala            :people
+    User              :people -> princs
+    access2num        :access -> num
+    access_CASE       :access -> α -> α -> α -> α
+    access_size       :access -> num
+    keys2num          :keys -> num
+    keys_CASE         :keys -> α -> α -> α -> α -> α -> α
+    keys_size         :keys -> num
+    num2access        :num -> access
+    num2keys          :num -> keys
+    num2people        :num -> people
+    num2servers       :num -> servers
+    people2num        :people -> num
+    people_CASE       :people -> α -> α
+    people_size       :people -> num
+    princs_CASE       :princs ->
+                       (servers -> α) ->
+                       (people -> α) -> (keys -> α) -> α
+    princs_size       :princs -> num
+    print             :access
+    props_CASE        :props ->
+                       (serviceKey -> α) ->
+                       (people -> keys -> α) -> (access -> α) -> α
+    props_size        :props -> num
+    read              :access
+    servers2num       :servers -> num
+    servers_CASE      :servers -> α -> α -> α -> α
+    servers_size      :servers -> num
+    serviceKey_CASE   :serviceKey -> (servers -> α) -> (keys -> α) -> α
+    serviceKey_size   :serviceKey -> num
+    write             :access
+
+Definitions:
+    @tempAS_def
+      |- AS = num2servers 0
+    @tempFS_def
+      |- FS = num2servers 2
+    @tempKFS_def
+      |- KFS = num2keys 1
+    @tempKTGS_def
+      |- KTGS = num2keys 0
+    @tempKUFS_def
+      |- KUFS = num2keys 4
+    @tempKUTGS_def
+      |- KUTGS = num2keys 3
+    @tempKU_def
+      |- KU = num2keys 2
+    @tempTGS_def
+      |- TGS = num2servers 1
+    @tempUrsala_def
+      |- Ursala = num2people 0
+    @tempprint_def
+      |- print = num2access 0
+    @tempread_def
+      |- read = num2access 1
+    @tempwrite_def
+      |- write = num2access 2
+    access_BIJ
+      |- (∀a. num2access (access2num a) = a) ∧
+         ∀r. (λn. n < 3) r ⇔ (access2num (num2access r) = r)
+    access_CASE
+      |- ∀x v0 v1 v2.
+           (case x of print => v0 | read => v1 | write => v2) =
+           (λm. if m < 1 then v0 else if m = 1 then v1 else v2)
+             (access2num x)
+    access_TY_DEF
+      |- ∃rep. TYPE_DEFINITION (λn. n < 3) rep
+    access_size_def
+      |- ∀x. access_size x = 0
+    keys_BIJ
+      |- (∀a. num2keys (keys2num a) = a) ∧
+         ∀r. (λn. n < 5) r ⇔ (keys2num (num2keys r) = r)
+    keys_CASE
+      |- ∀x v0 v1 v2 v3 v4.
+           (case x of
+              KTGS => v0
+            | KFS => v1
+            | KU => v2
+            | KUTGS => v3
+            | KUFS => v4) =
+           (λm.
+              if m < 2 then if m = 0 then v0 else v1
+              else if m < 3 then v2
+              else if m = 3 then v3
+              else v4) (keys2num x)
+    keys_TY_DEF
+      |- ∃rep. TYPE_DEFINITION (λn. n < 5) rep
+    keys_size_def
+      |- ∀x. keys_size x = 0
+    people_BIJ
+      |- (∀a. num2people (people2num a) = a) ∧
+         ∀r. (λn. n < 1) r ⇔ (people2num (num2people r) = r)
+    people_CASE
+      |- ∀x v0. (case x of Ursala => v0) = (λm. v0) (people2num x)
+    people_TY_DEF
+      |- ∃rep. TYPE_DEFINITION (λn. n < 1) rep
+    people_size_def
+      |- ∀x. people_size x = 0
+    princs_TY_DEF
+      |- ∃rep.
+           TYPE_DEFINITION
+             (λa0.
+                ∀'princs' .
+                  (∀a0.
+                     (∃a.
+                        a0 =
+                        (λa.
+                           ind_type$CONSTR 0 (a,ARB,ARB)
+                             (λn. ind_type$BOTTOM)) a) ∨
+                     (∃a.
+                        a0 =
+                        (λa.
+                           ind_type$CONSTR (SUC 0) (ARB,a,ARB)
+                             (λn. ind_type$BOTTOM)) a) ∨
+                     (∃a.
+                        a0 =
+                        (λa.
+                           ind_type$CONSTR (SUC (SUC 0)) (ARB,ARB,a)
+                             (λn. ind_type$BOTTOM)) a) ⇒
+                     'princs' a0) ⇒
+                  'princs' a0) rep
+    princs_case_def
+      |- (∀a f f1 f2. princs_CASE (PR a) f f1 f2 = f a) ∧
+         (∀a f f1 f2. princs_CASE (User a) f f1 f2 = f1 a) ∧
+         ∀a f f1 f2. princs_CASE (Key a) f f1 f2 = f2 a
+    princs_size_def
+      |- (∀a. princs_size (PR a) = 1 + servers_size a) ∧
+         (∀a. princs_size (User a) = 1 + people_size a) ∧
+         ∀a. princs_size (Key a) = 1 + keys_size a
+    props_TY_DEF
+      |- ∃rep.
+           TYPE_DEFINITION
+             (λa0'.
+                ∀'props' .
+                  (∀a0'.
+                     (∃a.
+                        a0' =
+                        (λa.
+                           ind_type$CONSTR 0 (a,ARB,ARB,ARB)
+                             (λn. ind_type$BOTTOM)) a) ∨
+                     (∃a0 a1.
+                        a0' =
+                        (λa0 a1.
+                           ind_type$CONSTR (SUC 0) (ARB,a0,a1,ARB)
+                             (λn. ind_type$BOTTOM)) a0 a1) ∨
+                     (∃a.
+                        a0' =
+                        (λa.
+                           ind_type$CONSTR (SUC (SUC 0)) (ARB,ARB,ARB,a)
+                             (λn. ind_type$BOTTOM)) a) ⇒
+                     'props' a0') ⇒
+                  'props' a0') rep
+    props_case_def
+      |- (∀a f f1 f2. props_CASE (USE a) f f1 f2 = f a) ∧
+         (∀a0 a1 f f1 f2. props_CASE (PK a0 a1) f f1 f2 = f1 a0 a1) ∧
+         ∀a f f1 f2. props_CASE (AC a) f f1 f2 = f2 a
+    props_size_def
+      |- (∀a. props_size (USE a) = 1 + serviceKey_size a) ∧
+         (∀a0 a1.
+            props_size (PK a0 a1) =
+            1 + (people_size a0 + keys_size a1)) ∧
+         ∀a. props_size (AC a) = 1 + access_size a
+    servers_BIJ
+      |- (∀a. num2servers (servers2num a) = a) ∧
+         ∀r. (λn. n < 3) r ⇔ (servers2num (num2servers r) = r)
+    servers_CASE
+      |- ∀x v0 v1 v2.
+           (case x of AS => v0 | TGS => v1 | FS => v2) =
+           (λm. if m < 1 then v0 else if m = 1 then v1 else v2)
+             (servers2num x)
+    servers_TY_DEF
+      |- ∃rep. TYPE_DEFINITION (λn. n < 3) rep
+    servers_size_def
+      |- ∀x. servers_size x = 0
+    serviceKey_TY_DEF
+      |- ∃rep.
+           TYPE_DEFINITION
+             (λa0.
+                ∀'serviceKey' .
+                  (∀a0.
+                     (∃a.
+                        a0 =
+                        (λa.
+                           ind_type$CONSTR 0 (a,ARB)
+                             (λn. ind_type$BOTTOM)) a) ∨
+                     (∃a.
+                        a0 =
+                        (λa.
+                           ind_type$CONSTR (SUC 0) (ARB,a)
+                             (λn. ind_type$BOTTOM)) a) ⇒
+                     'serviceKey' a0) ⇒
+                  'serviceKey' a0) rep
+    serviceKey_case_def
+      |- (∀a f f1. serviceKey_CASE (SERV a) f f1 = f a) ∧
+         ∀a f f1. serviceKey_CASE (K a) f f1 = f1 a
+    serviceKey_size_def
+      |- (∀a. serviceKey_size (SERV a) = 1 + servers_size a) ∧
+         ∀a. serviceKey_size (K a) = 1 + keys_size a
+
+Theorems:
+    access2num_11
+      |- ∀a a'. (access2num a = access2num a') ⇔ (a = a')
+    access2num_ONTO
+      |- ∀r. r < 3 ⇔ ∃a. r = access2num a
+    access2num_num2access
+      |- ∀r. r < 3 ⇔ (access2num (num2access r) = r)
+    access2num_thm
+      |- (access2num print = 0) ∧ (access2num read = 1) ∧
+         (access2num write = 2)
+    access_Axiom
+      |- ∀x0 x1 x2. ∃f. (f print = x0) ∧ (f read = x1) ∧ (f write = x2)
+    access_EQ_access
+      |- ∀a a'. (a = a') ⇔ (access2num a = access2num a')
+    access_case_cong
+      |- ∀M M' v0 v1 v2.
+           (M = M') ∧ ((M' = print) ⇒ (v0 = v0')) ∧
+           ((M' = read) ⇒ (v1 = v1')) ∧ ((M' = write) ⇒ (v2 = v2')) ⇒
+           ((case M of print => v0 | read => v1 | write => v2) =
+            case M' of print => v0' | read => v1' | write => v2')
+    access_case_def
+      |- (∀v0 v1 v2.
+            (case print of print => v0 | read => v1 | write => v2) =
+            v0) ∧
+         (∀v0 v1 v2.
+            (case read of print => v0 | read => v1 | write => v2) =
+            v1) ∧
+         ∀v0 v1 v2.
+           (case write of print => v0 | read => v1 | write => v2) = v2
+    access_distinct
+      |- print ≠ read ∧ print ≠ write ∧ read ≠ write
+    access_induction
+      |- ∀P. P print ∧ P read ∧ P write ⇒ ∀a. P a
+    access_nchotomy
+      |- ∀a. (a = print) ∨ (a = read) ∨ (a = write)
+    datatype_access
+      |- DATATYPE (access print read write)
+    datatype_keys
+      |- DATATYPE (keys KTGS KFS KU KUTGS KUFS)
+    datatype_people
+      |- DATATYPE (people Ursala)
+    datatype_princs
+      |- DATATYPE (princs PR User Key)
+    datatype_props
+      |- DATATYPE (props USE PK AC)
+    datatype_servers
+      |- DATATYPE (servers AS TGS FS)
+    datatype_serviceKey
+      |- DATATYPE (serviceKey SERV K)
+    init_auth_thm
+      |- (M,Oi,Os) sat Name (User Ursala) says prop (USE (SERV TGS)) ⇒
+         (M,Oi,Os) sat
+         prop (USE (SERV TGS)) impf
+         Name (Key KU) says prop (USE (K KUTGS)) andf
+         Name (Key KTGS) says prop (PK Ursala KUTGS) ⇒
+         (M,Oi,Os) sat
+         Name (User Ursala) controls prop (USE (SERV TGS)) ⇒
+         (M,Oi,Os) sat
+         Name (Key KU) says prop (USE (K KUTGS)) andf
+         Name (Key KTGS) says prop (PK Ursala KUTGS)
+    keys2num_11
+      |- ∀a a'. (keys2num a = keys2num a') ⇔ (a = a')
+    keys2num_ONTO
+      |- ∀r. r < 5 ⇔ ∃a. r = keys2num a
+    keys2num_num2keys
+      |- ∀r. r < 5 ⇔ (keys2num (num2keys r) = r)
+    keys2num_thm
+      |- (keys2num KTGS = 0) ∧ (keys2num KFS = 1) ∧ (keys2num KU = 2) ∧
+         (keys2num KUTGS = 3) ∧ (keys2num KUFS = 4)
+    keys_Axiom
+      |- ∀x0 x1 x2 x3 x4.
+           ∃f.
+             (f KTGS = x0) ∧ (f KFS = x1) ∧ (f KU = x2) ∧
+             (f KUTGS = x3) ∧ (f KUFS = x4)
+    keys_EQ_keys
+      |- ∀a a'. (a = a') ⇔ (keys2num a = keys2num a')
+    keys_case_cong
+      |- ∀M M' v0 v1 v2 v3 v4.
+           (M = M') ∧ ((M' = KTGS) ⇒ (v0 = v0')) ∧
+           ((M' = KFS) ⇒ (v1 = v1')) ∧ ((M' = KU) ⇒ (v2 = v2')) ∧
+           ((M' = KUTGS) ⇒ (v3 = v3')) ∧ ((M' = KUFS) ⇒ (v4 = v4')) ⇒
+           ((case M of
+               KTGS => v0
+             | KFS => v1
+             | KU => v2
+             | KUTGS => v3
+             | KUFS => v4) =
+            case M' of
+              KTGS => v0'
+            | KFS => v1'
+            | KU => v2'
+            | KUTGS => v3'
+            | KUFS => v4')
+    keys_case_def
+      |- (∀v0 v1 v2 v3 v4.
+            (case KTGS of
+               KTGS => v0
+             | KFS => v1
+             | KU => v2
+             | KUTGS => v3
+             | KUFS => v4) =
+            v0) ∧
+         (∀v0 v1 v2 v3 v4.
+            (case KFS of
+               KTGS => v0
+             | KFS => v1
+             | KU => v2
+             | KUTGS => v3
+             | KUFS => v4) =
+            v1) ∧
+         (∀v0 v1 v2 v3 v4.
+            (case KU of
+               KTGS => v0
+             | KFS => v1
+             | KU => v2
+             | KUTGS => v3
+             | KUFS => v4) =
+            v2) ∧
+         (∀v0 v1 v2 v3 v4.
+            (case KUTGS of
+               KTGS => v0
+             | KFS => v1
+             | KU => v2
+             | KUTGS => v3
+             | KUFS => v4) =
+            v3) ∧
+         ∀v0 v1 v2 v3 v4.
+           (case KUFS of
+              KTGS => v0
+            | KFS => v1
+            | KU => v2
+            | KUTGS => v3
+            | KUFS => v4) =
+           v4
+    keys_distinct
+      |- KTGS ≠ KFS ∧ KTGS ≠ KU ∧ KTGS ≠ KUTGS ∧ KTGS ≠ KUFS ∧
+         KFS ≠ KU ∧ KFS ≠ KUTGS ∧ KFS ≠ KUFS ∧ KU ≠ KUTGS ∧ KU ≠ KUFS ∧
+         KUTGS ≠ KUFS
+    keys_induction
+      |- ∀P. P KFS ∧ P KTGS ∧ P KU ∧ P KUFS ∧ P KUTGS ⇒ ∀a. P a
+    keys_nchotomy
+      |- ∀a.
+           (a = KTGS) ∨ (a = KFS) ∨ (a = KU) ∨ (a = KUTGS) ∨ (a = KUFS)
+    num2access_11
+      |- ∀r r'.
+           r < 3 ⇒ r' < 3 ⇒ ((num2access r = num2access r') ⇔ (r = r'))
+    num2access_ONTO
+      |- ∀a. ∃r. (a = num2access r) ∧ r < 3
+    num2access_access2num
+      |- ∀a. num2access (access2num a) = a
+    num2access_thm
+      |- (num2access 0 = print) ∧ (num2access 1 = read) ∧
+         (num2access 2 = write)
+    num2keys_11
+      |- ∀r r'. r < 5 ⇒ r' < 5 ⇒ ((num2keys r = num2keys r') ⇔ (r = r'))
+    num2keys_ONTO
+      |- ∀a. ∃r. (a = num2keys r) ∧ r < 5
+    num2keys_keys2num
+      |- ∀a. num2keys (keys2num a) = a
+    num2keys_thm
+      |- (num2keys 0 = KTGS) ∧ (num2keys 1 = KFS) ∧ (num2keys 2 = KU) ∧
+         (num2keys 3 = KUTGS) ∧ (num2keys 4 = KUFS)
+    num2people_11
+      |- ∀r r'.
+           r < 1 ⇒ r' < 1 ⇒ ((num2people r = num2people r') ⇔ (r = r'))
+    num2people_ONTO
+      |- ∀a. ∃r. (a = num2people r) ∧ r < 1
+    num2people_people2num
+      |- ∀a. num2people (people2num a) = a
+    num2people_thm
+      |- num2people 0 = Ursala
+    num2servers_11
+      |- ∀r r'.
+           r < 3 ⇒
+           r' < 3 ⇒
+           ((num2servers r = num2servers r') ⇔ (r = r'))
+    num2servers_ONTO
+      |- ∀a. ∃r. (a = num2servers r) ∧ r < 3
+    num2servers_servers2num
+      |- ∀a. num2servers (servers2num a) = a
+    num2servers_thm
+      |- (num2servers 0 = AS) ∧ (num2servers 1 = TGS) ∧
+         (num2servers 2 = FS)
+    people2num_11
+      |- ∀a a'. (people2num a = people2num a') ⇔ (a = a')
+    people2num_ONTO
+      |- ∀r. r < 1 ⇔ ∃a. r = people2num a
+    people2num_num2people
+      |- ∀r. r < 1 ⇔ (people2num (num2people r) = r)
+    people2num_thm
+      |- people2num Ursala = 0
+    people_Axiom
+      |- ∀x0. ∃f. f Ursala = x0
+    people_EQ_people
+      |- ∀a a'. (a = a') ⇔ (people2num a = people2num a')
+    people_case_cong
+      |- ∀M M' v0.
+           (M = M') ∧ ((M' = Ursala) ⇒ (v0 = v0')) ⇒
+           ((case M of Ursala => v0) = case M' of Ursala => v0')
+    people_case_def
+      |- ∀v0. (case Ursala of Ursala => v0) = v0
+    people_induction
+      |- ∀P. P Ursala ⇒ ∀a. P a
+    people_nchotomy
+      |- ∀a. a = Ursala
+    princs_11
+      |- (∀a a'. (PR a = PR a') ⇔ (a = a')) ∧
+         (∀a a'. (User a = User a') ⇔ (a = a')) ∧
+         ∀a a'. (Key a = Key a') ⇔ (a = a')
+    princs_Axiom
+      |- ∀f0 f1 f2.
+           ∃fn.
+             (∀a. fn (PR a) = f0 a) ∧ (∀a. fn (User a) = f1 a) ∧
+             ∀a. fn (Key a) = f2 a
+    princs_case_cong
+      |- ∀M M' f f1 f2.
+           (M = M') ∧ (∀a. (M' = PR a) ⇒ (f a = f' a)) ∧
+           (∀a. (M' = User a) ⇒ (f1 a = f1' a)) ∧
+           (∀a. (M' = Key a) ⇒ (f2 a = f2' a)) ⇒
+           (princs_CASE M f f1 f2 = princs_CASE M' f' f1' f2')
+    princs_distinct
+      |- (∀a' a. PR a ≠ User a') ∧ (∀a' a. PR a ≠ Key a') ∧
+         ∀a' a. User a ≠ Key a'
+    princs_induction
+      |- ∀P.
+           (∀s. P (PR s)) ∧ (∀p. P (User p)) ∧ (∀k. P (Key k)) ⇒ ∀p. P p
+    princs_nchotomy
+      |- ∀pp. (∃s. pp = PR s) ∨ (∃p. pp = User p) ∨ ∃k. pp = Key k
+    props_11
+      |- (∀a a'. (USE a = USE a') ⇔ (a = a')) ∧
+         (∀a0 a1 a0' a1'.
+            (PK a0 a1 = PK a0' a1') ⇔ (a0 = a0') ∧ (a1 = a1')) ∧
+         ∀a a'. (AC a = AC a') ⇔ (a = a')
+    props_Axiom
+      |- ∀f0 f1 f2.
+           ∃fn.
+             (∀a. fn (USE a) = f0 a) ∧
+             (∀a0 a1. fn (PK a0 a1) = f1 a0 a1) ∧ ∀a. fn (AC a) = f2 a
+    props_case_cong
+      |- ∀M M' f f1 f2.
+           (M = M') ∧ (∀a. (M' = USE a) ⇒ (f a = f' a)) ∧
+           (∀a0 a1. (M' = PK a0 a1) ⇒ (f1 a0 a1 = f1' a0 a1)) ∧
+           (∀a. (M' = AC a) ⇒ (f2 a = f2' a)) ⇒
+           (props_CASE M f f1 f2 = props_CASE M' f' f1' f2')
+    props_distinct
+      |- (∀a1 a0 a. USE a ≠ PK a0 a1) ∧ (∀a' a. USE a ≠ AC a') ∧
+         ∀a1 a0 a. PK a0 a1 ≠ AC a
+    props_induction
+      |- ∀P.
+           (∀s. P (USE s)) ∧ (∀p k. P (PK p k)) ∧ (∀a. P (AC a)) ⇒
+           ∀p. P p
+    props_nchotomy
+      |- ∀pp. (∃s. pp = USE s) ∨ (∃p k. pp = PK p k) ∨ ∃a. pp = AC a
+    request_for_services_thm
+      |- (M,Oi,Os) sat Name (Key KTGS) speaks_for Name (PR AS) ⇒
+         (M,Oi,Os) sat
+         prop (PK Ursala KUTGS) impf
+         Name (Key KUFS) says prop (AC read) ⇒
+         (M,Oi,Os) sat
+         prop (PK Ursala KUTGS) impf
+         Name (Key KFS) says
+         Name (Key KUFS) speaks_for Name (User Ursala) ⇒
+         (M,Oi,Os) sat Name (PR AS) controls prop (PK Ursala KUTGS) ⇒
+         (M,Oi,Os) sat
+         Name (Key KUTGS) says prop (USE (SERV FS)) andf
+         Name (Key KTGS) says prop (PK Ursala KUTGS) ⇒
+         (M,Oi,Os) sat
+         Name (Key KFS) says
+         Name (Key KUFS) speaks_for Name (User Ursala) andf
+         Name (Key KUFS) says prop (AC read)
+    servers2num_11
+      |- ∀a a'. (servers2num a = servers2num a') ⇔ (a = a')
+    servers2num_ONTO
+      |- ∀r. r < 3 ⇔ ∃a. r = servers2num a
+    servers2num_num2servers
+      |- ∀r. r < 3 ⇔ (servers2num (num2servers r) = r)
+    servers2num_thm
+      |- (servers2num AS = 0) ∧ (servers2num TGS = 1) ∧
+         (servers2num FS = 2)
+    servers_Axiom
+      |- ∀x0 x1 x2. ∃f. (f AS = x0) ∧ (f TGS = x1) ∧ (f FS = x2)
+    servers_EQ_servers
+      |- ∀a a'. (a = a') ⇔ (servers2num a = servers2num a')
+    servers_case_cong
+      |- ∀M M' v0 v1 v2.
+           (M = M') ∧ ((M' = AS) ⇒ (v0 = v0')) ∧
+           ((M' = TGS) ⇒ (v1 = v1')) ∧ ((M' = FS) ⇒ (v2 = v2')) ⇒
+           ((case M of AS => v0 | TGS => v1 | FS => v2) =
+            case M' of AS => v0' | TGS => v1' | FS => v2')
+    servers_case_def
+      |- (∀v0 v1 v2.
+            (case AS of AS => v0 | TGS => v1 | FS => v2) = v0) ∧
+         (∀v0 v1 v2.
+            (case TGS of AS => v0 | TGS => v1 | FS => v2) = v1) ∧
+         ∀v0 v1 v2. (case FS of AS => v0 | TGS => v1 | FS => v2) = v2
+    servers_distinct
+      |- AS ≠ TGS ∧ AS ≠ FS ∧ TGS ≠ FS
+    servers_induction
+      |- ∀P. P AS ∧ P FS ∧ P TGS ⇒ ∀a. P a
+    servers_nchotomy
+      |- ∀a. (a = AS) ∨ (a = TGS) ∨ (a = FS)
+    serviceKey_11
+      |- (∀a a'. (SERV a = SERV a') ⇔ (a = a')) ∧
+         ∀a a'. (K a = K a') ⇔ (a = a')
+    serviceKey_Axiom
+      |- ∀f0 f1. ∃fn. (∀a. fn (SERV a) = f0 a) ∧ ∀a. fn (K a) = f1 a
+    serviceKey_case_cong
+      |- ∀M M' f f1.
+           (M = M') ∧ (∀a. (M' = SERV a) ⇒ (f a = f' a)) ∧
+           (∀a. (M' = K a) ⇒ (f1 a = f1' a)) ⇒
+           (serviceKey_CASE M f f1 = serviceKey_CASE M' f' f1')
+    serviceKey_distinct
+      |- ∀a' a. SERV a ≠ K a'
+    serviceKey_induction
+      |- ∀P. (∀s. P (SERV s)) ∧ (∀k. P (K k)) ⇒ ∀s. P s
+    serviceKey_nchotomy
+      |- ∀ss. (∃s. ss = SERV s) ∨ ∃k. ss = K k
+    service_request_thm
+      |- (M,Oi,Os) sat Name (Key KFS) speaks_for Name (PR TGS) ⇒
+         (M,Oi,Os) sat Name (User Ursala) controls prop (AC print) ⇒
+         (M,Oi,Os) sat
+         Name (PR TGS) controls
+         Name (Key KUFS) speaks_for Name (User Ursala) ⇒
+         (M,Oi,Os) sat
+         Name (Key KFS) says
+         Name (Key KUFS) speaks_for Name (User Ursala) andf
+         Name (Key KUFS) says prop (AC print) ⇒
+         (M,Oi,Os) sat prop (AC print)
+    session_key_receipt_thm
+      |- (M,Oi,Os) sat Name (Key KU) speaks_for Name (PR AS) ⇒
+         (M,Oi,Os) sat
+         prop (USE (K KUTGS)) impf
+         Name (Key KUTGS) says prop (USE (SERV FS)) ⇒
+         (M,Oi,Os) sat Name (PR AS) controls prop (USE (K KUTGS)) ⇒
+         (M,Oi,Os) sat
+         Name (Key KU) says prop (USE (K KUTGS)) andf
+         Name (Key KTGS) says prop (PK Ursala KUTGS) ⇒
+         (M,Oi,Os) sat
+         Name (Key KUTGS) says prop (USE (SERV FS)) andf
+         Name (Key KTGS) says prop (PK Ursala KUTGS)
+Exporting theory "exam4" ... done.
+Theory "exam4" took 1.2s to build
+structure exam4Script:
+  sig
+  end
+val it = (): unit
+> 
+
+Process HOL finished

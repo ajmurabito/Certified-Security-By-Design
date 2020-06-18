@@ -1,0 +1,313 @@
+\documentclass{report}
+\title{Project 2 Report}
+\author{Alfred Murabito}
+\date{today}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% textcomp provides additional symbols
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% -------------------------------\--------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+\begin{document}
+
+%% --------------------------------------------------- the listings
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+\maketitle{}
+
+
+\chapter{Exericse 4.6.3}
+\label{cha:exericse-4.6.3}
+
+\section{Problem Statement}
+\label{sec:problem-statement}
+
+Showing function declarations using pattern matching
+
+\subsection{Functions to implement}
+\label{sec:functions-implement}
+
+\begin{center}
+  
+\end{center}
+
+\section{Relevant Code}
+\label{sec:relevant-code}
+
+The following functions are defined in ML using\emph{fn} and \emph{val} to 
+define and name the function and then using \emph{fun} to define and name the same
+function.
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+  (* A functions *)
+  val funa1 = fn (x, y, z) => x + y + z;
+  fun funa2 (x, y, z) = x + y + z;
+
+  (* B functions *)
+  val funb1 = (fn x => (fn y => x < y));
+  fun funb2 x y = x < y;
+
+  (* C function takes two strings and concatenates them *)
+  val func1 = fn s1 => (fn s2 => s1 ^ s2);
+  fun func2 s1 s2 = s1 ^ s2;
+ 
+  (* D Function that takes two lists list1 and list2 and appends them *)
+  val fund1 = fn list1 => (fn list2 => list1 @ list2);
+  fun fund2 list1 list2 = list1 @ list;
+
+  (* E Function that returns larger of a pair of values *)
+  val fune1 = fn x => fn y => if x > y then x else y;
+  fun fune2 x y = if x > y then x else y;
+
+
+\end{lstlisting}
+
+\section{Test Cases}
+\label{sec:test-cases}
+
+Required test cases for funa1, funa2 as follows
+\begin{lstlisting}[frame=TB]
+(******************************************************************************)
+(* Test Cases Specified in the requirements A                                 *)
+(******************************************************************************)
+
+funa1 (1,2,3);
+funa1 (4,5,6);
+funa1 (7,8,9);
+
+funa2 (1,2,3);
+funa2 (4,5,6);
+funa2 (7,8,9);
+\end{lstlisting}
+
+\begin{lstlisting}
+  (******************************************************************************)
+(* Test Cases Specified in the requirements for B                             *)
+(******************************************************************************)
+
+funb1 0 0;
+funb1 1 2;
+funb1 4 3;
+
+funb2 0 0;
+funb2 1 2;
+funb2 4 3;
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for C                             *)
+(******************************************************************************)
+
+func1 "Hi" " there!";
+func1 "Oh " "no!";
+func1 "What" " the …";
+
+func2 "Hi" " there!";
+func2 "Oh " "no!";
+func2 "What" " the …";
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for D                            *)
+(******************************************************************************)
+
+fund1 [0,1] [2,3,4];
+fund1 [] [0,1];
+fund1 [true,true] [];
+
+fund2 [0,1] [2,3,4];
+fund2 [] [0,1];
+fund2 [true,true] [];
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for E                             *)
+(******************************************************************************)
+
+fune1 2 1;
+fune1 5 5;
+fune1 5 10;
+
+fune2 2 1;
+fune2 5 5;
+fune2 5 10;
+\end{lstlisting}
+
+\section{Execution Transcripts}
+\label{sec:exec-transcr}
+
+\begin{lstlisting}
+  > (* Exercise 4.6.3 *)
+
+(* function takes 3-tuple integer input and outputs the sum *)
+val funa1 = fn (x, y, z) => x + y + z;
+fun funa2 (x, y, z) = x + y + z;
+
+funa1 (1,2,3);
+funa1 (4,5,6);
+funa1 (7,8,9);
+
+funa2 (1,2,3);
+funa2 (4,5,6);
+funa2 (7,8,9);
+# # # val funa1 = fn: int * int * int -> int
+> val funa2 = fn: int * int * int -> int
+> > val it = 6: int
+> val it = 15: int
+> val it = 24: int
+> > val it = 6: int
+> val it = 15: int
+> val it = 24: int
+\end{lstlisting}
+
+\begin{lstlisting}
+  (* function takes two integer input and returns x < y *)
+val funb1 = (fn x => (fn y => x < y)); 
+fun funb2 x y = x < y;
+
+funb1 0 0;
+funb1 1 2;
+funb1 4 3;
+
+funb2 0 0;
+funb2 1 2;
+funb2 4 3;
+
+# val funb1 = fn: int -> int -> bool
+> val funb2 = fn: int -> int -> bool
+> > val it = false: bool
+> val it = true: bool
+> val it = false: bool
+> > val it = false: bool
+> val it = true: bool
+> val it = false: bool
+\end{lstlisting}
+
+\begin{lstlisting}
+> (* function takes two strings and concatenates them *)
+val func1 = fn s1 => (fn s2 => s1 ^ s2);
+fun func2 s1 s2 = s1 ^ s2;
+
+func1 "Hi" " there!";
+func1 "Oh " "no!";
+func1 "What" " the …";
+
+func2 "Hi" " there!";
+func2 "Oh " "no!";
+func2 "What" " the …";
+# val func1 = fn: string -> string -> string
+> val func2 = fn: string -> string -> string
+> > val it = "Hi there!": string
+> val it = "Oh no!": string
+> val it = "What the \226\128\166": string
+> > val it = "Hi there!": string
+> val it = "Oh no!": string
+> val it = "What the \226\128\166": string
+> 
+
+\end{lstlisting}
+
+\begin{lstlisting}
+>   (* Function that takes two lists list1 and list2 and appends them *)
+val fund1 = fn list1 => (fn list2 => list1 @ list2);
+fun fund2 list1 list2 = list1 @ list2;
+
+fund1 [0,1] [2,3,4];
+fund1 [] [0,1];
+fund1 [true,true] [];
+
+fund2 [0,1] [2,3,4];
+fund2 [] [0,1];
+fund2 [true,true] [];
+# val fund1 = fn: 'a list -> 'a list -> 'a list
+> val fund2 = fn: 'a list -> 'a list -> 'a list
+> > val it = [0, 1, 2, 3, 4]: int list
+> val it = [0, 1]: int list
+> val it = [true, true]: bool list
+> > val it = [0, 1, 2, 3, 4]: int list
+> val it = [0, 1]: int list
+> val it = [true, true]: bool list
+\end{lstlisting}
+
+\begin{lstlisting}
+> (* Function that returns larger of a pair of values *)
+val fune1 = fn x => fn y => if x > y then x else y;
+fun fune2 x y = if x > y then x else y;
+
+fune1 2 1;
+fune1 5 5;
+fune1 5 10;
+
+fune2 2 1;
+fune2 5 5;
+fune2 5 10;
+# val fune1 = fn: int -> int -> int
+> val fune2 = fn: int -> int -> int
+> > val it = 2: int
+> val it = 5: int
+> val it = 10: int
+> > val it = 2: int
+> val it = 5: int
+> val it = 10: int  (* Function that returns larger of a pair of values *)
+
+\end{lstlisting}
+\chapter{Exercise 4.6.4}
+\label{cha:exercise-4.6.4}
+
+\section{Problem Statement}
+\label{sec:problem-statement-1}
+Defining a function in ML called listSquares that returns an empty list when
+applied to an empty list and returns a list with the square of each element in
+the list if it is a non-empty list. Define using the let expression.
+
+\section{Relevant Code}
+\label{sec:relevant-code-1}
+
+\section{Test Cases}
+\label{sec:test-cases-1}
+
+\section{Exectution Transcripts}
+\label{sec:exect-transcr}
+
+
+
+
+
+\end{document}

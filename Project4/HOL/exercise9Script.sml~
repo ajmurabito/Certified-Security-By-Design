@@ -1,0 +1,27 @@
+(******************************************************************************)
+(* Author: Alfred Murabito                                                    *)
+(* Date: 21 March 2020                                                        *)
+(* email: acmurabi@syr.edu                                                    *)
+(******************************************************************************)
+
+structure exercise9Script = struct
+
+open HolKernel boolLib Parse bossLib
+
+val _ = new_theory "exercise9"
+
+(*Exercise Proof *)
+(*
+val absorptionRule = 
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool).(p ==> q) ==> p ==> (p /\ q)``),
+REPEAT STRIP_TAC THENL
+[(ACCEPT_TAC (ASSUME ``p:bool``)),
+(ACCEPT_TAC (MP (ASSUME ``p:bool==>q:bool``) (ASSUME ``p:bool``)))])
+*)
+
+val _ = print_theory "-";
+
+val _ = export_theory();
+
+end (* structure *)

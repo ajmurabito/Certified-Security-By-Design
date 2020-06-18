@@ -1,0 +1,195 @@
+
+\documentclass[letterpaper]{report}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+
+\title{Project 1}
+\author{\textbf{Alfred Murabito}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract}
+\noindent{}This report details results for the following exercise from \textit{Certified Security by Design Using Higher Order Logic}: 2.5.1, 3.4.1, and 3.4.2. We go over function definitions in  ML 
+as well as ML types and type errors.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description and the results of each exercise are detailed in this project report. Each exercise is detailed with a problem statement, relevant
+code, and execution transcripts as listed in requirements.
+
+\newpage
+
+\chapter{Exercise 2.5.1}
+\label{cha:exercise-2.5.1}
+
+\section{Problem Statement}
+We define a function in ML and evaluate it in HOL. The function
+returns a tuple of the sum and product of two numbers.
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+  fun timesPlus x y = (x*y, x+y);
+\end{lstlisting}
+
+\section{Test Cases}
+
+\noindent Test cases below as listed in the project1 requirements.
+
+\begin{lstlisting}
+(* Test Cases *)
+timesPlus 100 27;
+timesPlus 10 26;
+timesPlus 1 25;
+timesPlus 2 24;
+timesPlus 30 23;
+timesPlus 50 200;
+\end{lstlisting}
+
+\noindent Reults below:
+\verbatiminput{ML/ex251.trans}
+
+\newpage
+
+\chapter{Exercise 3.4.1}
+\label{cha:exercise-3.4.1}
+
+\section{Problem Statement}
+We explore val definitons using pattern matching on tuples and lists in 
+this example. The execution of our value declarations shown below.
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+(* Part A *)
+val listA = [(0,"Alice"),(1,"Bob"),(3,"Carol"),(4,"Dan")]
+
+(* Part B *)
+val e1B::listB = listA;
+
+(* Part C *)
+val (e1C1,e1C2) = e1B;
+val [e1C3,e1C4,e1C5] = listB;
+\end{lstlisting}
+
+\section{Test Cases}
+
+Results below:
+\verbatiminput{ML/ex341.trans}
+
+\newpage
+
+\chapter{Exercise 3.4.2}
+\label{cha:exercise-3.4.2}
+
+\section{Problem Statement}
+
+In this exercise, we execute ML code and observe a couple type errors that occur in the following
+value definitons.
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+val (x1,x2,x3) = (1,true,"Alice");
+val pair1 = (x1,x3);
+val list1 = [0,x1,2];
+val list2 = [x2,x1];
+val list3 = (1 :: [x3]);
+\end{lstlisting}
+
+
+\section{Test Cases}
+
+The last two definitons produce errors because (``x2'' and ``x1'') and (1 and ``x3'') 
+are different types and a list must have all elements be of the same type. 
+
+\noindent Results below:
+\verbatiminput{ML/ex342.trans}
+
+\appendix
+
+\chapter{Exercise 2.5.1 Source Code}
+\label{cha:exerc-2.5.1-source}
+
+\verbatiminput{ML/ex251.sml}
+
+\newpage
+
+\chapter{Exercise 3.4.1 Source Code}
+\label{cha:exerc-3.4.1-source}
+
+\verbatiminput{ML/ex341.sml}
+
+\newpage
+
+\chapter{Exercise 3.4.2 Source Code}
+\label{cha:exerc-3.4.2-source}
+
+\verbatiminput{ML/ex342.sml}
+
+\end{document}

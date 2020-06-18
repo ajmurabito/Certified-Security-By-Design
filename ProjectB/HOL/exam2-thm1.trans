@@ -1,0 +1,61 @@
+> val a1 = ``(Name (PR (Users Mary))) says (prop (AC Mary)):(accounts,principals,'d,'e)Form``
+val a2 = ``(Name (Role KennedyCenter)) controls ((Name (PR (Users Mary))) controls (prop (AC Mary)))
+	   	   :(accounts,principals,'d,'e)Form``
+val a3 = ``((Name (Pass (Users Mary))) speaks_for (Name (Role KennedyCenter))):(accounts,principals,'d,'e)Form``
+val a4 = ``(Name (Pass (Users Mary))) says ((Name (PR (Users Mary))) controls (prop (AC Mary))):(accounts,principals,'d,'e)Form``
+
+val [a1_thm,a2_thm,a3_thm,a4_thm] = map ACL_ASSUM [a1,a2,a3,a4]
+
+val thm1 = SPEAKS_FOR a3_thm a4_thm
+val thm2 = CONTROLS a2_thm thm1
+val exam2_1_thm = CONTROLS thm2 a1_thm;
+# # # # # # # # # # val a1 =
+   “Name (PR (Users Mary)) says prop (AC Mary)”:
+   term
+val a1_thm =
+    [.] |- (M,Oi,Os) sat Name (PR (Users Mary)) says prop (AC Mary):
+   thm
+val a2 =
+   “Name (Role KennedyCenter) controls Name (PR (Users Mary)) controls
+ prop (AC Mary)”:
+   term
+val a2_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (Role KennedyCenter) controls Name (PR (Users Mary)) controls
+   prop (AC Mary):
+   thm
+val a3 =
+   “Name (Pass (Users Mary)) speaks_for Name (Role KennedyCenter)”:
+   term
+val a3_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (Pass (Users Mary)) speaks_for Name (Role KennedyCenter):
+   thm
+val a4 =
+   “Name (Pass (Users Mary)) says Name (PR (Users Mary)) controls
+ prop (AC Mary)”:
+   term
+val a4_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (Pass (Users Mary)) says Name (PR (Users Mary)) controls
+   prop (AC Mary):
+   thm
+val exam2_1_thm =
+    [....] |- (M,Oi,Os) sat prop (AC Mary):
+   thm
+val thm1 =
+    [..]
+|- (M,Oi,Os) sat
+   Name (Role KennedyCenter) says Name (PR (Users Mary)) controls
+   prop (AC Mary):
+   thm
+val thm2 =
+    [...] |- (M,Oi,Os) sat Name (PR (Users Mary)) controls prop (AC Mary):
+   thm
+>    thm
+
+
+Process HOL finished

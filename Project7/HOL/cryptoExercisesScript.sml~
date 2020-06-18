@@ -1,0 +1,108 @@
+(*
+app load ["isainfRules","TypeBase","optionTheory", "cipherTheory"]
+*)
+
+structure ch15Script = struct
+
+open HolKernel boolLib Parse bossLib
+open TypeBase isainfRules optionTheory cipherTheory stringTheory
+
+val _ = new_theory "ch15"
+
+(* Part 1_A
+set_goal([],
+``! keyk enMsg message.
+(deciphS key enMsg = SOME message) <=>
+(enMsg = Es key (SOME message))``)
+*)
+
+val exercise15_6_1a_thm = 
+TAC_PROOF(
+([], ``! keyk enMsg message.
+(deciphS key enMsg = SOME message) <=>
+(enMsg = Es key (SOME message))``),
+ASM_REWRITE_TAC[deciphS_one_one]
+)
+
+(* Part 1_B
+set_goal
+([],``! keyAlice k text.
+(deciphS keyAlice (Es k (SOME text)) =
+SOME "This is from Alice") <=>
+(k = keyAlice) /\ (text = "This is from Alice")``)
+ASM_REWRITE_TAC[deciphS_one_one]
+PROVE_TAC []
+*)
+
+val exercise15_6_1b_thm = 
+TAC_PROOF(
+([],``! keyAlice k text.
+(deciphS keyAlice (Es k (SOME text)) =
+SOME "This is from Alice") <=>
+(k = keyAlice) /\ (text = "This is from Alice")``),
+PROVE_TAC [deciphS_one_one])
+
+(* 15_6_2a
+set_goal
+([], ``! P message.
+(deciphP (pubK P) enMsg = SOME message) <=>
+(enMsg = Ea (privK P) (SOME message))``)
+ASM_REWRITE_TAC [deciphP_one_one]
+*)
+
+val exercise15_6_2a_thm = 
+TAC_PROOF(
+([], ``! P message.
+(deciphP (pubK P) enMsg = SOME message) <=>
+(enMsg = Ea (privK P) (SOME message))``),
+ASM_REWRITE_TAC [deciphP_one_one])
+
+(* 15_6_2b
+set_goal
+([], ``! key text.
+(deciphP (pubK Alice) (Ea key (SOME text)) =
+SOME "This is from Alice") <=>
+(key = privK Alice) /\ (text = "This is from Alice")``)
+PROVE_TAC [deciphP_one_one]
+*)
+
+val exercise15_6_2b_thm =
+TAC_PROOF (
+([], ``! key text.
+(deciphP (pubK Alice) (Ea key (SOME text)) =
+SOME "This is from Alice") <=>
+(key = privK Alice) /\ (text = "This is from Alice")``),
+PROVE_TAC [deciphP_one_one]
+)
+
+(* exercise15_6_3_thm
+set_goal
+([], ``! signature.
+signVerify (pubK Alice) signature
+(SOME "This is from Alice") <=>
+(signature =
+sign (privK Alice) (hash (SOME "This is from Alice")))``)
+PROVE_TAC [signVerify_one_one]
+*)
+
+val exercise15_6_3_thm =
+TAC_PROOF (
+([], ``! signature.
+signVerify (pubK Alice) signature
+(SOME "This is from Alice") <=>
+(signature =
+sign (privK Alice) (hash (SOME "This is from Alice")))``),
+PROVE_TAC [signVerify_one_one]
+)
+
+val _ = save_thm("exercise15_6_1a_thm", exercise15_6_1a_thm)
+val _ = save_thm("exercise15_6_1b_thm", exercise15_6_1b_thm)
+val _ = save_thm("exercise15_6_2a_thm", exercise15_6_2a_thm)
+val _ = save_thm("exercise15_6_2b_thm", exercise15_6_2b_thm)
+val _ = save_thm("exercise15_6_3_thm", exercise15_6_3_thm)
+
+val _ = print_theory "-";
+
+val _ = export_theory();
+
+end

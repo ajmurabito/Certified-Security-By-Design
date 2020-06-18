@@ -1,0 +1,17 @@
+(************************************************************)
+(* documentation.sml: 10 March 2013                         *)
+(* Author: Shiu-Kai Chin                                    *)
+(* File used to generate documentation for reports in LaTeX *)
+(************************************************************)
+
+(* We need to load the HOL theories we want to print out *)
+(* as well as the EmitTeX library in HOL, which          *)
+(* generates the LaTeX macros for us.                    *)
+
+app load 
+ ["exTypeTheory","bexpTheory","nexpTheory","EmitTeX"];
+open exTypeTheory bexpTheory nexpTheory EmitTeX;
+
+print_theories_as_tex_doc
+["exType","bexp","nexp"] "examplesReport";
+

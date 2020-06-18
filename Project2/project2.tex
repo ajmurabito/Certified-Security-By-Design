@@ -1,0 +1,419 @@
+
+\documentclass[letterpaper]{report}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+
+\title{Project 2}
+\author{\textbf{Alfred Murabito}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract}
+\noindent{}This report details results for the following exercise from \textit{Certified Security by Design Using Higher Order Logic}: 4.6.3, 4.6.4, 5.3.4, 5.3.5, and 6.2.1.  
+We define functions using pattern matching and got famaliar with HOL's logical symbols.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description and the results of each exercise are detailed in this project report.  
+
+\newpage
+
+\chapter{Exercise 4.6.3}
+\label{sec:ex-4-6-3}
+
+\section{Problem Statement}
+
+In this exercise I defined functions using the both the fun keyword and by using val assignmetns
+on lambda functions. Test results verifying the functions' intended behaviors follows.
+
+\begin{description}
+\item[Capabilities:] ML functions defined to perform the following tasks:
+   \begin{itemize}
+   \item return the sum of elements in a 3-tuple
+   \item determine whether one integer value is less than another
+   \item concatenate two strings
+   \item append lists
+   \item determine whether one integer value is greater than another and return the larger integer value
+   \end{itemize}
+\end{description}
+
+
+\section{Relevant Code}
+\label{sec:problem-statement}
+
+The following code snippets illustrate relevant sections of code developed to perform the above described tasks.\newline 
+
+Part A:
+\begin{lstlisting}
+val funa1 = fn (x, y, z) => x + y + z;
+fun funa2 (x, y, z) = x + y + z;
+\end{lstlisting}
+
+Part B:
+\begin{lstlisting}
+val funb1 = (fn x => (fn y => x < y)); 
+fun funb2 x y = x < y;
+\end{lstlisting}
+
+Part C:
+\begin{lstlisting}
+val func1 = fn s1 => (fn s2 => s1 ^ s2);
+fun func2 s1 s2 = s1 ^ s2;
+\end{lstlisting}
+
+Part D:
+\begin{lstlisting}
+val fund1 = fn list1 => (fn list2 => list1 @ list2);
+fun fund2 list1 list2 = list1 @ list2;
+\end{lstlisting}
+
+Part E:
+\begin{lstlisting}
+val fune1 = fn (x,y) => if x > y then x else y;
+fun fune2 (x,y) = if x > y then x else y;
+\end{lstlisting}
+
+
+\section{Test Cases and Results}
+\label{sec:tests}
+
+\vspace{12px}
+\indent Test cases for Part A:
+\begin{lstlisting}
+funa1 (1,3,4);             (* Expect 8 *)
+funa2 (1,3,4);
+funa1 (~1,0,1);            (* Expect 0 *)
+funa2 (~1,0,1);
+funa1 (489,2,34);          (* Expect 525 *)
+funa2 (489,2,34);
+\end{lstlisting}
+
+\verbatiminput{ML/ex463a.trans}
+
+Test cases for Part B:
+\begin{lstlisting}
+funb1 1 2;                 (* Expect true *)
+funb2 1 2;
+funb1 ~1 0;                (* Expect true *)
+funb2 ~1 0;
+funb1 ~3 ~44;              (* Expect false *)
+funb2 ~3 ~44;
+\end{lstlisting}
+
+Results for Part B:
+\verbatiminput{ML/ex463b.trans}
+
+Test cases for Part C:
+\begin{lstlisting}
+func1 "hello" " world";      (* Expect "hello world" *)
+func2 "hello" " world";
+func1 "" "asdf";            (* Expect "asdf" *)
+func2 "" "asdf";
+\end{lstlisting}
+
+Results for Part C:
+\verbatiminput{ML/ex463c.trans}
+
+Test cases for Part D:
+\begin{lstlisting}
+fund1 [1,2,3] [4,5];       (* Expect [1,2,3,4,5] *)
+fund2 [1,2,3] [4,5];
+fund1 [] [1,2,3];          (* Expect [1,2,3] *)
+fund2 [] [1,2,3];
+fund1 ["a","b","c"] [];          (* Expect ["a","b","c"] *)
+fund2 ["a","b","c"] [];          (* Expect ["a","b","c"] *)
+fund1 [true, false] [false, false, false]  (* Expect [true, false, false, false] *)
+fund2 [true, false] [false, false, false]  (* Expect [true, false, false, false] *)
+\end{lstlisting}
+
+Results for Part D:
+\verbatiminput{ML/ex463d.trans}
+
+Test cases for Part E:
+\begin{lstlisting}
+fune1 (34, 55);	                 (* Expect 55 *)
+fune2 (34, 55);
+fune1 (~11, 478);	         (* Expect 478 *)
+fune2 (~11, 478);
+fune1 (0, 0);                    (* Expect 0 *)
+fune2 (0, 0);               
+\end{lstlisting}
+
+Results for Part E:
+\verbatiminput{ML/ex463e.trans}
+
+\newpage
+
+
+\chapter{Exercise 4.6.4}
+\label{sec:ex-4-6-4}
+
+\section{Problem Statement}
+For this exercise a function is defined that squares each element of a list, unless the list is empty. 
+We use a ``let'' expression to define the function
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun listSquares [] = []
+  | listSquares (x::xs) = 
+  let
+    fun square y = y * y
+  in
+    square(x)::listSquares(xs)
+  end;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 4.6.4:
+\begin{lstlisting}
+listSquares [];               (* Expect [] *)
+listSquares [1,2,4,8];        (* Expect [1,4,16,64] *)
+listSquares [5,12,7,~1];      (* Expect [25,144,49,1] *)
+\end{lstlisting}
+
+Results for Exercise 4.6.4:
+\verbatiminput{ML/ex464.trans}
+
+\newpage
+
+
+\chapter{Exercise 5.3.4}
+\label{sec:ex-5-3-4}
+
+\section{Problem Statement}
+The goal of this exercise is to define the function Filter that has identical behavior to the filter function.
+Filter accepts a function B and a list where every element ``x'' in the list where ``B x'' is true is in the list
+returned. Test cases matching the ML function and our function follows as well.
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun Filter B [] = []
+  | Filter B (x::xs) = if B x then x :: (Filter B xs) else (Filter B xs);
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 5.3.4:
+\begin{lstlisting}
+Filter (fn x => x < 5) [];		   (* Expect [] *)
+filter (fn x => x < 5) [];
+
+Filter (fn x => x < 5) [4,6];		   (* Expect [4] *)
+filter (fn x => x < 5) [4,6];
+
+Filter (fn x => x < 5) [1,2,4,8,16];	   (* Expect [1,2,4] *)
+filter (fn x => x < 5) [1,2,4,8,16];
+
+Filter (fn x => x < 5) [5,6,7,8];	   (* Expect [] *)
+filter (fn x => x < 5) [5,6,7,8];
+
+Filter (fn x => x = "cat") ["dog","bird"]; (* Expect [] *)
+filter (fn x => x = "cat") ["dog","bird"];
+
+Filter (fn x => x = "cat") ["cat","dog","cat"];	     (* Expect ["cat","cat"] *)
+filter (fn x => x = "cat") ["cat","dog","cat"];
+\end{lstlisting}
+
+Results for Exercise 5.3.4:
+
+\verbatiminput{ML/ex534.trans}
+
+\newpage
+
+
+
+\chapter{Exercise 5.3.5}
+\label{sec:ex-5-3-5}
+
+\section{Problem Statement}
+This exercise involves defining a function which accepts a number ``n'' and  a list of pairs of integers
+and returns a list with the sum of all pairs that were both greter than the given parameter ``n''. 
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun addPairsGreaterThan n list =
+let
+  fun addPair (x,y) = x + y
+  val filteredList = filter (fn (x,y) => x > n andalso y > n) list
+in
+  map addPair filteredList
+end;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 5.3.5:
+\begin{lstlisting}
+(* Test Cases                   *)
+addPairsGreaterThan 0 [(0,1),(2,0),(2,3),(4,5)];   (* expect [5,9] *)
+addPairsGreaterThan 2 [(0,1),(2,0),(2,3),(4,5)];   (* expect [9] *)
+addPairsGreaterThan 4 [(0,1),(2,0),(2,3),(4,5)];   (* expect [] *)
+\end{lstlisting}
+
+Results for Exercise 5.3.5:
+
+\verbatiminput{ML/ex535.trans}
+
+\newpage
+
+
+\chapter{Exercise 6.2.1}
+\label{sec:ex-6-2-1}
+
+\section{Problem Statement}
+For this exercise HOL functionality is implemented and tested for basic HOL types and operators.
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+(* 1: Enter the HOL equivalent of P(x) *)
+``P x ==> Q y``;
+
+(* 2: Constrain x to HOL type :num and y to :bool *)
+``P (x:num) ==> Q (y:bool)``;
+
+(* 3: Enter the HOL equivalent of forall x y.P(x) ==> Q(y) *)
+``!x y.P(x) ==> Q(y)``;
+
+(* 4: Enter the HOL equivalent of \exists (x:num).R(x:'a) *)
+``?(x:num).R(x:num)``;
+
+(* 5: *)
+``~!x.P(x)\/Q(x) = ?x.~P(x)/\~Q(x)``;
+
+(* 6: All people are mortal, where P(x) means x is a person, *)
+(*   and M(x) means x is mortal. *)
+``!x.P(x) ==> M(x)``;
+
+(* 7: Some people are funny. *)
+``?x.Funny(x)``;
+
+(* 4b: Enter the HOL equivalent of \exists (x:num).R(x:'a) *)
+``?(x:num).R(x:'a)``;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+For Exercise 6.2.1 the test cases are the HOL types and operators shown in the ``Relevant Code'' section above.  
+
+\verbatiminput{ML/ex621.trans}
+
+\begin{description}
+\item[Results] Below are the observations for each test case
+  \begin{enumerate}
+  \item x is type 'a, y is type 'b', P is type ('a -> bool), Q is type ('b -> bool)
+  \item x is type ``num'' and y is type ``bool'' as expected
+  \item x and y are polymorphic types 'a, 'b, since none specified. P and Q must return bools since they are part of the implication statement
+  \item The HOL term fails since x is defined as type ``num'' then again as 'a. The correct statement with x as ``num'' is shown with the rest of the correct ones.
+  \item Entered as described and executed
+  \item M(x) represents subject is mortal, P(x) represents subject is a person
+  \item Funny(x) represents the subject is funny.
+  \end{enumerate}
+\end{description}
+
+
+\newpage
+
+
+
+\appendix
+
+\chapter{Exercise 4.6.3 Source Code}
+
+\verbatiminput{ML/ex463.sml}
+
+\newpage
+
+\chapter{Exercise 4.6.4 Source Code}
+
+\verbatiminput{ML/ex464.sml}
+
+\newpage
+
+\chapter{Exercise 5.3.4 Source Code}
+
+\verbatiminput{ML/ex534.sml}
+
+\newpage
+
+\chapter{Exercise 5.3.5 Source Code}
+
+\verbatiminput{ML/ex535.sml}
+
+\newpage
+
+\chapter{Exercise 6.2.1 Source Code}
+
+\verbatiminput{ML/ex621.sml}
+
+
+\end{document}

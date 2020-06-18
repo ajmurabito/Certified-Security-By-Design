@@ -1,0 +1,16 @@
+(* Excercise 8_4_1 *)
+val prolem1Thm =
+let
+  val p_term = ``p:bool``
+  val q_term = ``q:bool``
+  val r_term = ``r:bool``
+  val p_imp_q = mk_imp (p_term, q_term)
+  val q_imp_r = mk_imp (q_term, r_term)
+  val thm1 = ASSUME p_term
+  val thm2 = ASSUME p_imp_q
+  val thm3 = MP (ASSUME p_imp_q) (ASSUME p_term)
+  val thm4 = MP (ASSUME q_imp_r) thm3
+in
+  DISCH p_term (DISCH p_imp_q (DISCH q_imp_r thm4))
+end;
+  

@@ -1,0 +1,17 @@
+> val exercise15_6_3_thm =
+TAC_PROOF (
+([], ``! signature.
+signVerify (pubK Alice) signature
+(SOME "This is from Alice") <=>
+(signature =
+sign (privK Alice) (hash (SOME "This is from Alice")))``),
+PROVE_TAC [signVerify_one_one]
+);
+# # # # # # # # <<HOL message: inventing new type variable names: 'a>>
+Meson search level: ..........
+val exercise15_6_3_thm =
+   |- ∀signature.
+     signVerify (pubK Alice) signature (SOME "This is from Alice") ⇔
+     (signature = sign (privK Alice) (hash (SOME "This is from Alice"))):
+   thm
+> 

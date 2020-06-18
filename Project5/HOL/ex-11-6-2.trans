@@ -1,0 +1,23 @@
+> # # # Definition has been stored under "APP_def"
+val APP_def =
+   |- (∀l. APP [] l = l) ∧ ∀h l1 l2. APP (h::l1) l2 = h::APP l1 l2:
+   thm
+
+> val Map_def =
+Define
+ `(Map f [] = []) /\
+ (Map f (h::(l1:'a list)) = (f h)::(Map f l1))`;
+# # # <<HOL message: inventing new type variable names: 'b>>
+Definition has been stored under "Map_def"
+val Map_def =
+   |- (∀f. Map f [] = []) ∧ ∀f h l1. Map f (h::l1) = f h::Map f l1:
+   thm
+> val Map_APP =
+TAC_PROOF (
+([], ``Map f (APP l1 l2) = APP (Map f l1) (Map f l2)``),
+Induct_on `l1` THEN
+ASM_REWRITE_TAC [APP_def, Map_def]);
+# # # # <<HOL message: inventing new type variable names: 'a, 'b>>
+val Map_APP =
+   |- Map f (APP l1 l2) = APP (Map f l1) (Map f l2):
+   thm

@@ -1,0 +1,104 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+
+> > > > > Loading example1Theory
+> Loading acl_infRules
+Found near fn [th1, th2] => TRANS_SPEAKS_FOR th1 th2
+> > > > <<HOL message: Created theory "solutions1">>
+Meson search level: .....
+Meson search level: ..
+Meson search level: ..
+Meson search level: .......
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+Theory: solutions1
+
+Parents:
+    example1
+
+Theorems:
+    aclExercise1
+       []
+      |- ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+          (Os :ε po)) sat
+         Name Bob says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Alice says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Alice meet Name Bob says
+         (prop go :(commands, staff, δ, ε) Form)
+    aclExercise1A
+       []
+      |- ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+          (Os :ε po)) sat
+         Name Alice says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Bob says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Alice meet Name Bob says
+         (prop go :(commands, staff, δ, ε) Form)
+    aclExercise1B
+       []
+      |- ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+          (Os :ε po)) sat
+         Name Alice says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Bob says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Alice meet Name Bob says
+         (prop go :(commands, staff, δ, ε) Form)
+    aclExercise2
+
+      [((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+        (Os :ε po)) sat
+       Name Alice controls (prop go :(commands, staff, δ, ε) Form),
+       ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+        (Os :ε po)) sat
+       (prop go :(commands, staff, δ, ε) Form) impf
+       (prop launch :(commands, staff, δ, ε) Form),
+       ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+        (Os :ε po)) sat
+       Name Alice says (prop go :(commands, staff, δ, ε) Form)]
+      |- ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+          (Os :ε po)) sat
+         Name Bob says (prop launch :(commands, staff, δ, ε) Form)
+    aclExercise2A
+       []
+      |- ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+          (Os :ε po)) sat
+         Name Alice says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Alice controls (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         (prop go :(commands, staff, δ, ε) Form) impf
+         (prop launch :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Bob says (prop launch :(commands, staff, δ, ε) Form)
+    aclExercise2B
+       []
+      |- ((M :(commands, β, staff, δ, ε) Kripke),(Oi :δ po),
+          (Os :ε po)) sat
+         Name Alice says (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Alice controls (prop go :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         (prop go :(commands, staff, δ, ε) Form) impf
+         (prop launch :(commands, staff, δ, ε) Form) ⇒
+         (M,Oi,Os) sat
+         Name Bob says (prop launch :(commands, staff, δ, ε) Form)
+Exporting theory "solutions1" ... done.
+Theory "solutions1" took 0.12498s to build
+structure solutions1Script:
+
+
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> 
+Process HOL finished

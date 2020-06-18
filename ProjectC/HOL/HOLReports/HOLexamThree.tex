@@ -1,0 +1,43 @@
+\newcommand{\HOLexamThreeDate}{19 March 2020}
+\newcommand{\HOLexamThreeTime}{06:15}
+\begin{SaveVerbatim}{HOLexamThreeDatatypescommands}
+\HOLFreeVar{commands} = \HOLConst{go} \HOLTokenBar{} \HOLConst{launch}
+\end{SaveVerbatim}
+\newcommand{\HOLexamThreeDatatypescommands}{\UseVerbatim{HOLexamThreeDatatypescommands}}
+\begin{SaveVerbatim}{HOLexamThreeDatatypeskeyPrinc}
+\HOLFreeVar{keyPrinc} = \HOLConst{Staff} \HOLTyOp{people} \HOLTokenBar{} \HOLConst{Role} \HOLTyOp{roles} \HOLTokenBar{} \HOLConst{Ap} \HOLTyOp{num}
+\end{SaveVerbatim}
+\newcommand{\HOLexamThreeDatatypeskeyPrinc}{\UseVerbatim{HOLexamThreeDatatypeskeyPrinc}}
+\begin{SaveVerbatim}{HOLexamThreeDatatypespeople}
+\HOLFreeVar{people} = \HOLConst{Alice} \HOLTokenBar{} \HOLConst{Bob}
+\end{SaveVerbatim}
+\newcommand{\HOLexamThreeDatatypespeople}{\UseVerbatim{HOLexamThreeDatatypespeople}}
+\begin{SaveVerbatim}{HOLexamThreeDatatypesprincipals}
+\HOLFreeVar{principals} = \HOLConst{PR} \HOLTyOp{keyPrinc} \HOLTokenBar{} \HOLConst{Key} \HOLTyOp{keyPrinc}
+\end{SaveVerbatim}
+\newcommand{\HOLexamThreeDatatypesprincipals}{\UseVerbatim{HOLexamThreeDatatypesprincipals}}
+\begin{SaveVerbatim}{HOLexamThreeDatatypesroles}
+\HOLFreeVar{roles} = \HOLConst{Employee} \HOLTokenBar{} \HOLConst{Relay}
+\end{SaveVerbatim}
+\newcommand{\HOLexamThreeDatatypesroles}{\UseVerbatim{HOLexamThreeDatatypesroles}}
+\newcommand{\HOLexamThreeDatatypes}{
+\HOLexamThreeDatatypescommands\HOLexamThreeDatatypeskeyPrinc\HOLexamThreeDatatypespeople\HOLexamThreeDatatypesprincipals\HOLexamThreeDatatypesroles}
+\begin{SaveVerbatim}{HOLexamThreeTheoremsRelayRuleLaunch}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{PR} (\HOLConst{Role} \HOLConst{Employee})) \HOLConst{controls} \HOLConst{prop} \HOLConst{go} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{reps} (\HOLConst{Name} (\HOLConst{PR} (\HOLConst{Staff} \HOLConst{Alice}))) (\HOLConst{Name} (\HOLConst{PR} (\HOLConst{Role} \HOLConst{Employee})))
+     (\HOLConst{prop} \HOLConst{go}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} (\HOLConst{Staff} \HOLConst{Alice})) \HOLConst{quoting}
+   \HOLConst{Name} (\HOLConst{PR} (\HOLConst{Role} \HOLConst{Employee})) \HOLConst{says} \HOLConst{prop} \HOLConst{go} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} \HOLConst{go} \HOLConst{impf} \HOLConst{prop} \HOLConst{launch} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} (\HOLConst{Staff} \HOLConst{Alice})) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{PR} (\HOLConst{Staff} \HOLConst{Alice})) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} (\HOLConst{Staff} \HOLConst{Bob})) \HOLConst{quoting} \HOLConst{Name} (\HOLConst{PR} (\HOLConst{Role} \HOLConst{Relay})) \HOLConst{says}
+   \HOLConst{prop} \HOLConst{launch}
+\end{SaveVerbatim}
+\newcommand{\HOLexamThreeTheoremsRelayRuleLaunch}{\UseVerbatim{HOLexamThreeTheoremsRelayRuleLaunch}}
+\newcommand{\HOLexamThreeTheorems}{
+\HOLThmTag{exam3}{RelayRuleLaunch}\HOLexamThreeTheoremsRelayRuleLaunch
+}

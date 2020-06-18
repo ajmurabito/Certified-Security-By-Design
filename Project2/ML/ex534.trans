@@ -1,0 +1,18 @@
+> > > > # val Filter = fn: ('a -> bool) -> 'a list -> 'a list
+> val it = []: int list
+val it = []: int list
+val it = [4]: int list
+val it = [4]: int list
+val it = [1, 2, 4]: int list
+val it = [1, 2, 4]: int list
+val it = []: int list
+val it = []: int list
+val it = []: string list
+val it = []: string list
+val it = ["cat", "cat"]: string list
+val it = ["cat", "cat"]: string list
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> 

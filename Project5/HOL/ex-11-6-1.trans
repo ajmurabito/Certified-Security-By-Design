@@ -1,0 +1,17 @@
+
+> # # # Definition has been stored under "APP_def"
+val APP_def =
+   |- (∀l. APP [] l = l) ∧ ∀h l1 l2. APP (h::l1) l2 = h::APP l1 l2:
+   thm
+
+> val LENGTH_APP =
+TAC_PROOF (
+([], ``!(l1:'a list)(l2:'a list). LENGTH (APP l1 l2) = LENGTH l1 + LENGTH l2``),
+Induct_on `l1` THEN
+STRIP_TAC THEN
+ASM_REWRITE_TAC [APP_def, ADD_CLAUSES, LENGTH]);
+# # # # # <<HOL message: more than one resolution of overloading was possible>>
+val LENGTH_APP =
+   |- ∀l1 l2. LENGTH (APP l1 l2) = LENGTH l1 + LENGTH l2:
+   thm
+> 

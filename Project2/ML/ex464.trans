@@ -1,0 +1,5 @@
+> > > > # # # # # # val listSquares = fn: int list -> int list
+> val it = []: int list
+# val it = [1, 4, 16, 64]: int list
+# val it = [25, 144, 49, 1]: int list
+> 

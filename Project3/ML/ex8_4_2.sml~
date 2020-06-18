@@ -1,0 +1,29 @@
+(* Exercise 8_4_2 *)
+
+(* Prove p /\ q <=> q /\ p *)
+val conjSymThm =
+let
+  val p_term = ``p:bool``
+  val q_term = ``q:bool``
+  val p_and_q = mk_conj (p_term, q_term)
+  val q_and_p = mk_conj (q_term, p_term)
+
+  (* Prove -| p /\ q ==> q /\ p *)
+  val thm1 = ASSUME p_and_q
+  val thm2 = CONJUNCT1 thm1
+  val thm3 = CONJUNCT2 thm1
+  val thm4 = CONJ thm3 thm2
+  val thm5 = DISCH p_and_q thm4
+
+  (* Prove -| q /\ p ==> p /\ q *)
+  val thm6 = ASSUME q_and_p
+  val thm7 = CONJUNCT1 thm6
+  val thm8 = CONJUNCT2 thm6
+  val thm9 = CONJ thm8 thm7
+  val thm10 = DISCH q_and_p thm9
+
+
+in
+  IMP_ANTISYM_RULE thm10 thm5
+end;
+  

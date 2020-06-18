@@ -1,0 +1,15 @@
+> val exercise15_6_2a_thm = 
+TAC_PROOF(
+([], ``! P message.
+(deciphP (pubK P) enMsg = SOME message) <=>
+(enMsg = Ea (privK P) (SOME message))``),
+ASM_REWRITE_TAC [deciphP_one_one]);
+# # # # # <<HOL message: inventing new type variable names: 'a, 'b>>
+val exercise15_6_2a_thm =
+   |- ∀P message.
+     (deciphP (pubK P) enMsg = SOME message) ⇔
+     (enMsg = Ea (privK P) (SOME message)):
+   thm
+> 
+
+

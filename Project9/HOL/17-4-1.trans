@@ -1,0 +1,72 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+[extending loadPath with Holmakefile INCLUDES variable]
+> > > > > Loading ssm1Theory
+> Loading SM0Theory
+> Loading acl_infRules
+
+> # # # # # # # # # # Meson search level: ....
+val Alice_npriv_lemma =
+   |- CFGInterpret (M,Oi,Os)
+     (CFG inputOK SM0StateInterp (certs cmd npriv privcmd)
+        (Name Alice says prop (SOME (NP npriv))::ins) s outs) ⇒
+   (M,Oi,Os) sat prop (SOME (NP npriv)):
+   thm
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ........................................
+val Alice_exec_npriv_justified_thm =
+   |- ∀NS Out M Oi Os.
+     TR (M,Oi,Os) (exec (NP npriv))
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd)
+          (Name Alice says prop (SOME (NP npriv))::ins) s outs)
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd) ins
+          (NS s (exec (NP npriv))) (Out s (exec (NP npriv))::outs)) ⇔
+     inputOK (Name Alice says prop (SOME (NP npriv))) ∧
+     CFGInterpret (M,Oi,Os)
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd)
+          (Name Alice says prop (SOME (NP npriv))::ins) s outs) ∧
+     (M,Oi,Os) sat prop (SOME (NP npriv)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ...
+val Alice_npriv_verified_thm =
+   |- ∀NS Out M Oi Os.
+     TR (M,Oi,Os) (exec (NP npriv))
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd)
+          (Name Alice says prop (SOME (NP npriv))::ins) s outs)
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd) ins
+          (NS s (exec (NP npriv))) (Out s (exec (NP npriv))::outs)) ⇒
+     (M,Oi,Os) sat prop (SOME (NP npriv)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> Meson search level: ......
+val Alice_justified_npriv_exec_thm =
+   |- ∀NS Out M Oi Os cmd npriv privcmd ins s outs.
+     inputOK (Name Alice says prop (SOME (NP npriv))) ∧
+     CFGInterpret (M,Oi,Os)
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd)
+          (Name Alice says prop (SOME (NP npriv))::ins) s outs) ⇒
+     TR (M,Oi,Os) (exec (NP npriv))
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd)
+          (Name Alice says prop (SOME (NP npriv))::ins) s outs)
+       (CFG inputOK SM0StateInterp (certs cmd npriv privcmd) ins
+          (NS s (exec (NP npriv))) (Out s (exec (NP npriv))::outs)):
+   thm
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+> 

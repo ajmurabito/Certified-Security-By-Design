@@ -1,0 +1,353 @@
+
+\documentclass[letterpaper]{report}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+
+\title{Project 3}
+\author{\textbf{Marvine Hamner}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract}
+   \noindent{}This report details results for the following exercises from \textit{Certified Security by Design Using Higher Order Logic}: 7.3.1, 7.3.2, 7.3.3, 8.4.1, 8.4.2, and 8.4.3.  The purpose of this project is to gain skill in generating reproducible proofs and documentation using EmitTeX.  In addition, HOL Theories will be used to complete the exercises listed above.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description of each exercise from Chapter 7, the test cases and the results of each exercise as based on HOL's built-in functions are detailed in this project report.  
+
+In addition, a HOL subfolder has been created and contains the proofs for the exercises in Chapter 8.  
+
+\newpage
+
+\chapter{Exercise 7.3.1}
+\label{sec:ex-7-3-1}
+
+\section{Problem Statement}
+For this exercise a function has been created that operates on terms of the form p /\ q ==> r and returns p ==> q ==> r.  The entire source code is in Appendix A of this report.
+
+\section{Relevant Code}
+\label{sec:relevantCode}
+
+\begin{lstlisting}
+fun andImp2Imp inTerm =
+let
+  val (conj, r) = dest_imp inTerm
+  val (p, q) = dest_conj conj
+in
+  (*list_mk_imp ([p,q],r)*)
+  mk_imp (p, mk_imp (q, r))
+end;
+\end{lstlisting}
+
+
+\section{Test Cases and Results}
+\label{sec:tests}
+\setcounter{sessioncount}{0}
+
+\vspace{12px}
+\indent Test cases for Exercise 7.3.1:
+\begin{lstlisting}
+andImp2Imp ``( p /n q ) ==> r``;
+\end{lstlisting}
+
+
+Results for Exercise 7.3.1:
+
+\verbatiminput{ML/ex-7-3-1.trans}
+
+
+
+\newpage
+
+
+\chapter{Exercise 7.3.2}
+\label{sec:ex-7-3-2}
+
+\section{Problem Statement}
+For this exercise a function is created that operates on terms of the form p ==> q ==> r and returns p /\ q ==> r.  It is shown that the solution for Exercise 7.3.2 reverses that of Exercise 7.3.1 and vice versa.    
+
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun impImpAnd inTerm =
+let
+  val (p, rest) = dest_imp inTerm
+  val (q, r) = dest_imp rest
+in
+  mk_imp (mk_conj(p,q), r)
+end;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 7.3.2:
+\begin{lstlisting}
+impImpAnd ` ` p ==> q ==> r ` ` ;
+impImpAnd( andImp2Imp ` ` ( p /n q ) ==> r ` ` ) ;
+andImp2Imp ( impImpAnd ` ` p ==> q ==> r ` ` ) ;
+\end{lstlisting}
+
+Results for Exercise 7.3.2:
+
+\verbatiminput{ML/ex-7-3-2.trans}
+
+
+
+\newpage
+
+
+\chapter{Exercise 7.3.3}
+\label{sec:ex-7-3-3}
+
+\section{Problem Statement}
+For this exercise a function is created that operates on terms of the form ~@x.P(x) and returns !x.~P(x).  
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun notExists inTerm =
+let
+  val (x1, part2) = dest_exists (dest_neg inTerm)
+  val (P, x2) = dest_comb part2
+in
+  mk_forall(x1, (mk_neg part2))
+end;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 7.3.3:
+\begin{lstlisting}
+notExists``~? z .Q z ``;
+\end{lstlisting}
+
+Results for Exercise 7.3.3:
+
+\verbatiminput{ML/ex-7-3-3.trans}
+
+
+
+\newpage
+
+
+\chapter{Chapter 8 HOL Theories}
+\label{sec:Chap8}
+
+\section{HOL Theories and Rebuilds}
+Information from Chapter 8 was used to develop three new theories.  These theories were initially tested interactively as code snippets and found to run in a HOL window.  Then, these theories were pasted into a new file, chapter8Script.sml.  This file was saved and compiled using HOlmake.  The compilation was completed with no errors.  The following sections discuss each of the theories developed.  
+
+
+\chapter{Exercise 8.4.1}
+\label{sec:ex-8-4-1}
+
+\section{Problem Statement}
+For this exercise the theorem 
+
+> val problem1Thm =
+[] |- p ==> (p ==> q) ==> (q ==> r) ==> r
+: thm
+
+is proven.  
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+val problem1Thm =
+let
+  val th1 = ASSUME ``p:bool``
+  val th2 = ASSUME ``p ==> q``
+  val th3 = ASSUME ``q ==> r``
+  val th4 = MP th2 th1
+  val th5 = MP th3 th4
+
+  val termQR = hd (hyp th3)
+  val th6 = DISCH termQR th5
+  
+  val termPQ = hd (hyp th2)
+  val th7 = DISCH termPQ th6
+
+  val termP = hd (hyp th1)
+  val th8 = DISCH termP th7
+in
+  th8
+end
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Results for Exercise 8.4.1:
+
+\verbatiminput{HOL/ex-8-4-1.trans}
+
+
+
+\newpage
+
+
+
+\chapter{Exercise 8.4.2}
+\label{sec:ex-8-4-2}
+
+\section{Problem Statement}
+For this exercise the theorem
+
+> val conjSymThm =
+[] |- p /\ q <=> q /\ p
+: thm
+
+is proven.  
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+val conjSymThm = 
+let
+  val th1 = ASSUME ``p:bool /\ q:bool``;
+  val th2 = CONJUNCT1 th1
+  val th3 = CONJUNCT2 th1
+  (* val th4 = CONJ th2 th3 *)
+  val th5 = CONJ th3 th2
+  val termPANDQ = hd (hyp th5)
+  val th6 = DISCH termPANDQ th5
+
+  val th7 = ASSUME ``q:bool /\ p:bool``;
+  val th8 = CONJUNCT1 th7
+  val th9 = CONJUNCT2 th7
+  val th10 = CONJ th9 th8
+  val termQANDP = hd (hyp th10)
+  val th11 = DISCH termQANDP th10
+
+  val th12 = IMP_ANTISYM_RULE th6 th11
+in
+  th12
+end
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Results for Exercise 8.4.2:
+
+\verbatiminput{HOL/ex-8-4-2.trans}
+
+
+
+\newpage
+
+
+
+\chapter{Exercise 8.4.3}
+\label{sec:ex-8-4-3}
+
+\section{Problem Statement}
+For this exercise the proof from Exercise 8.4.2 is extended to prove:
+
+> val conjSymThmAll =
+[] |- !p q. p /\ q <=> q /\ p
+: thm
+
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+val conjSymThmAll =
+let
+  val th1 = conjSymThm
+in
+  GENL [``p:bool``, ``q:bool``] th1
+end
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Results for Exercise 8.4.3:
+
+\verbatiminput{HOL/ex-8-4-3.trans}
+
+
+
+\newpage
+
+
+
+\appendix
+
+\chapter{Exercise 7.3.1, 7.3.2 and 7.3.3 Source Code}
+
+\verbatiminput{ML/chapter7Answers.sml}
+
+
+\newpage
+
+\chapter{Exercise 8.4.1, 8.4.2 and 8.4.3 Source Code}
+
+\verbatiminput{HOL/chapter8Script.sml}
+
+
+
+\end{document}

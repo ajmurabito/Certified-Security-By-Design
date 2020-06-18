@@ -1,0 +1,8 @@
+(Exercise 7_3_3  *)
+(* Given ~?x.P(x) return !x.~P(x)
+fun notExists term_i =
+let
+  val (x, F ) = dest_exists (dest_neg term_i)
+in
+  mk_forall (x, F )
+end;

@@ -1,0 +1,12 @@
+> val it = [1, 2, 3, 4, 5]: int list
+# val it = [1, 2, 3, 4, 5]: int list
+> val it = [1, 2, 3]: int list
+# val it = [1, 2, 3]: int list
+> val it = ["a", "b", "c"]: string list
+# val it = ["a", "b", "c"]: string list
+# val it = [true, false, false, false, false]: bool list
+# val it = [true, false, false, false, false]: bool list
+> 
+*** Emacs/HOL command completed ***
+
+> 

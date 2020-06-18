@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Executive Summary}{5}{section.1}
+\contentsline {section}{\numberline {2}Chapter 9 Exercises}{6}{section.2}
+\contentsline {subsection}{\numberline {2.1}Problem Statement}{6}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Relevant Code}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Test Results}{7}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Exercise 9 Theory}{9}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Theorems}{9}{subsection.2.5}
+\contentsline {section}{\numberline {3}Chapter 10 Exercises}{11}{section.3}
+\contentsline {subsection}{\numberline {3.1}Problem Statement}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Relevant Code}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Test Results}{12}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Exercise 10 Theory}{14}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Theorems}{14}{subsection.3.5}
+\contentsline {section}{\numberline {A}Source Code for Exercise9 Theory}{15}{appendix.A}
+\contentsline {section}{\numberline {B}Source Code for Exercise10 Theory}{17}{appendix.B}

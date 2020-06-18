@@ -1,0 +1,243 @@
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+\input{../HOL/HOLReports/HOLexamTwo}
+
+\title{Exam 2 Report}
+\author{Alfred Murabito}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report answers the three questions in the CIS 634 Exam 2. The 
+first two questions are answered with the code in the HOL/exam2Script.sml
+source file. The last question answers the question if discretionary access 
+control can truly be deemed safe.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+
+
+All requirements for this assignment have been satisfied. Formulated proofs for the access control schemes
+presented in the exam questions 1 and 2 are answered in sections 1 and 2 respctively. Section 3 describes discretionary access
+control and whether it can be truly deemed safe.
+
+\newpage
+
+\section{Question 1}
+\label{sec:question-1}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement}
+
+The following is the formal proof to allow Mary access to her
+account in order to purchase tickets. The token Mary uses for gain access to 
+her account is her password. The principals of interest are Mary 
+and the Kennedy Center, \textit{Roles KennedyCenter}.
+
+\UseVerbatim{HOLexamTwoDatatypespeople}
+\UseVerbatim{HOLexamTwoDatatypesroles}
+\UseVerbatim{HOLexamTwoDatatypespassPrinc}
+\UseVerbatim{HOLexamTwoDatatypesprincipals}
+
+
+The resource being protected is Mary's account, represented by the following datatype.
+\UseVerbatim{HOLexamTwoDatatypesaccounts}
+
+The final conculsion of the theorem is that the account is satisfied by the Kripke structure.
+
+\UseVerbatim{HOLexamTwoTheoremsexamTwoXXOneXXthm}
+
+\subsection{Relevant Code}
+\label{sec:relevant-code}
+
+The access control proof involves four assumptions in the ML variables defined below. The password is the token
+that represents the authority Kennedy Center's permission for a user to access their account and purchase a ticket.
+
+The final theorem's conculusion when all four assumptions are true is the account proposition \textit{prop (AC Mary)}
+The theorem is proved with a forward proof using the ACL \textit{SPEAKS_FOR} and \textit{CONTROLS} inference rules
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+
+val a1 = ``(Name (PR (Users Mary))) says (prop (AC Mary))
+          :(accounts,principals,'d,'e)Form``
+val a2 = ``(Name (Role KennedyCenter)) controls ((Name (PR (Users Mary)))
+           controls (prop (AC Mary)))
+	   	   :(accounts,principals,'d,'e)Form``
+
+val a3 = ``((Name (Pass (Users Mary))) speaks_for (Name (Role KennedyCenter)))
+         :(accounts,principals,'d,'e)Form``
+
+val a4 = ``(Name (Pass (Users Mary))) says ((Name (PR (Users Mary))) controls 
+         (prop (AC Mary))):(accounts,principals,'d,'e)Form``
+
+val [a1_thm,a2_thm,a3_thm,a4_thm] = map ACL_ASSUM [a1,a2,a3,a4]
+
+val thm1 = SPEAKS_FOR a3_thm a4_thm
+val thm2 = CONTROLS a2_thm thm1
+val exam2_1_thm = CONTROLS thm2 a1_thm
+
+\end{lstlisting}
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript}
+
+\verbatiminput{../HOL/exam2-thm1.trans}
+
+\newpage
+
+\section{Question 2}
+\label{sec:question-2}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement-4}
+
+Problem 2 involves an access control scenario where Don must give his pin, account number, and id
+in order to gain access to his account. The authority role in this situation is taken by the BankOfRiches and
+the resources to protect are the \textit{richAccts} datatypes.
+
+The token in this example was the pin of the client and the token states that the meeting of Don, his bank number,
+and Don's id has control over the resource Don's riches account. 
+
+\UseVerbatim{HOLexamTwoDatatypespeopleTwo}
+\UseVerbatim{HOLexamTwoDatatypesrolesTwo}
+\UseVerbatim{HOLexamTwoDatatypespinIdPrinc}
+\UseVerbatim{HOLexamTwoDatatypesRichesPrincipals}
+\UseVerbatim{HOLexamTwoDatatypesrichAccts}
+
+\UseVerbatim{HOLexamTwoTheoremsexamTwoXXTwoXXthm}
+
+
+\subsection{Relevant Code}
+\label{sec:relevant-code-1}
+
+The proof of this formula invovles similar setps to problem one except the assumption must have
+Don, Don's ID, and the bank number as principals wanting access to Don's account.
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+
+val b1 = ``(Name (Role2 BankOfRiches)) controls
+          ((Name(PR2(Client Don))) meet
+	   	  (Name(ID(Client Don))) meet
+	   	  (Name(BN 4789111238734609))
+          controls (prop(RAC(Client Don))))
+		  :(richAccts,RichesPrincipals,'d,'e)Form``
+
+val b2 = ``((Name(PIN(Client Don))) speaks_for (Name(Role2 BankOfRiches)))
+          :(richAccts,RichesPrincipals,'d,'e)Form``
+
+val b3 = ``(Name(PIN(Client Don))) says 
+           ((Name(PR2(Client Don))) meet
+	   	   (Name(ID(Client Don))) meet
+	   	   (Name(BN 4789111238734609))
+		   controls (prop(RAC(Client Don))))
+		   :(richAccts,RichesPrincipals,'d,'e)Form``
+
+val b4 = ``(Name(PR2(Client Don)) meet Name(ID(Client Don)) 
+         meet Name(BN 4789111238734609)) 
+	   	 says (prop(RAC(Client Don))):(richAccts,RichesPrincipals,'d,'e)Form``
+
+val [b1_thm,b2_thm,b3_thm,b4_thm] = map ACL_ASSUM [b1,b2,b3,b4]
+
+val thm1_2 = SPEAKS_FOR b2_thm b3_thm
+val thm2_2 = CONTROLS b1_thm thm1_2
+val exam2_2_thm = CONTROLS thm2_2 b4_thm
+
+\end{lstlisting}
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript-4}
+
+\verbatiminput{../HOL/exam2-thm2.trans}
+
+\newpage
+
+\section{Question 3}
+\label{sec:question-3}
+
+I believe that systems can be classified as safe using sicretionary access 
+control schemes using the algorithm in the provided article. Discretionary Access Control involves parties disclosing access control objects and defining their own rules to grant access to protected systems. From my understanding of Kripke structures and the HOL theorem proving tools at engineers disposal, I beleive using DAC and formal proofs and logic systems can be trusted as safe.
+
+\HOLindex
+
+\appendix{}
+
+\section{Source for exam2Script.sml}
+\label{sec:source-exam2scr}
+
+The following code is from \emph{HOL/exam2Script.sml}
+\lstinputlisting{../HOL/exam2Script.sml}
+
+
+\end{document}

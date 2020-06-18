@@ -1,0 +1,14 @@
+> val exercise15_6_1b_thm = 
+TAC_PROOF(
+([],``! keyAlice k text.
+(deciphS keyAlice (Es k (SOME text)) =
+SOME "This is from Alice") <=>
+(k = keyAlice) /\ (text = "This is from Alice")``),
+PROVE_TAC [deciphS_one_one]);
+# # # # # # Meson search level: ......................
+val exercise15_6_1b_thm =
+   |- ∀keyAlice k text.
+     (deciphS keyAlice (Es k (SOME text)) = SOME "This is from Alice") ⇔
+     (k = keyAlice) ∧ (text = "This is from Alice"):
+   thm
+> 

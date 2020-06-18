@@ -1,0 +1,1 @@
+SM0SolutionsScript.uo: /usr/local/share/HOL/sigobj/HolKernel.ui /usr/local/share/HOL/sigobj/Parse.ui SM0Theory.ui /usr/local/share/HOL/sigobj/boolLib.ui /usr/local/share/HOL/sigobj/bossLib.ui satListTheory.ui ssm1Theory.ui 

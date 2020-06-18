@@ -1,0 +1,137 @@
+
+
+(******************************************************************************)
+(*                                                                            *)
+(*    Modified by Marvine Hamner 2019                                         *)
+(*                                                                            *)
+(******************************************************************************)
+
+
+(******************************************************************************)
+(* Examples for defining types chapter                                        *)
+(* Author: Shiu-Kai Chin                                                      *)
+(* Date: 3 October 2015 						      *)
+(******************************************************************************)
+
+structure exTypeScript = struct
+
+(* ==== Interactive mode: within a comment so it isn't executed by Holmake ====
+
+app load ["listTheory","TypeBase","exTypeTheory"];
+open listTheory TypeBase exTypeTheory
+
+ ==== end Interactive mode ================================================== *)
+
+(******************************************************************************)
+(* The following "open" command with a listing of libraries and theories is   *)
+(* needed to compile theories using Holmake.  If you rely on other theories   *)
+(* you need to include them by listing them after "open". You may have more   *)
+(* than one open command.  Usually, I have a second "open" command after the  *)
+(* first that lists the parent theories I need.                               *)
+(******************************************************************************)
+open HolKernel boolLib Parse bossLib
+
+(******************************************************************************)
+(* As an example, let's open listTheory. We will use it in our examples       *)
+(* below.                                                                     *)
+(******************************************************************************)
+open listTheory TypeBase arithmeticTheory
+
+(******************************************************************************)
+(* Now we declare we want to create a new theory and name it "exType".        *)
+(******************************************************************************)
+val _ = new_theory "exType";
+
+val APP_def =
+Define
+`(APP [] (l:'a list) = l) /\
+ (APP (h::(l1:'a list)) (l2:'a list) = h::(APP l1 l2))`
+
+
+(******************************************************************************)
+(* Proof that APP is associative.                                             *)
+(******************************************************************************)
+val APP_ASSOC =
+TAC_PROOF(([],
+``!(l1:'a list)(l2 :'a list)(l3:'a list).
+   (APP(APP l1 l2) l3) = (APP l1 (APP l2 l3))``),
+Induct_on`l1` THEN
+ASM_REWRITE_TAC [APP_def])
+
+val _ = save_thm("APP_ASSOC",APP_ASSOC)
+
+(* ==== start here ====
+
+==== end here ==== *)
+
+(******************************************************************************)
+(* Definition of Map                                                          *)
+(******************************************************************************)
+
+(******************************************************************************)
+(*  Exercise 11.6.1                                                           *)
+(*  Add to the theory exTypeTheory by proving the following theorem:          *)
+(*  [LENGTH_APP]                                                              *)
+(*  |- !l1 l2.  LENGTH (APP l1 l2) = LENGTH l1 + LENGTH l2                    *)
+(*                                                                            *)
+(******************************************************************************)
+
+(*  val Map_def =
+Define
+  `((Map f{} = []) /\
+   ((Map f (h::(l1:'a list))) = (f h)::(Map f l1))`; *)
+
+(*---- For testing:
+fun Mymap f [] = [] | Mymap f (x::xs) = (f x)::(Mymap f xs);
+------*)
+
+val Map_def =
+Define
+`(Map f [] = []) /\
+ (Map f (h::tl) = (f h)::(Map f tl))`
+ 
+
+val LENGTH_APP =
+TAC_PROOF(([],
+  ``!(l1:'a list)(l2:'a list).
+  (LENGTH (APP l1 l2)) = (LENGTH l1 + LENGTH l2)``),
+  
+Induct_on`l1` THEN
+ASM_REWRITE_TAC [APP_def] THEN
+ASM_REWRITE_TAC [LENGTH] THEN
+ASM_REWRITE_TAC [ADD_CLAUSES] THEN
+ASM_REWRITE_TAC [LENGTH] THEN
+ASM_REWRITE_TAC [APP_def] THEN
+ASM_REWRITE_TAC [LENGTH] THEN
+ASM_REWRITE_TAC [ADD_CLAUSES])
+
+val _ = save_thm("LENGTH_APP",LENGTH_APP)
+
+(* Map_APP theorem: same steps used for base and inductive sub-goals
+val Map_APP =
+TAC_PROOF(([], ``Map f (APP l1 l2) = APP (Map f l1) (Map f l2)``),
+  Induct_on`l1` THEN 
+  (ASM_REWRITE_TAC[APP_def] THEN
+   ASM_REWRITE_TAC[Map_def] THEN
+   ASM_REWRITE_TAC[APP_def]))  *)
+
+
+val Map_APP =
+TAC_PROOF(([],``Map f (APP l1 l2) = APP(Map f l1)(Map f l2)``),
+Induct_on`l1` THEN
+ASM_REWRITE_TAC[APP_def,Map_def])
+
+val _ = save_thm("Map_APP",Map_APP)
+
+
+
+(******************************************************************************)
+(* To save the theory, we must export the theory. print_theory does what its  *)
+(* name says it does.  It's not entirely necessary, but I include it to have  *)
+(* HOL display what it's done at the end.                                     *)
+(******************************************************************************)
+
+val _ = export_theory ();
+val _ = print_theory "-";
+
+end (* structure *)

@@ -1,0 +1,260 @@
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+\input{../HOL/HOLReports/HOLexamThree}
+
+\title{Exam 3 Report}
+\author{Alfred Murabito}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report answers the three questions in the CIS 634 Exam 3. The 
+first question is answered in the code in the HOL/exam1Script.sml
+source file. The steps involving the shared-key encyrption scheme where a 
+new key is generated for every message is answered in question 2. Question
+3 involves what needs to be done to facilitate using HOL in artiifical
+intelligence. 
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+
+
+All requirements for this assignment have been satisfied. A formulated proof is given for the derived inference rule
+for the accescc control scheme described in problem 1. In addition, responses are given for the encryption scheme for question 2
+and the question on theroem provers and aritificial intelligence of question 3.
+
+\newpage
+
+\section{Question 1}
+\label{sec:question-1}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement}
+
+In this access control scheme, Alice and Bob take on the roles of Employee and Relay respectively. 
+An inference rule is defined for the Relay to follow whenever it receives a message. If the conditions
+in the inference rule is met, Bob will encrypt a launch message with his key and send it out 
+as the Relay. I assume a certificate authority is not needed in this access control scenario since
+Alice and Bob will be part of the same organization so excanging public keys legitimately should not 
+be as much of an isssue.
+
+The Inference rule is below.
+
+
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+
+   Role Employee controls prop go ==>
+   Alice Reps Employee on go ==>
+   Key Alice speaks_for Alice ==>
+   Key Alice says prop go ==>
+   prop go impf prop launch ==>
+   Key Bob quoting Role Relay says prop launch
+
+\end{lstlisting}
+
+
+
+HOL datatypes and theorems for problem 1 below.
+
+\HOLexamThreeDatatypes
+
+\HOLexamThreeTheorems
+
+\subsection{Relevant Code}
+\label{sec:relevant-code}
+
+The proof of the derived inference rule involves using the \textit{PAT_ASSUM} to inject hyptothesises into
+the proof until the goal is derived. The main theories used in the tactics are produced using the assumptions
+and the \textit{CONTROLS}, \textit{QUOTING}, \textit{REPS}, and \textit{SPEAKS_FOR} inference rules.
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+
+val RelayRuleLaunch =
+TAC_PROOF(
+([],
+``(M,Oi,Os) sat Name (PR (Role Employee)) controls prop go ==>
+  (M,Oi,Os) sat
+  reps (Name (PR (Staff Alice))) (Name (PR (Role Employee)))
+  (prop go) ==>
+  (M,Oi,Os) sat
+  Name (Key (Staff Alice)) quoting
+  Name (PR (Role Employee)) says prop go ==>
+  (M,Oi,Os) sat prop go impf prop launch ==>
+  (M,Oi,Os) sat
+  Name (Key (Staff Alice)) speaks_for Name (PR (Staff Alice)) ==>
+  (M,Oi,Os) sat
+  Name (Key (Staff Bob)) quoting Name (PR (Role Relay)) says
+  prop launch``),
+REPEAT STRIP_TAC THEN
+ACL_SAYS_TAC THEN
+
+PAT_ASSUM ``(M,Oi,Os) sat Name (Key (Staff Alice)) quoting
+            Name (PR (Role Employee)) says prop go``
+  (fn th => ASSUME_TAC (QUOTING_LR th)) THEN
+		  
+PAT_ASSUM ``(M,Oi,Os) sat
+            Name (Key (Staff Alice)) speaks_for Name (PR (Staff Alice))``
+  (fn th1 =>
+    (PAT_ASSUM
+    ``(M,Oi,Os) sat Name (Key (Staff Alice)) says
+      Name (PR (Role Employee)) says (prop go)``
+    (fn th2 => ASSUME_TAC(SPEAKS_FOR th1 th2)))) THEN
+
+PAT_ASSUM ``(M,Oi,Os) sat
+            Name (PR (Staff Alice)) says Name (PR (Role Employee)) says
+            (prop go)``
+  (fn th => ASSUME_TAC (QUOTING_RL th)) THEN
+
+PAT_ASSUM ``(M,Oi,Os) sat
+           reps (Name (PR (Staff Alice))) (Name (PR (Role Employee)))(prop go)``
+  (fn th1 =>
+    (PAT_ASSUM ``(M,Oi,Os) sat
+    Name (PR (Staff Alice)) quoting Name (PR (Role Employee)) says
+    (prop go)``
+      (fn th2 =>
+        (PAT_ASSUM ``(M,Oi,Os) sat Name (PR (Role Employee)) controls (prop go)``
+	  (fn th3 => ASSUME_TAC (REPS th1 th2 th3)))))) THEN
+
+PAT_ASSUM ``(M,Oi,Os) sat (prop go)`` (fn th1 =>
+  (PAT_ASSUM ``(M,Oi,Os) sat prop go impf prop launch``
+    (fn th2 => ASSUME_TAC (ACL_MP th1 th2)))) THEN
+
+ASM_REWRITE_TAC[]);
+
+\end{lstlisting}
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript}
+
+\verbatiminput{../HOL/exam3.trans}
+
+\newpage
+
+\section{Question 2}
+\label{sec:question-2}
+
+Brian want to communicate securely using a different symmetric key for every message sent. In
+addition, they must follow corporate policy and have all messages be transferred using a secure relay.
+To accomplish this, they first get a set of n keys from the TA authority which also gives the keys to the secure 
+relay. 
+
+The set of keys for Alice is KA1,KA2,....KAn with published certificate encrypt(Kta, [KA1,KA2...KAN]Alice). 
+Not explicitely stated above but key identifiers for ALice and the relay will be also be sent and included in the
+certificate. Similar keys and certificate will be produced and given to Bob. In this scheme, Bob and Alice will exchange their
+key identifiers with each other.
+
+To initiate the secure channel, Alice will send her key hint pair(for key Ka), Bob's published certificate, 
+as well as a key indentifier for Bob(Kb) to the relay. Subsequent messages to the Relay will feature
+a different set of key identifiers that were received from the trusted authority. Multiple keys from the TA were needed since
+if only one was used by both Alice and Bob to communicate with the relay, then if that key was exposed an attacker could uncover
+every shared key generated by the relay for Alice and Bob to use.
+
+The relay will use the TA's key in order to verify that the certificate and the sent identifier belongs to Bob. Once it verifies the 
+ceritificate and key identifier for Kb is Bob's, it will generate a new key and send the identifier \textit{KB = encrypt(Kb,K)} as well 
+as identifier for Kb to Bob. It will also send \textit{KA = encrypt(Ka,K)} to Alice with the identifier for Ka. Alice and Bob can now
+get the shared key K by decrypting with their respective keys and Alice can send an encrypted message to Bob that he can decrypt with K. 
+
+To authenticate that the message came from Alice, Alice will neeed to have sent her TA certiificate with the relay with the rest of
+the initial message sent to the relay. The relay will decrypt using Kta then it will know that the key identifier Ka belongs to
+Alice. It can then generate the certificate \textit{encrypt(Kb,[KB,KA,Alice])} paired with Kb's indentifier. When Bob gets this certificate,
+he can verify with his key that the key identifier KB (as well as the new key K) was initiated from Alice since he trusts the relay and
+the TA. He therefore knows messages that he can decrypt with K originated from Alice.
+
+
+\newpage
+
+\section{Question 3}
+\label{sec:question-3}
+
+To facilitate the use of theorem provers like HOL in artiificial intelligence, the intelligence will need to be build on verly large libraries
+made initially by people. Due to the difficulty in desigining automated proofs for higher order logic sytems, very extensive libraries possibly made with the
+assistance of ATPs will be needed. In addition, there would need to be a common ground and methodology established between all of the theorem provers. Without a 
+general model provided, it will be hard for artiificial intelligence algorithms to work will all the different theorem provers.
+
+
+\HOLindex
+
+\appendix{}
+
+\section{Source For exam3Script.sml}
+\label{sec:source-exam3scr}
+
+
+The following code is from \emph{HOL/exam3Script.sml}
+\lstinputlisting{../HOL/exam3Script.sml}
+
+
+\end{document}

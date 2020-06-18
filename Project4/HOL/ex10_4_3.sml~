@@ -1,0 +1,35 @@
+(* Exercise 10_4_3  *)
+
+set_goal([`` ~(p /\ q)``, `` ~p ==> r``,`` ~q ==> s``],``r \/ s ``);
+
+(let
+  val demorgan = SPEC ``q:bool`` (SPEC ``p:bool`` DE_MORGAN_THM)
+in
+  PAT_ASSUM ``~(p /\ q)`` (fn th => ASSUME_TAC ((EQ_MP (CONJUNCT1 demorgan) (ASSUME ``~(p /\ q)``))))
+end);
+PAT_ASSUM ``~p \/ ~q`` (fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th)));
+PAT_ASSUM ``p ==> ~q`` (fn th => ASSUME_TAC (IMP_TRANS th (ASSUME ``~q ==> s``)));
+PAT_ASSUM ``p ==> s`` (fn th => ASSUME_TAC (DISJ_IMP(ONCE_REWRITE_RULE[DISJ_SYM](IMP_ELIM th))));
+PAT_ASSUM ``~s ==> ~p`` (fn th => ASSUME_TAC (IMP_TRANS th (ASSUME ``~p ==> r``)));
+PAT_ASSUM ``~s ==> r`` (fn th => ASSUME_TAC (REWRITE_RULE [](IMP_ELIM th)));
+ASM_REWRITE_TAC [DISJ_SYM];
+
+(* Bundled together using TAC_PROOF  *)
+val problem3_thm = 
+TAC_PROOF (
+([`` ~(p /\ q)``, `` ~p ==> r``,`` ~q ==> s``],``r \/ s ``),
+(let
+  val demorgan = SPEC ``q:bool`` (SPEC ``p:bool`` DE_MORGAN_THM)
+in
+  PAT_ASSUM ``~(p /\ q)`` (fn th => ASSUME_TAC ((EQ_MP (CONJUNCT1 demorgan) (ASSUME ``~(p /\ q)``))))
+end) THEN
+PAT_ASSUM ``~p \/ ~q`` (fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th))) THEN
+PAT_ASSUM ``p ==> ~q`` (fn th => ASSUME_TAC (IMP_TRANS th (ASSUME ``~q ==> s``))) THEN
+PAT_ASSUM ``p ==> s`` (fn th => ASSUME_TAC (DISJ_IMP(ONCE_REWRITE_RULE[DISJ_SYM](IMP_ELIM th)))) THEN
+PAT_ASSUM ``~s ==> ~p`` (fn th => ASSUME_TAC (IMP_TRANS th (ASSUME ``~p ==> r``))) THEN
+PAT_ASSUM ``~s ==> r`` (fn th => ASSUME_TAC (REWRITE_RULE [](IMP_ELIM th))) THEN
+ASM_REWRITE_TAC [DISJ_SYM]
+)
+
+`
+

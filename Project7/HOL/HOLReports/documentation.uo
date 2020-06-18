@@ -1,0 +1,6 @@
+/home/csbd/Documents/COURSES/Assurance/Project7/HOL/cipherTheory
+/home/csbd/Documents/COURSES/Assurance/Project7/HOL/cryptoExercisesTheory
+$(HOLDIR)/sigobj/EmitTeX
+$(HOLDIR)/sigobj/Overlay
+/home/csbd/Documents/COURSES/Assurance/Project7/HOL/HOLReports/documentation
+/home/csbd/Documents/COURSES/Assurance/Project7/HOL/HOLReports/documentation.sml

@@ -1,0 +1,157 @@
+\documentclass{report}
+\title{Project 2 Report}
+\author{Alfred Murabito}
+\date{today}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% textcomp provides additional symbols
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% -------------------------------\--------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+\begin{document}
+
+%% --------------------------------------------------- the listings
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+\maketitle{}
+
+
+\chapter{Exericse 4.6.3}
+\label{cha:exericse-4.6.3}
+
+\section{Problem Statement}
+\label{sec:problem-statement}
+
+Showing function declarations using pattern matching
+
+\subsection{Functions to implement}
+\label{sec:functions-implement}
+
+\begin{center}
+  
+\end{center}
+
+\section{Relevant Code}
+\label{sec:relevant-code}
+
+The following functions are defined in ML using\emph{fn} and \emph{val} to 
+define and name the function and then using \emph{fun} to define and name the same
+function.
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+  (* Part A functions *)
+  val funa1 = fn (x, y, z) => x + y + z;
+  fun funa2 (x, y, z) = x + y + z;
+
+  (* Part B functions *)
+  val funb1 = (fn x => (fn y => x < y));
+  fun funb2 x y = x < y;
+
+\end{lstlisting}
+
+\section{Test Cases}
+\label{sec:test-cases}
+
+Required test cases for funa1, funa2 as follows
+\begin{lstlisting}[frame=TB]
+(******************************************************************************)
+(* Test Cases Specified in the requirements A                                 *)
+(******************************************************************************)
+
+funa1 (1,2,3);
+funa1 (4,5,6);
+funa1 (7,8,9);
+
+funa2 (1,2,3);
+funa2 (4,5,6);
+funa2 (7,8,9);
+\end{lstlisting}
+
+\begin{lstlisting}
+  (******************************************************************************)
+(* Test Cases Specified in the requirements for B                             *)
+(******************************************************************************)
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for C                             *)
+(******************************************************************************)
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for D1                            *)
+(******************************************************************************)
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for D2                            *)
+(******************************************************************************)
+\end{lstlisting}
+
+\begin{lstlisting}
+(******************************************************************************)
+(* Test Cases Specified in the requirements for E                             *)
+(******************************************************************************)
+\end{lstlisting}
+
+\section{Execution Transcripts}
+\label{sec:exec-transcr}
+
+
+\chapter{Exercise 5.3.5}
+\label{cha:exercise-5.3.5}
+
+\section{Problem Statement}
+\label{sec:problem-statement-1}
+
+\section{Relevant Code}
+\label{sec:relevant-code-1}
+
+\section{Test Cases}
+\label{sec:test-cases-1}
+
+\section{Exectution Transcripts}
+\label{sec:exect-transcr}
+
+
+
+
+
+\end{document}

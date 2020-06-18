@@ -1,0 +1,312 @@
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+\input{../HOL/HOLReports/HOLexamFour}
+\input{../HOL/HOLReports/HOLsimpleOpener}
+
+\title{Exam 4 Report}
+\author{Alfred Murabito}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report answers the three questions in the CIS 634 Exam 4. There are theories proved for questions 1 and 2 and an opinioned response
+for policy spaces in question 3.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+
+
+All requirements for this assignment have been satisfied. The 
+first question is answered in the code in the HOL/exam4Script.sml
+source file. There are four derived inference rules for all the access
+control scheme of the large distributed network The simple opener state machine theory 
+described in problem 2 can be found in simpleOpener.Script. Question
+3 involves my opinion on policy spaces. A formulated proof is given for the derived inference rule
+for the accescc control scheme described in problem 1. In addition, responses are given for the 
+encryption scheme for question 2 and the question on theroem provers and aritificial intelligence of question 3.
+
+\newpage
+
+\section{Question 1}
+\label{sec:question-1}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement}
+
+The following problem involves an access control scheme controlling authorization and access to a non-local filesystem
+on a very large distributed network. The proof below is for a user Ursala requesting to have a file printed. Access control 
+to the filesystem on the network is controlled by three servers AS(Authentication Server), TGS(Ticket Granting Server), and
+the FS (File Server).
+
+\begin{enumerate}
+\item Request a ticket bearing ticket from the AS, which the AS will respond with the Ticket Bearing Ticket and encrypted session key
+\item The user's client program will receive the session key and ticket, and make a request to get a ticket for the FS server using these items.
+\item Ursala will send a message, encrypted with the TGS session key, to the TGS server as well as the Ticket Bearing Ticket, and then receive a service granting ticket to be sent to the FS server with the new session key to be used with FS as well..
+\item Ursala will send a new message to the FS encrypted with the latest session key that requests access to print the file along with the service granting ticket from before. If Ursala is authorized to print the file, the FS will honor the request.
+\end{enumerate}
+
+
+HOL datatypes for probelm one below.
+
+\HOLexamFourDatatypes
+
+
+\subsection{Relevant Code}
+\label{sec:relevant-code}
+
+Part A.
+Inference rule for the AS authenticating Ursala's request to use the TGS service.
+The ticket granting ticket is represented here by the Name (Key KTGS) says prop (PK Ursala KUTGS)) formula.
+The ticket is the (PK Ursala KUTGS) proposition, and the (Key KTGS) says prefix means that it is encrypted
+with the TGS key, which is only available to the AS and TGS servers.
+
+\HOLexamFourTheoremsinitXXauthXXthm
+
+\lstset{frameround=fftt}
+\begin{lstlisting}
+val forma1 = ``Name (User Ursala) says prop (USE (SERV TGS)):(props,princs,'d,'e)Form``
+val forma2 = ``Name (User Ursala) controls prop (USE (SERV TGS)):(props,princs,'d,'e)Form``
+val forma3 = ``prop (USE (SERV TGS)) impf (Name (Key KU) says prop (USE (K KUTGS))
+			  		 	  			   andf Name (Key KTGS) says prop (PK Ursala KUTGS)):(props,princs,'d,'e)Form``
+val [forma1_thm,forma2_thm,forma3_thm] = map ACL_ASSUM [forma1,forma2,forma3]
+
+val forma4_thm = CONTROLS forma2_thm forma1_thm
+val init_auth_thm = ACL_MP forma4_thm forma3_thm
+
+\end{lstlisting}
+
+\newpage 
+
+Part B: The inference for part B deals with the network client on Ursala's machine making
+the decision to use the session key that it obtains from the message from AS that was encrypted
+with Ursala's and the AS's shared key. After deciding to use the session key (Key KUTGS),
+Ursala will send the encrypted request to use the FS server, symbolized by Name (Key KUTGS) says prop (USE (SERV FS)),
+and also the Ticket Bearing Ticket encrytped with (Key KTGS) from before.
+
+\HOLexamFourTheoremssessionXXkeyXXreceiptXXthm
+
+\begin{lstlisting}
+ val formb1 = ``(Name (Key KU) says prop (USE (K KUTGS)) andf
+               Name (Key KTGS) says prop (PK Ursala KUTGS)):(props,princs,'d,'e)Form``
+			   
+val formb2 = ``Name (PR AS) controls prop (USE (K KUTGS)):(props,princs,'d,'e)Form``
+val formb3 = ``(Name (Key KU) speaks_for Name (PR AS)):(props,princs,'d,'e)Form``
+val formb4 = ``prop (USE (K KUTGS)) impf Name (Key KUTGS) says prop (USE (SERV FS)):(props,princs,'d,'e)Form``
+
+val [formb1_thm,formb2_thm,formb3_thm,formb4_thm] = map ACL_ASSUM[formb1,formb2,formb3,formb4]
+val formb5_thm = ACL_SIMP1 formb1_thm
+val formb6_thm = ACL_SIMP2 formb1_thm
+val formb7_thm = SPEAKS_FOR formb3_thm formb5_thm
+val formb8_thm = CONTROLS formb2_thm formb7_thm
+val formb9_thm = ACL_MP formb8_thm formb4_thm
+val session_key_receipt_thm = ACL_CONJ formb9_thm formb6_thm
+\end{lstlisting}
+
+\newpage
+
+Part C: The next inference rule proved is the decision to grant the request for services ticket, 
+symbolized by formula Name (Key KFS) says ((Name (Key KUFS)) speaks_for (Name (User Ursala))). This message is
+encyrpted with the key only known by the TGS and FS servers,  and it tells the FS server that the session key
+KUFS belongs to the user Ursala. The TGS wil also generate a session key KUFS, which is encrypted with KUTGS then sent.
+
+The decision to grant these items is dependent on the TGS able to decrypt the ticket (PK Ursala KUTGS) which says that
+the key KUTGS is valid. Once that key is decided to be valid, the request USE SERV FS which was also sent can be deemed valid since
+it was encrypted with KUTGS, which should only be known to Ursala and AS.
+
+Note, the formula (Name (Key KUFS) says prop (AC read) is derived from a valid ticket because the User Ursala will have access to the session
+key KUFS generated and can make this request to the final server. 
+
+\HOLexamFourTheoremsrequestXXforXXservicesXXthm
+
+\begin{lstlisting}
+val formc1 = ``Name (Key KUTGS) says prop (USE (SERV FS)) andf
+               Name (Key KTGS) says prop (PK Ursala KUTGS):(props,princs,'d,'e)Form``
+
+val formc2 = ``(Name (PR AS)) controls (prop (PK Ursala KUTGS)):(props,princs,'d,'e)Form``
+val formc3 = ``(Name (Key KTGS) speaks_for (Name (PR AS))):(props,princs,'d,'e)Form``
+
+val formc4 = ``prop (PK Ursala KUTGS) impf (Name (Key KFS) says ((Name (Key KUFS)) speaks_for (Name (User Ursala)))):(props,princs,'d,'e)Form``
+val formc5 = ``prop (PK Ursala KUTGS) impf (Name (Key KUFS) says prop (AC read)):(props,princs,'d,'e)Form``
+
+val [formc1_thm,formc2_thm,formc3_thm,formc4_thm,formc5_thm] = map ACL_ASSUM[formc1,formc2,formc3,formc4,formc5]
+
+val formc6_thm = ACL_SIMP1 formc1_thm
+val formc7_thm = ACL_SIMP2 formc1_thm
+val formc8_thm = SPEAKS_FOR formc3_thm formc7_thm
+val formc9_thm = CONTROLS formc2_thm formc8_thm
+val formc10_thm = ACL_MP formc9_thm formc4_thm
+val formc11_thm = ACL_MP formc9_thm formc5_thm
+val request_for_services_thm = ACL_CONJ formc10_thm formc11_thm
+\end{lstlisting}
+
+\newpage
+
+Part D: The final inference rule proof involes the FS server granting Ursala's request to print. 
+The FS authenticated the request using the request ticket sent to it by Ursala. It encovers the ticket 
+by decrypting with the shared key KFS, then knows that the session key KUFS is valid to represent Ursala.
+Since the message requesting prniting was encyrpted with this key KUFS, it knows Alice must have made the request.
+
+\HOLexamFourTheoremsserviceXXrequestXXthm
+
+\begin{lstlisting}
+val formd1 = ``(Name (Key KFS) says (Name (Key KUFS) speaks_for Name (User Ursala))) andf
+		   	   (Name (Key KUFS) says prop (AC print)):(props,princs,'d,'e)Form``
+val formd2 = ``(Name (Key KFS) speaks_for Name (PR TGS)):(props,princs,'d,'e)Form``
+val formd3 = ``(Name (PR TGS) controls (Name (Key KUFS) speaks_for Name (User Ursala))):(props,princs,'d,'e)Form``
+val formd4 = ``(Name (User Ursala) controls prop(AC print)):(props,princs,'d,'e)Form``
+
+val [formd1_thm,formd2_thm,formd3_thm,formd4_thm] = map ACL_ASSUM[formd1,formd2,formd3,formd4]
+val formd5_thm = ACL_SIMP1 formd1_thm
+val formd6_thm = ACL_SIMP2 formd1_thm
+val formd7_thm = SPEAKS_FOR formd2_thm formd5_thm
+val formd8_thm = CONTROLS formd3_thm formd7_thm
+val formd9_thm = SPEAKS_FOR formd8_thm formd6_thm
+val service_request_thm = CONTROLS formd4_thm formd9_thm
+\end{lstlisting}
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript}
+
+\verbatiminput{../HOL/exam4Script.trans}
+
+\newpage
+
+\section{Question 2}
+\label{sec:question-2}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement-1}
+
+This problem explores defining a simple state machine in the form of simpleOpener Theory. The dataytpes 
+are defined below as well as the next state, next output, and other relevant theorems for the state machine.
+Source for the state machine can be found in appendix B.
+
+\subsection{Datatypes/Theorems}
+\label{sec:datatypestheorems}
+
+\HOLsimpleOpenerDatatypes
+\HOLsimpleOpenerTheoremssimpleOpenernsXXdef
+\HOLsimpleOpenerTheoremssimpleOpeneroutXXdef
+
+\HOLsimpleOpenerTheoremscommandXXdistinctXXclauses
+\HOLsimpleOpenerTheoremsoutputXXdistinctXXclauses
+\HOLsimpleOpenerTheoremssimpleCounterXXrules
+\HOLsimpleOpenerTheoremssimpleOpenernsXXind
+\HOLsimpleOpenerTheoremssimpleOpeneroutXXind
+\HOLsimpleOpenerTheoremssimpleOpenerTRXXclauses
+\HOLsimpleOpenerTheoremssimpleOpenerTRXXrules
+\HOLsimpleOpenerTheoremssimpleOpenerTransXXEquivXXTR
+\HOLsimpleOpenerTheoremsstateXXdistinctXXclauses
+
+\subsection{Execution Transcript}
+\label{sec:execution-transcript-1}
+
+\verbatiminput{../HOL/simpleOpenerScript.trans}
+
+
+
+\newpage
+
+\section{Question 3}
+\label{sec:question-3}
+
+In the healthcare industry, access control polocies can be overuled in cases of emergency in order
+to swiftly get patients the care that they need. Unfortunately, this also opens the door to people
+who want to take advantage of these ``break the glass'' policies. The policy spaces described in the paper
+may offer a good way to provide a methodology to deciding when to break the polocies. The paper describes a good
+way of splitting up the polocies that should never be broken into their own category, which is good in keeping malicious
+people from resources that should never be exploited. The more interesting cases are the policis in the unknown space. The enviornmental 
+effects that govern these polocies may help healthcare providers react to disastrous cases are situations more quickly, since they 
+have a methodology in breaking their poloices instead of leaving them up to interpretation by individual gatekeepers. On the flip side, the 
+complications added to the access control logic to incorporate this dynamic behavior may perhaps lead to more unforseen vulnerabilities,
+as the environment could behave in unpredictable ways. Therefore, much care and effort must be made when decision these policy spaces. 
+
+
+\HOLindex
+
+\appendix{}
+
+\section{Source For exam4Script.sml}
+\label{sec:source-exam4scr}
+
+The following code is from \emph{HOL/exam4Script.sml}
+\lstinputlisting{../HOL/exam4Script.sml}
+
+\section{Source For simpleOpenerScript.sml}
+\label{sec:source-simpl}
+
+The following code is from \emph{HOL/simpleOpenerScript.sml}
+\lstinputlisting{../HOL/simpleOpenerScript.sml}
+
+
+\end{document}

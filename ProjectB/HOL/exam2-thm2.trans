@@ -1,0 +1,78 @@
+
+> val b1 = ``(Name (Role2 BankOfRiches)) controls ((Name(PR2(Client Don))) meet
+	   	 		 	   				  		    (Name(ID(Client Don))) meet
+	   	 		 	   				  		    (Name(BN 4789111238734609))
+											    controls (prop(RAC(Client Don))))
+												:(richAccts,RichesPrincipals,'d,'e)Form``;
+# # # # val b1 =
+   “Name (Role2 BankOfRiches) controls
+ Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+ Name (BN 4789111238734609) controls prop (RAC (Client Don))”:
+   term
+> val b2 = ``((Name(PIN(Client Don))) speaks_for (Name(Role2 BankOfRiches))):(richAccts,RichesPrincipals,'d,'e)Form``;
+val b2 =
+   “Name (PIN (Client Don)) speaks_for Name (Role2 BankOfRiches)”:
+   term
+> val b3 = ``(Name(PIN(Client Don))) says ((Name(PR2(Client Don))) meet
+	   	 		 	   				     (Name(ID(Client Don))) meet
+	   	 		 	   				     (Name(BN 4789111238734609))
+									     controls (prop(RAC(Client Don))))
+										 :(richAccts,RichesPrincipals,'d,'e)Form``;
+# # # # val b3 =
+   “Name (PIN (Client Don)) says
+ Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+ Name (BN 4789111238734609) controls prop (RAC (Client Don))”:
+   term
+> val b4 = ``(Name(PR2(Client Don)) meet Name(ID(Client Don)) meet Name(BN 4789111238734609)) 
+	   	 says (prop(RAC(Client Don))):(richAccts,RichesPrincipals,'d,'e)Form``;
+# val b4 =
+   “Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+ Name (BN 4789111238734609) says prop (RAC (Client Don))”:
+   term
+> val [b1_thm,b2_thm,b3_thm,b4_thm] = map ACL_ASSUM [b1,b2,b3,b4];
+
+val thm1_2 = SPEAKS_FOR b2_thm b3_thm;
+val thm2_2 = CONTROLS b1_thm thm1_2;
+val exam2_2_thm = CONTROLS thm2_2 b4_thm;
+val b1_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (Role2 BankOfRiches) controls
+   Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+   Name (BN 4789111238734609) controls prop (RAC (Client Don)):
+   thm
+val b2_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (PIN (Client Don)) speaks_for Name (Role2 BankOfRiches):
+   thm
+val b3_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (PIN (Client Don)) says
+   Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+   Name (BN 4789111238734609) controls prop (RAC (Client Don)):
+   thm
+val b4_thm =
+    [.]
+|- (M,Oi,Os) sat
+   Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+   Name (BN 4789111238734609) says prop (RAC (Client Don)):
+   thm
+> > val thm1_2 =
+    [..]
+|- (M,Oi,Os) sat
+   Name (Role2 BankOfRiches) says
+   Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+   Name (BN 4789111238734609) controls prop (RAC (Client Don)):
+   thm
+> val thm2_2 =
+    [...]
+|- (M,Oi,Os) sat
+   Name (PR2 (Client Don)) meet Name (ID (Client Don)) meet
+   Name (BN 4789111238734609) controls prop (RAC (Client Don)):
+   thm
+> val exam2_2_thm =
+    [....] |- (M,Oi,Os) sat prop (RAC (Client Don)):
+   thm
+> 

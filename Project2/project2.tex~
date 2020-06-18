@@ -1,0 +1,423 @@
+
+\documentclass[letterpaper]{report}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+
+\title{Project 2}
+\author{\textbf{Marvine Hamner}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract}
+   \noindent{}This report details results for the following exercise from \textit{Certified Security by Design Using Higher Order Logic}: 4.6.3, 4.6.4, 5.3.4, 5.3.5, and 6.2.1.  The purpose of this project is to gain skill in ML function definitions and pattern matching.  And, to begin to explore HOL's symbology using logical symbols.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description and the results of each exercise are detailed in this project report.  
+
+\newpage
+
+\chapter{Exercise 4.6.3}
+\label{sec:ex-4-6-3}
+
+\section{Problem Statement}
+For this exercise a number of functions have been defined in ML, executed and the test results presented.  The entire source code is in Appendix A of this report.
+
+\begin{description}
+\item[Capabilities:] ML functions defined to perform the following tasks:
+   \begin{itemize}
+   \item return the sum of elements in a 3-tuple
+   \item determine whether one integer value is less than another
+   \item concatenate two strings
+   \item append lists
+   \item determine whether one integer value is greater than another and return the larger integer value
+   \end{itemize}
+\end{description}
+
+
+\section{Relevant Code}
+\label{sec:problem-statement}
+
+The following code snippets illustrate relevant sections of code developed to perform the above described tasks.\newline 
+
+Part A:
+\begin{lstlisting}
+val funA1 = (fn (x,y,z) => x + y + z);
+fun funA2 (x,y,z) = x + y + z;
+\end{lstlisting}
+
+Part B:
+\begin{lstlisting}
+val funB1 = (fn x => (fn y => x < y));
+fun funB2 x y = x < y;
+\end{lstlisting}
+
+Part C:
+\begin{lstlisting}
+val funC1 = (fn s1:string => (fn s2:string => s1 ^ s2));
+fun funC2 (s1:string) (s2:string) = s1 ^ s2;
+\end{lstlisting}
+
+Part D:
+\begin{lstlisting}
+val funD1 = (fn list1 => (fn list2 => list1 @ list2));
+fun funD2 list1 list2 = list1 @ list2;
+\end{lstlisting}
+
+Part E:
+\begin{lstlisting}
+val funE1 = (fn (x,y) => if x > y then x else y);
+fun funE2 (x,y) = if x > y
+    	  	  then x
+		  else y;
+\end{lstlisting}
+
+
+\section{Test Cases and Results}
+\label{sec:tests}
+\setcounter{sessioncount}{0}
+
+\vspace{12px}
+\indent Test cases for Part A:
+\begin{lstlisting}
+funA1 (1,3,4);             (* Expect 8 *)
+funA2 (1,3,4);
+funA1 (~1,0,1);            (* Expect 0 *)
+funA2 (~1,0,1);
+funA1 (489,2,34);          (* Expect 525 *)
+funA2 (489,2,34);
+\end{lstlisting}
+
+
+Results for Part A;
+\begin{session}
+   \begin{scriptsize}
+\begin{verbatim}
+
+
+> val it = 8: int
+# val it = 8: int
+> val it = 0: int
+# val it = 0: int
+> val it = 525: int
+# val it = 525: int
+
+\end{verbatim}
+   \end{scriptsize}
+\end{session}
+
+
+\verbatiminput{ML/ex-4-6-3-a.trans}
+
+
+Test cases for Part B:
+\begin{lstlisting}
+funB1 1 2;                 (* Expect true *)
+funB2 1 2;
+funB1 ~1 0;                (* Expect true *)
+funB2 ~1 0;
+funB1 ~3 ~44;              (* Expect false *)
+funB2 ~3 ~44;
+\end{lstlisting}
+
+Results for Part B:
+\verbatiminput{ML/ex-4-6-3-b.trans}
+
+Test cases for Part C:
+\begin{lstlisting}
+funC1 "hello" " world";      (* Expect "hello world" *)
+funC2 "hello" " world";
+funC1 "" "asdf";            (* Expect "asdf" *)
+funC2 "" "asdf";
+\end{lstlisting}
+
+Results for Part C:
+\verbatiminput{ML/ex-4-6-3-c.trans}
+
+Test cases for Part D:
+\begin{lstlisting}
+funD1 [1,2,3] [4,5];       (* Expect [1,2,3,4,5] *)
+funD2 [1,2,3] [4,5];
+funD1 [] [1,2,3];          (* Expect [1,2,3] *)
+funD2 [] [1,2,3];
+funD1 ["a","b","c"] [];          (* Expect ["a","b","c"] *)
+funD2 ["a","b","c"] [];          (* Expect ["a","b","c"] *)
+funD1 [true, false] [false, false, false]  (* Expect [true, false, false, false] *)
+funD2 [true, false] [false, false, false]  (* Expect [true, false, false, false] *)
+\end{lstlisting}
+
+Results for Part D:
+\verbatiminput{ML/ex-4-6-3-d.trans}
+
+Test cases for Part E:
+\begin{lstlisting}
+funE1 (34, 55);	                 (* Expect 55 *)
+funE2 (34, 55);
+funE1 (~11, 478);	         (* Expect 478 *)
+funE2 (~11, 478);
+funE1 (0, 0);                    (* Expect 0 *)
+funE2 (0, 0);               
+\end{lstlisting}
+
+Results for Part E:
+\verbatiminput{ML/ex-4-6-3-e.trans}
+
+\newpage
+
+
+\chapter{Exercise 4.6.4}
+\label{sec:ex-4-6-4}
+
+\section{Problem Statement}
+For this exercise a function is defined that squares each element of a list, unless the list is empty.  A ``let'' expression was used to produce the desired results.  
+
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun listSquares intlist =
+let
+  fun square x = x * x
+  fun doList [] = []
+    | doList (x::xs) = square x::doList xs
+in
+  doList intlist
+end;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 4.6.4:
+\begin{lstlisting}
+listSquares [];               (* Expect [] *)
+listSquares [1,2,4,8];        (* Expect [1,4,16,64] *)
+listSquares [5,12,7,~1];      (* Expect [25,144,49,1] *)
+\end{lstlisting}
+
+Results for Exercise 4.6.4:
+\verbatiminput{ML/ex-4-6-4.trans}
+
+\newpage
+
+
+\chapter{Exercise 5.3.4}
+\label{sec:ex-5-3-4}
+
+\section{Problem Statement}
+For this exercise a function is defined that behaves identically to the ``filter'' function, without expressly using the filter function.  This function should return the elements of a list that pass the test of the function.  To achieve this the definition of the filter function from the textbook was used.  
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun Filter P [] = []
+  | Filter P (x::xs) = if P x then x :: (Filter P xs) else (Filter P xs);
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 5.3.4:
+\begin{lstlisting}
+Filter (fn x => x < 5) [];		   (* Expect [] *)
+filter (fn x => x < 5) [];
+
+Filter (fn x => x < 5) [4,6];		   (* Expect [4] *)
+filter (fn x => x < 5) [4,6];
+
+Filter (fn x => x < 5) [1,2,4,8,16];	   (* Expect [1,2,4] *)
+filter (fn x => x < 5) [1,2,4,8,16];
+
+Filter (fn x => x < 5) [5,6,7,8];	   (* Expect [] *)
+filter (fn x => x < 5) [5,6,7,8];
+
+Filter (fn x => x = "cat") ["dog","bird"]; (* Expect [] *)
+filter (fn x => x = "cat") ["dog","bird"];
+
+Filter (fn x => x = "cat") ["cat","dog","cat"];	     (* Expect ["cat","cat"] *)
+filter (fn x => x = "cat") ["cat","dog","cat"];
+\end{lstlisting}
+
+Results for Exercise 5.3.4:
+
+\verbatiminput{ML/ex-5-3-4.trans}
+
+\newpage
+
+
+
+\chapter{Exercise 5.3.5}
+\label{sec:ex-5-3-5}
+
+\section{Problem Statement}
+For this exercise a function is defined that takes a list of integer pairs as input and for each pair whose members are greater than zero returns the sum of the elements of the pair.  
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+fun addPairsGreaterThan n list =
+let
+  fun addPair (x,y) = x + y
+  val filteredList = filter (fn (x,y) => x > n andalso y > n) list
+in
+  map addPair filteredList
+end;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+Test cases for Exercise 5.3.5:
+\begin{lstlisting}
+(* Test Cases                   *)
+addPairsGreaterThan 0 [(0,1),(2,0),(2,3),(4,5)];   (* expect [5,9] *)
+addPairsGreaterThan 2 [(0,1),(2,0),(2,3),(4,5)];   (* expect [9] *)
+addPairsGreaterThan 4 [(0,1),(2,0),(2,3),(4,5)];   (* expect [] *)
+\end{lstlisting}
+
+Results for Exercise 5.3.5:
+
+\verbatiminput{ML/ex-5-3-5.trans}
+
+\newpage
+
+
+\chapter{Exercise 6.2.1}
+\label{sec:ex-6-2-1}
+
+\section{Problem Statement}
+For this exercise HOL functionality is implemented and tested for basic HOL types and operators.
+
+\section{Relevant Code}
+
+\begin{lstlisting}
+(* 1: Enter the HOL equivalent of P(x) *)
+``P x ==> Q y``;
+
+(* 2: Constrain x to HOL type :num and y to :bool *)
+``P (x:num) ==> Q (y:bool)``;
+
+(* 3: Enter the HOL equivalent of forall x y.P(x) ==> Q(y) *)
+``!x y.P(x) ==> Q(y)``;
+
+(* 4: Enter the HOL equivalent of \exists (x:num).R(x:'a) *)
+``?(x:num).R(x:num)``;
+
+(* 5: *)
+``~!x.P(x)\/Q(x) = ?x.~P(x)/\~Q(x)``;
+
+(* 6: All people are mortal, where P(x) means x is a person, *)
+(*   and M(x) means x is mortal. *)
+``!x.P(x) ==> M(x)``;
+
+(* 7: Some people are funny. *)
+``?x.Funny(x)``;
+
+(* 4b: Enter the HOL equivalent of \exists (x:num).R(x:'a) *)
+``?(x:num).R(x:'a)``;
+\end{lstlisting}
+
+\section{Test Cases and Results}
+
+For Exercise 6.2.1 the test cases are the HOL types and operators shown in the ``Relevant Code'' section above.  Note that Case 4 initially fails due to a type mismatch.  When the types are matched the HOL code successfully runs.  Case 4 with the type mismatch is run at the bottom of Exercise 6.2.1 so that all the tests will complete.  
+
+\verbatiminput{ML/ex-6-2-1.trans}
+
+\newpage
+
+
+
+\appendix
+
+\chapter{Exercise 4.6.3 Source Code}
+
+\verbatiminput{ML/ex-4-6-3.sml}
+
+\newpage
+
+\chapter{Exercise 4.6.4 Source Code}
+
+\verbatiminput{ML/ex-4-6-4.sml}
+
+\newpage
+
+\chapter{Exercise 5.3.4 Source Code}
+
+\verbatiminput{ML/ex-5-3-4.sml}
+
+\newpage
+
+\chapter{Exercise 5.3.5 Source Code}
+
+\verbatiminput{ML/ex-5-3-5.sml}
+
+\newpage
+
+\chapter{Exercise 6.2.1 Source Code}
+
+\verbatiminput{ML/ex-6-2-1.sml}
+
+
+\end{document}

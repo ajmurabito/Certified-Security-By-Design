@@ -1,0 +1,64 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 19 09:30:06 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+[extending loadPath with Holmakefile INCLUDES variable]
+> > > > > > > > Loading example1Theory
+> Loading acl_infRules
+
+> > > > <<HOL message: Created theory "solutions1">>
+Meson search level: .....
+Meson search level: ..
+Meson search level: ..
+Meson search level: .......
+
+Theory: solutions1
+
+Parents:
+    example1
+
+Theorems:
+    aclExercise1
+      |- (M,Oi,Os) sat Name Bob says prop go ⇒
+         (M,Oi,Os) sat Name Alice says prop go ⇒
+         (M,Oi,Os) sat Name Alice meet Name Bob says prop go
+    aclExercise1A
+      |- (M,Oi,Os) sat Name Alice says prop go ⇒
+         (M,Oi,Os) sat Name Bob says prop go ⇒
+         (M,Oi,Os) sat Name Alice meet Name Bob says prop go
+    aclExercise1B
+      |- (M,Oi,Os) sat Name Alice says prop go ⇒
+         (M,Oi,Os) sat Name Bob says prop go ⇒
+         (M,Oi,Os) sat Name Alice meet Name Bob says prop go
+    aclExercise2
+       [...] |- (M,Oi,Os) sat Name Bob says prop launch
+    aclExercise2A
+      |- (M,Oi,Os) sat Name Alice says prop go ⇒
+         (M,Oi,Os) sat Name Alice controls prop go ⇒
+         (M,Oi,Os) sat prop go impf prop launch ⇒
+         (M,Oi,Os) sat Name Bob says prop launch
+    aclExercise2B
+      |- (M,Oi,Os) sat Name Alice says prop go ⇒
+         (M,Oi,Os) sat Name Alice controls prop go ⇒
+         (M,Oi,Os) sat prop go impf prop launch ⇒
+         (M,Oi,Os) sat Name Bob says prop launch
+Exporting theory "solutions1" ... done.
+Theory "solutions1" took 0.10774s to build
+structure solutions1Script:
+  sig
+ 
+  end
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+>  
+  end
+val it = (): unit
+> 
+*** Emacs/HOL command completed ***
+
+Process HOL finished

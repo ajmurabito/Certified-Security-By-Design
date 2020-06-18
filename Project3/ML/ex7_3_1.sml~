@@ -1,0 +1,20 @@
+(* Solution to Exercise 7_3_3  *)
+andImp2Imp ``(p /\ q) ==> r``;
+
+(* (pq + (W - pq))
+(* p & q) => r             *)
+(*     = ~(p * q) + r      *)
+(*     = (~p + ~q) + r     *)
+(*     = ~q + (~q + r)     *)
+(*     = ~q + (q => r)     *)
+(*     = q => q => r       *)
+
+fun andImp2Imp term_i =
+  let
+    val (p_and_q, r) = dest_imp term_i
+    val (p, q)  = dest_conj p_and_q
+  in
+    mk_imp (p, mk_imp (q, r)
+end;
+
+    

@@ -1,0 +1,97 @@
+\newcommand{\HOLexamFourDate}{27 March 2020}
+\newcommand{\HOLexamFourTime}{00:28}
+\begin{SaveVerbatim}{HOLexamFourDatatypesaccess}
+\HOLFreeVar{access} = \HOLConst{print} \HOLTokenBar{} \HOLConst{read} \HOLTokenBar{} \HOLConst{write}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypesaccess}{\UseVerbatim{HOLexamFourDatatypesaccess}}
+\begin{SaveVerbatim}{HOLexamFourDatatypeskeys}
+\HOLFreeVar{keys} = \HOLConst{KTGS} \HOLTokenBar{} \HOLConst{KFS} \HOLTokenBar{} \HOLConst{KU} \HOLTokenBar{} \HOLConst{KUTGS} \HOLTokenBar{} \HOLConst{KUFS}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypeskeys}{\UseVerbatim{HOLexamFourDatatypeskeys}}
+\begin{SaveVerbatim}{HOLexamFourDatatypespeople}
+\HOLFreeVar{people} = \HOLConst{Ursala}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypespeople}{\UseVerbatim{HOLexamFourDatatypespeople}}
+\begin{SaveVerbatim}{HOLexamFourDatatypesprincs}
+\HOLFreeVar{princs} = \HOLConst{PR} \HOLTyOp{servers} \HOLTokenBar{} \HOLConst{User} \HOLTyOp{people} \HOLTokenBar{} \HOLConst{Key} \HOLTyOp{keys}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypesprincs}{\UseVerbatim{HOLexamFourDatatypesprincs}}
+\begin{SaveVerbatim}{HOLexamFourDatatypesprops}
+\HOLFreeVar{props} = \HOLConst{USE} \HOLTyOp{serviceKey} \HOLTokenBar{} \HOLConst{PK} \HOLTyOp{people} \HOLTyOp{keys} \HOLTokenBar{} \HOLConst{AC} \HOLTyOp{access}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypesprops}{\UseVerbatim{HOLexamFourDatatypesprops}}
+\begin{SaveVerbatim}{HOLexamFourDatatypesservers}
+\HOLFreeVar{servers} = \HOLConst{AS} \HOLTokenBar{} \HOLConst{TGS} \HOLTokenBar{} \HOLConst{FS}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypesservers}{\UseVerbatim{HOLexamFourDatatypesservers}}
+\begin{SaveVerbatim}{HOLexamFourDatatypesserviceKey}
+\HOLFreeVar{serviceKey} = \HOLConst{SERV} \HOLTyOp{servers} \HOLTokenBar{} \HOLConst{K} \HOLTyOp{keys}
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourDatatypesserviceKey}{\UseVerbatim{HOLexamFourDatatypesserviceKey}}
+\newcommand{\HOLexamFourDatatypes}{
+\HOLexamFourDatatypesaccess\HOLexamFourDatatypeskeys\HOLexamFourDatatypespeople\HOLexamFourDatatypesprincs\HOLexamFourDatatypesprops\HOLexamFourDatatypesservers\HOLexamFourDatatypesserviceKey}
+\begin{SaveVerbatim}{HOLexamFourTheoremsinitXXauthXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{SERV} \HOLConst{TGS})) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{prop} (\HOLConst{USE} (\HOLConst{SERV} \HOLConst{TGS})) \HOLConst{impf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KU}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{K} \HOLConst{KUTGS})) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLConst{controls} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{SERV} \HOLConst{TGS})) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KU}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{K} \HOLConst{KUTGS})) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS})
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourTheoremsinitXXauthXXthm}{\UseVerbatim{HOLexamFourTheoremsinitXXauthXXthm}}
+\begin{SaveVerbatim}{HOLexamFourTheoremsrequestXXforXXservicesXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{Key} \HOLConst{KTGS}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{PR} \HOLConst{AS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS}) \HOLConst{impf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{AC} \HOLConst{read}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS}) \HOLConst{impf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KFS}) \HOLConst{says}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{PR} \HOLConst{AS}) \HOLConst{controls} \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{SERV} \HOLConst{FS})) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KFS}) \HOLConst{says}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{AC} \HOLConst{read})
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourTheoremsrequestXXforXXservicesXXthm}{\UseVerbatim{HOLexamFourTheoremsrequestXXforXXservicesXXthm}}
+\begin{SaveVerbatim}{HOLexamFourTheoremsserviceXXrequestXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{Key} \HOLConst{KFS}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{PR} \HOLConst{TGS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLConst{controls} \HOLConst{prop} (\HOLConst{AC} \HOLConst{print}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{PR} \HOLConst{TGS}) \HOLConst{controls}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KFS}) \HOLConst{says}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{User} \HOLConst{Ursala}) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUFS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{AC} \HOLConst{print}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{AC} \HOLConst{print})
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourTheoremsserviceXXrequestXXthm}{\UseVerbatim{HOLexamFourTheoremsserviceXXrequestXXthm}}
+\begin{SaveVerbatim}{HOLexamFourTheoremssessionXXkeyXXreceiptXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{Key} \HOLConst{KU}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{PR} \HOLConst{AS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{prop} (\HOLConst{USE} (\HOLConst{K} \HOLConst{KUTGS})) \HOLConst{impf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{SERV} \HOLConst{FS})) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{PR} \HOLConst{AS}) \HOLConst{controls} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{K} \HOLConst{KUTGS})) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KU}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{K} \HOLConst{KUTGS})) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KUTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{USE} (\HOLConst{SERV} \HOLConst{FS})) \HOLConst{andf}
+   \HOLConst{Name} (\HOLConst{Key} \HOLConst{KTGS}) \HOLConst{says} \HOLConst{prop} (\HOLConst{PK} \HOLConst{Ursala} \HOLConst{KUTGS})
+\end{SaveVerbatim}
+\newcommand{\HOLexamFourTheoremssessionXXkeyXXreceiptXXthm}{\UseVerbatim{HOLexamFourTheoremssessionXXkeyXXreceiptXXthm}}
+\newcommand{\HOLexamFourTheorems}{
+\HOLThmTag{exam4}{init_auth_thm}\HOLexamFourTheoremsinitXXauthXXthm
+\HOLThmTag{exam4}{request_for_services_thm}\HOLexamFourTheoremsrequestXXforXXservicesXXthm
+\HOLThmTag{exam4}{service_request_thm}\HOLexamFourTheoremsserviceXXrequestXXthm
+\HOLThmTag{exam4}{session_key_receipt_thm}\HOLexamFourTheoremssessionXXkeyXXreceiptXXthm
+}

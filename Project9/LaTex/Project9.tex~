@@ -1,0 +1,332 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{634format}
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\usepackage[hidelinks]{hyperref}
+
+\input{../HOL/HOLReports/HOLSMZero}
+\input{../HOL/HOLReports/HOLSMZeroSolutions}
+
+\title{Project 9 Report}
+\author{Alfred Murabito}
+\date{\today}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+This report details my results for Exercises 17.4.1 and 17.4.3 from
+\textit{Certified Security by Design Using Higher Order Logic}. 
+In these exercises, we use HOL to define secure state machines. In doing so, 
+we rely on forward inference rules described in the textbook, which 
+results in proven theorems regarding their properties and operation.
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this exercise.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this assignment have been satisfied. The 
+results of each exercise are detailed below. The state machines
+are defined and the SML code used produces theorems that 
+exactly match those described in the course textbook.
+Additionally, Holmake completes successfully and the theorems 
+proved appear in the pretty-printed report created by emitTeX.
+\newpage
+
+\section{Exercise 17.4.1}
+\label{sec:exercise-17.4.1}
+
+\subsection{Problem Statement}
+\label{sec:problem-statement}
+
+
+
+\section{Exercise 16.3.1}
+\label{sec:ex-16-3-1}
+
+\subsection{Problem Statement}
+For this exercise, we define a state machine - $M_1$ - with certain specified
+transitions between the states. We must define the datatypes that represent
+this state machine, write HOL function definitions to transition between the 
+states, and then prove certain theorems about this state machine.
+
+The theorem proofs are made possible by custom inference rules defined in the
+\textit{sminfRules.sml} file.
+
+\subsection{Relevant Code}
+
+\subsection{16.3.1 A: Definitions and Theorems for $M_1$ Datatypes}
+
+\noindent{\textbf{SML Code:}}
+
+\begin{verbatim}
+val _ = Datatype `command = i0 | i1`
+val command_distinct_clauses = distinct_of``:command``
+val _ = save_thm("command_distinct_clauses", command_distinct_clauses)
+
+val _ = Datatype `state = S0 | S1 | S2`
+val state_distinct_clauses = distinct_of``:state``
+val _ = save_thm("state_distinct_clauses", state_distinct_clauses)
+
+val _ = Datatype `output = o0 | o1`
+val output_distinct_clauses = distinct_of``:output``
+val _ = save_thm("output_distinct_clauses", output_distinct_clauses)
+\end{verbatim}
+
+\noindent{\textbf{Resulting Definitions:}}
+
+\HOLmOneDatatypescommand
+\HOLmOneDatatypesstate
+\HOLmOneDatatypesoutput
+
+\noindent{\textbf{Resulting Theorems:}}\\
+
+\noindent{\color{blue}[command_distinct_clauses]}
+\HOLmOneTheoremscommandXXdistinctXXclauses
+
+\noindent{\color{blue}[state_distinct_clauses]}
+\HOLmOneTheoremsstateXXdistinctXXclauses
+
+\noindent{\color{blue}[output_distinct_clauses]}
+\HOLmOneTheoremsoutputXXdistinctXXclauses
+
+\subsection{16.3.1 B: Next-State and Next-Output Functions for $M_1$}
+
+\noindent{\textbf{SML Code:}}
+
+\begin{verbatim}
+val M1ns_def =
+Define `(M1ns S0 i0 = S1) /\ (M1ns S0 i1 = S2) /\
+        (M1ns S1 i0 = S0) /\ (M1ns S1 i1 = S0) /\
+	(M1ns S2 i0 = S2) /\ (M1ns S2 i1 = S2)`
+
+val M1out_def =
+Define `(M1out S0 i0 = o0) /\ (M1out S0 i1 = o1) /\
+        (M1out S1 i0 = o0) /\ (M1out S1 i1 = o0) /\
+	(M1out S2 i0 = o1) /\ (M1out S2 i1 = o1)`
+\end{verbatim}
+
+\noindent{\textbf{Resulting Definitions:}}\\
+
+\noindent{\color{blue}[M1ns_def]}
+\HOLmOneTheoremsMOnensXXdef
+
+\noindent{\color{blue}[M1out_def]}
+\HOLmOneTheoremsMOneoutXXdef
+
+\subsection{16.3.1 C: Theorem Proofs/Production}
+
+\noindent{\textbf{SML Code:}}
+
+\begin{verbatim}
+(******************************************************************************)
+(* Specialize TR_rules to m1                                                  *)
+(******************************************************************************)
+val m1TR_rules = SPEC_TR ``M1ns`` ``M1out``
+val _ = save_thm("m1TR_rules", m1TR_rules)
+
+(******************************************************************************)
+(* Specialize TR_clauses to m1                                                *)
+(******************************************************************************)
+val m1TR_clauses = SPEC_TR_clauses ``M1ns`` ``M1out``
+val _ = save_thm("m1TR_clauses", m1TR_clauses)
+
+(******************************************************************************)
+(* Specialize Trans_Equiv_TR theorem to m1                                    *)
+(******************************************************************************)
+val m1Trans_Equiv_TR = SPEC_Trans_Equiv_TR ``M1ns`` ``M1out``
+val _ = save_thm("m1Trans_Equiv_TR", m1Trans_Equiv_TR)
+
+(******************************************************************************)
+(* Theorems corresponding to tabular specification of M1                      *)
+(******************************************************************************)
+val th1 = REWRITE_RULE[M1ns_def, M1out_def]
+                      (SPECL[``S0``,``i0``] m1TR_rules)
+val th2 = REWRITE_RULE[M1ns_def, M1out_def]
+                      (SPECL[``S0``,``i1``] m1TR_rules)
+val th3 = REWRITE_RULE[M1ns_def, M1out_def]
+                      (SPECL[``S1``,``i0``] m1TR_rules)
+val th4 = REWRITE_RULE[M1ns_def, M1out_def]
+                      (SPECL[``S1``,``i1``] m1TR_rules)
+val th5 = REWRITE_RULE[M1ns_def, M1out_def]
+                      (SPECL[``S2``,``i0``] m1TR_rules)
+val th6 = REWRITE_RULE[M1ns_def, M1out_def]
+                      (SPECL[``S2``,``i1``] m1TR_rules)
+		      
+val m1_rules = LIST_CONJ [th1, th2, th3, th4, th5, th6]
+val _ = save_thm("m1_rules", m1_rules)
+\end{verbatim}
+
+\noindent{\textbf{Resulting Theorems:}}\\
+
+\noindent{\color{blue}[m1TR_rules]}
+\HOLmOneTheoremsmOneTRXXrules
+
+\noindent{\color{blue}[m1TR_clauses]}
+\HOLmOneTheoremsmOneTRXXclauses
+
+\noindent{\color{blue}[m1Trans_Equiv_TR]}
+\HOLmOneTheoremsmOneTransXXEquivXXTR
+
+\noindent{\color{blue}[m1_rules]}
+\HOLmOneTheoremsmOneXXrules
+
+\subsection{Execution Transcripts}
+\lstinputlisting{../HOL/M1/ex-16-3-1.trans}
+
+\newpage
+
+\section{Exercise 16.3.2}
+\label{sec:ex-16-3-2}
+
+\subsection{Problem Statement}
+For this exercise, we define a state machine - \textit{down counter} - that
+provides a countdown for natural numbers. We must define the datatypes that 
+represent this state machine, write functions to transition between the 
+states, and then prove certain theorems about this state machine.
+
+\subsection{Relevant Code}
+
+\subsection{16.3.2 A: Definitions and Theorems for Datatypes}
+
+\noindent{\textbf{SML Code:}}
+
+\begin{verbatim}
+(* ctrcmd has distinct clauses *)
+val _ = Datatype `ctrcmd = load num | count | hold`
+val ctrcmd_distinct_clauses = distinct_of``:ctrcmd``
+val _ = save_thm("ctrcmd_distinct_clauses", ctrcmd_distinct_clauses)
+
+(* ctrState has one to one property *)
+val _ = Datatype `ctrState = COUNT num`
+val ctrState_one_one = one_one_of``:ctrState``
+val _ = save_thm("ctrState_one_one", ctrState_one_one)
+
+(* ctrOut has one to one property *)
+val _ = Datatype `ctrOut = DISPLAY num`
+val ctrOut_one_one = one_one_of``:ctrOut``
+val _ = save_thm("ctrOut_one_one", ctrOut_one_one)
+\end{verbatim}
+
+\noindent{\textbf{Resulting Definitions:}}
+
+\HOLcounterDatatypesctrcmd
+\HOLcounterDatatypesctrState
+\HOLcounterDatatypesctrOut
+
+\noindent{\textbf{Resulting Theorems:}}\\
+
+\noindent{\color{blue}[cmd_distinct_clauses]}
+\HOLcounterTheoremsctrcmdXXdistinctXXclauses
+
+\noindent{\color{blue}[ctrState_one_one]}
+\HOLcounterTheoremsctrStateXXoneXXone
+
+\noindent{\color{blue}[ctrOut_one_one]}
+\HOLcounterTheoremsctrOutXXoneXXone
+
+\subsection{16.3.2 B: Next-State and Next-Output Functions for \textit{counterTheory}}
+
+\noindent{\textbf{SML Code:}}
+
+\begin{verbatim}
+val ctrNS_def =
+Define `((ctrNS (COUNT n) (load k)) = (COUNT k)) /\
+        ((ctrNS (COUNT n) (count)) = (COUNT (n-1))) /\
+        ((ctrNS (COUNT n) (hold)) = (COUNT n))`
+
+val ctrOut_def =
+Define `((ctrOut (COUNT n) (load k)) = (DISPLAY k)) /\
+        ((ctrOut (COUNT n) (count))  = (DISPLAY (n-1))) /\
+	((ctrOut (COUNT n) (hold)) = (DISPLAY n))`
+\end{verbatim}
+
+\noindent{\textbf{Resulting Definitions:}}\\
+
+\noindent{\color{blue}[ctrNS_def]}
+\HOLcounterTheoremsctrNSXXdef
+
+\noindent{\color{blue}[ctrOut_def]}
+\HOLcounterTheoremsctrOutXXdef
+
+\subsection{16.3.2 C: Theorem Proofs/Production}
+
+\noindent{\textbf{SML Code:}}
+
+\begin{verbatim}
+(******************************************************************************)
+(* Specialize TR_rules for counter                                            *)
+(******************************************************************************)
+val ctrTR_rules = SPEC_TR ``ctrNS`` ``ctrOut``
+val _ = save_thm("ctrTR_rules", ctrTR_rules)
+
+(******************************************************************************)
+(* Specialize TR_clauses for counter                                          *)
+(******************************************************************************)
+val ctrTR_clauses = SPEC_TR_clauses ``ctrNS`` ``ctrOut``
+val _ = save_thm("ctrTR_clauses", ctrTR_clauses)
+
+(******************************************************************************)
+(* Specialize Trans_Equiv_TR theorem to m1                                    *)
+(******************************************************************************)
+val ctrTrans_Equiv_TR = SPEC_Trans_Equiv_TR ``ctrNS`` ``ctrOut``
+val _ = save_thm("ctrTrans_Equiv_TR", ctrTrans_Equiv_TR)
+
+(******************************************************************************)
+(* Theorems corresponding to tabular specification of M1                      *)
+(******************************************************************************)
+val th1 = REWRITE_RULE[ctrNS_def, ctrOut_def]
+                      (SPECL[``COUNT n``,``load new``] ctrTR_rules)
+val th2 = REWRITE_RULE[ctrNS_def, ctrOut_def]
+                      (SPECL[``COUNT n``,``count``] ctrTR_rules)
+val th3 = REWRITE_RULE[ctrNS_def, ctrOut_def]
+                      (SPECL[``COUNT n``,``hold``] ctrTR_rules)
+		      
+val ctr_rules = LIST_CONJ [th1, th2, th3]
+val _ = save_thm("ctr_rules", ctr_rules)
+\end{verbatim}
+
+\noindent{\textbf{Resulting Theorems:}}\\
+
+\noindent{\color{blue}[ctrTR_rules]}
+\HOLcounterTheoremsctrTRXXrules
+
+\noindent{\color{blue}[ctrTR_clauses]}
+\HOLcounterTheoremsctrTRXXclauses
+
+\noindent{\color{blue}[ctrTrans_Equiv_TR]}
+\HOLcounterTheoremsctrTransXXEquivXXTR
+
+\noindent{\color{blue}[ctr_rules]}
+\HOLcounterTheoremsctrXXrules
+
+\subsection{Execution Transcripts}
+\lstinputlisting{../HOL/Counter/ex-16-3-2.trans}
+
+\newpage
+\section{Appendix A: smScript.sml}
+\lstinputlisting{../HOL/M1/smScript.sml}
+\newpage
+\section{Appendix B: m1Script.sml}
+\lstinputlisting{../HOL/M1/m1Script.sml}
+\newpage
+\section{Appendix C: counterScript.sml}
+\lstinputlisting{../HOL/Counter/counterScript.sml}
+\newpage
+
+\end{document}

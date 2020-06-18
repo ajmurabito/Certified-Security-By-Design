@@ -1,0 +1,199 @@
+
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+
+\title{Project 4}
+\author{\textbf{Marvine Hamner}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+   \noindent{}This report details results for the following exercises from \textit{Certified Security by Design Using Higher Order Logic}: 9.5.1, 9.5.2, 9.5.3, 10.4.1, 10.4.2, and 10.4.3.  Chapter 9 of the textbook focuses on goal-oriented proofs.  Chapter 10 focuses on dealing with assumptions in goal-oriented proofs.  Each of the exercises includes a problem statement, relevant code, test cases as appropriate and test results.  
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description of each exercise from Chapter 9 and 10 are included in the following chapters.  
+
+A HOL subfolder was created, Holmake was used to compile the theories developed for the exercises in Chapters 9 and 10, and the subfolder contains the additional files created by the compilation.  
+
+In addition, pretty printing has been used to create this report.  
+
+\newpage
+
+
+\section{Chapter 9 Exercises}
+\label{sec:Chap9}
+
+\subsection{Problem Statement}
+For Exercise 9.5.1 a tactic-based proof of the absorption rule was generated. PROVE_TAC was not used.  For Exercise 9.5.2 a tactic-based proof of the constructive dilemma rule was generated.  PROVE_TAC was not used in this proof either.  For Exercise 9.5.3 the Exercises 9.5.1 and 9.5.2 were repeated using PROVE_TAC.  The source code is shown on the following page.
+
+
+\subsection{Test Results}
+
+
+Exercise 9.5.1:
+\verbatiminput{HOL/ex-9-5-1.trans}
+
+
+Exercise 9.5.2:
+\verbatiminput{HOL/ex-9-5-2.trans}
+
+
+Exercise 9.5.3:
+\verbatiminput{HOL/ex-9-5-3.trans}
+
+
+
+\input{HOLReports/HOLexerciseNine}
+\input{HOLReports/HOLexerciseOneZero}
+
+\newpage
+
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Exercise 9 Theory}
+\index{exercise9 Theory@\textbf  {exercise9 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLexerciseNineDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{exercise9 Theory@\textbf  {exercise9 Theory}!Theorems}
+% .....................................
+
+\HOLexerciseNineTheorems
+
+
+
+\cleardoublepage
+
+
+\section{Chapter 10 Exercises}
+\label{sec:Chap10}
+
+\subsection{Problem Statement}
+For Exercise 10.4.1 the goal shown in the exercise in the textbook was proven without using PROVE_TAC.  For Exercise 10.4.2 the goal shown in the exercise in the textbook was proven without using PROVE_TAC.  For Exercise 10.4.3 the goal shown in the exercise in the textbook was proven without using PROVE_TAC.  All these exercises had a final solution executable in a single step using TAC_PROOF.  The source code is shown on the following page.
+
+\subsection{Test Results}
+
+
+Exercise 10.4.1:
+\verbatiminput{HOL/ex-10-4-1.trans}
+
+
+Exercise 10.4.2:
+\verbatiminput{HOL/ex-10-4-2.trans}
+
+
+Exercise 10.4.3:
+\verbatiminput{HOL/ex-10-4-3.trans}
+
+
+
+\newpage
+
+\HOLpagestyle
+
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Exercise 10 Theory}
+\index{exercise10 Theory@\textbf  {exercise10 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLexerciseOneZeroDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{exercise10 Theory@\textbf  {exercise10 Theory}!Theorems}
+% .....................................
+
+\HOLexerciseOneZeroTheorems
+
+\HOLindex
+
+
+
+
+
+\end{document}

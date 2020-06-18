@@ -1,0 +1,299 @@
+
+\documentclass[11pt, twoside]{article}
+
+%% ---------------------------------------------------
+%% 634format specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{indentfirst}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+
+%% ---------------------------------------------------
+%% Package for a table that will break across pages
+%% ---------------------------------------------------
+\usepackage{longtable}
+
+%% ---------------------------------------------------
+%% Packages to bring the contents of other files in
+%% ---------------------------------------------------
+\usepackage{import}
+\usepackage{moreverb}
+
+%% ---------------------------------------------------
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+\makeindex
+
+
+\title{Project 4}
+\author{\textbf{Alfred Murabito}}
+\date{\today}
+
+\begin{document}
+\maketitle{}
+
+\newpage
+
+\begin{abstract}
+   \noindent{}This report details results for the following exercises from \textit{Certified Security by Design Using Higher Order Logic}: 9.5.1, 9.5.2, 9.5.3, 10.4.1, 10.4.2, and 
+10.4.3.  Chapter 9 of the textbook focuses on goal-oriented proofs while  Chapter 10 focuses on dealing with assumptions in goal-oriented proofs using PAT_ASSUM to match our supplied
+terms to those in the assumptions..  Each of the exercises includes a problem statement, relevant code, execution transcripts, and our pretty-printed theorems. 
+\end{abstract}
+
+\newpage
+
+\textbf{Acknowledgments}: I received no assistance with this project.
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Executive Summary}
+\label{sec:executive-summary}
+
+All requirements for this project have been satisfied.  A description of each exercise from Chapter 9 and 10 are included in the following chapters.  
+Our HOL script files are contained in the HOL directory and pretty-print our theories to reports using EmiTex in the HOLReports directory. In the appendix
+we also include all HOL source files.
+
+\newpage
+
+
+\section{Chapter 9 Exercises}
+\label{sec:Chap9}
+
+\subsection{Problem Statement}
+Exercises 9.5.1 and 9.5.2 involve proving the absorption and constructiveDilemma theorems respectively. In exercise 9.5.3, we prove both theorems again using PROVE_TAC.
+
+\subsection{Relevant Code}
+
+Exercise 9.5.1
+\begin{lstlisting}[basicstyle=\small,]
+  val absorptionRule = 
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool).(p ==> q) ==> p ==> (p /\ q)``),
+REPEAT STRIP_TAC THENL
+[(ACCEPT_TAC (ASSUME ``p:bool``)),
+(ACCEPT_TAC (MP (ASSUME ``p:bool==>q:bool``) (ASSUME ``p:bool``)))])
+\end{lstlisting}
+
+Exercise 9.5.2
+\begin{lstlisting}[basicstyle=\small,]
+val constructiveDilemmaRule = 
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool)(r:bool)(s:bool).(p==>q)/\(r==>s)==>(p\/r)==>(q\/s)``),
+(REPEAT STRIP_TAC THENL
+[(RES_TAC THEN (ACCEPT_TAC (DISJ1 (ASSUME ``q:bool``) ``s:bool``))),
+(RES_TAC THEN (ACCEPT_TAC (DISJ2 ``q:bool`` (ASSUME ``s:bool``))))])
+);
+\end{lstlisting}
+
+Exercise 9.5.3
+\begin{lstlisting}[basicstyle=\small,]
+val absorptionRule2 = 
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool).(p ==> q) ==> p ==> (p /\ q)``),
+PROVE_TAC [])
+
+val constructiveDilemmaRule2 = 
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool)(r:bool)(s:bool).(p==>q) /\ (r==>s) ==> p ==> (p /\ q)``),
+PROVE_TAC [])
+\end{lstlisting}
+
+\newpage 
+
+\subsection{Test Results}
+
+
+Exercise 9.5.1:
+\verbatiminput{HOL/ex951.trans}
+
+
+Exercise 9.5.2:
+\verbatiminput{HOL/ex952.trans}
+
+
+Exercise 9.5.3:
+\verbatiminput{HOL/ex953.trans}
+
+
+
+\input{HOLReports/HOLexerciseNine}
+\input{HOLReports/HOLexerciseOneZero}
+
+\newpage
+
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Exercise 9 Theory}
+\index{exercise9 Theory@\textbf  {exercise9 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLexerciseNineDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{exercise9 Theory@\textbf  {exercise9 Theory}!Theorems}
+% .....................................
+
+\HOLexerciseNineTheorems
+
+
+
+\cleardoublepage
+
+
+\section{Chapter 10 Exercises}
+\label{sec:Chap10}
+
+\subsection{Problem Statement}
+We use PAT_ASSUM to deal with assumptions in the goal orientated proofs of chapter 10. All of the theorems were proved without using PROVE_TAC.
+
+\subsection{Relevant Code}
+
+Exercise 10.4.1
+\begin{lstlisting}[basicstyle=\tiny,]
+val problem1_thm = 
+TAC_PROOF (
+([``!x:'a.P(x) ==> M(x)``,``(P:'a->bool)(s:'a)``], ``(M:'a->bool)(s:'a)``),
+PAT_ASSUM ``!x.t`` (fn th => (ASSUME_TAC (SPEC ``s:'a`` th))) THEN
+RES_TAC );
+\end{lstlisting}
+
+Exercise 10.4.2
+\begin{lstlisting}[basicstyle=\tiny,]
+val problem2_thm = 
+TAC_PROOF (
+([``p /\ q ==> r``,``r ==> s``,`` ~s``],``p ==> ~q``),
+PAT_ASSUM ``r ==> s`` (fn th => ASSUME_TAC (IMP_ELIM th)) THEN
+PAT_ASSUM ``~r:bool \/ s:bool`` (fn th => ASSUME_TAC (ONCE_REWRITE_RULE[DISJ_SYM] th)) THEN
+PAT_ASSUM ``s:bool \/ ~r:bool`` (fn th => ASSUME_TAC (DISJ_IMP th)) THEN
+RES_TAC THEN
+PAT_ASSUM ``p:bool /\ q:bool ==> r:bool`` (fn th => ASSUME_TAC (ONCE_REWRITE_RULE[DISJ_SYM](IMP_ELIM th))) THEN
+PAT_ASSUM ``r:bool \/ ~(p /\ q)`` (fn th => ASSUME_TAC (DISJ_IMP th)) THEN
+RES_TAC THEN
+(let
+  val demorgan = SPEC ``q:bool`` (SPEC ``p:bool`` DE_MORGAN_THM)
+in
+  PAT_ASSUM ``~(p /\ q)``(fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP (EQ_MP (CONJUNCT1 demorgan) (ASSUME ``~(p /\ q)``)))))
+end) THEN
+ASM_REWRITE_TAC []
+);
+\end{lstlisting}
+
+Exercise 10.4.3
+\begin{lstlisting}[basicstyle=\tiny,]
+val problem3_thm = 
+TAC_PROOF (
+([`` ~(p /\ q)``, `` ~p ==> r``,`` ~q ==> s``],``r \/ s ``),
+(let
+  val demorgan = SPEC ``q:bool`` (SPEC ``p:bool`` DE_MORGAN_THM)
+in
+  PAT_ASSUM ``~(p /\ q)`` (fn th => ASSUME_TAC ((EQ_MP (CONJUNCT1 demorgan) (ASSUME ``~(p /\ q)``))))
+end) THEN
+PAT_ASSUM ``~p \/ ~q`` (fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th))) THEN
+PAT_ASSUM ``p ==> ~q`` (fn th => ASSUME_TAC (IMP_TRANS th (ASSUME ``~q ==> s``))) THEN
+PAT_ASSUM ``p ==> s`` (fn th => ASSUME_TAC (DISJ_IMP(ONCE_REWRITE_RULE[DISJ_SYM](IMP_ELIM th)))) THEN
+PAT_ASSUM ``~s ==> ~p`` (fn th => ASSUME_TAC (IMP_TRANS th (ASSUME ``~p ==> r``))) THEN
+PAT_ASSUM ``~s ==> r`` (fn th => ASSUME_TAC (REWRITE_RULE [](IMP_ELIM th))) THEN
+ASM_REWRITE_TAC [DISJ_SYM]
+)
+\end{lstlisting}
+
+\newpage 
+
+\subsection{Test Results}
+
+Exercise 10.4.1:
+\verbatiminput{HOL/ex1041.trans}
+
+
+Exercise 10.4.2:
+\verbatiminput{HOL/ex1042.trans}
+
+
+Exercise 10.4.3:
+\verbatiminput{HOL/ex1043.trans}
+
+\newpage
+
+\HOLpagestyle
+
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Exercise 10 Theory}
+\index{exercise10 Theory@\textbf  {exercise10 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLexerciseOneZeroDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{exercise10 Theory@\textbf  {exercise10 Theory}!Theorems}
+% .....................................
+
+\HOLexerciseOneZeroTheorems
+
+\HOLindex
+
+\newpage 
+
+\appendix
+
+\section{Source Code for Exercise9 Theory}
+\label{sec:source-code-exerc}
+
+\verbatiminput{HOL/exercise9Script.sml}
+
+\newpage
+
+\section{Source Code for Exercise10 Theory}
+\label{sec:source-code-exerc-1}
+
+\verbatiminput{HOL/exercise10Script.sml}
+
+
+\end{document}

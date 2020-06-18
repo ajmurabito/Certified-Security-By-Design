@@ -1,0 +1,15 @@
+(* ex9_5_1.sml for Exercise 9.5.1 *)
+
+(* Prove ` ∀ p q. (p ⇒ q) ⇒ p ⇒ p ∧ q *)
+
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool).(p ==> q) ==> p ==> (p /\ q)``),
+PROVE_TAC [])
+
+(* Exercise 9.5.2)
+
+(* ∀ p q r s. (p ⇒ q) ∧ (r ⇒ s) ⇒ p ∨ r ⇒ q ∨ s *)
+
+TAC_PROOF (
+( [], ``!(p:bool)(q:bool)(r:bool)(s:bool).(p==>q)/\(r==>s)==>(p\/r)==>(q\/s)``),
+(PROVE_TAC)
